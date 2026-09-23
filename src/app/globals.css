@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+:root {
+  /* Exact palette from the Tlines Figma file (node 16:605). */
+  --color-cream: #fff4e1;
+  --color-cream-soft: #f2e1c4;
+  --color-forest: #2e4437;
+  --color-forest-dark: #1f2f26;
+  --color-sage: #939878;
+  --color-sage-dark: #547255;
+  --color-coral: #db7358;
+  --color-coral-dark: #c05f47;
+  --color-gold: #f7c56b;
+  --color-gold-dark: #e0a943;
+  --color-muted-green: #828b7b;
+  --color-ink: #2e4437;
+
+  /* System font stacks — no external font requests, so the site loads instantly
+     on locked-down networks that block/hang on Google Fonts. The named fonts
+     stay first in each stack so they apply automatically if ever installed or
+     self-hosted; otherwise the system fonts (present on every machine) are used. */
+  --font-display: "Montserrat", "Segoe UI", system-ui, Arial, sans-serif;
+  --font-sans: "Manrope", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  --font-accent: "Orbitron", "Segoe UI", system-ui, Arial, sans-serif;
+
+  --background: var(--color-cream);
+  --foreground: var(--color-ink);
+}
+
+@theme inline {
+  --color-cream: var(--color-cream);
+  --color-cream-soft: var(--color-cream-soft);
+  --color-forest: var(--color-forest);
+  --color-forest-dark: var(--color-forest-dark);
+  --color-sage: var(--color-sage);
+  --color-sage-dark: var(--color-sage-dark);
+  --color-coral: var(--color-coral);
+  --color-coral-dark: var(--color-coral-dark);
+  --color-gold: var(--color-gold);
+  --color-gold-dark: var(--color-gold-dark);
+  --color-muted-green: var(--color-muted-green);
+  --color-ink: var(--color-ink);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-accent: var(--font-accent);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.projects-mosaic {
+  background: var(--color-sage-dark);
+  clip-path: polygon(7% 0, 49% 4%, 91% 0, 100% 10%, 97% 88%, 88% 100%, 50% 97%, 10% 100%, 2% 89%, 0 12%);
+}
+
+@media (max-width: 767px) {
+  .projects-mosaic {
+    clip-path: polygon(5% 0, 95% 1%, 100% 4%, 98% 96%, 94% 100%, 5% 99%, 0 95%, 1% 5%);
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display), "Segoe UI", sans-serif;
+}
+
+/* Shape variants for decorative media/cards. Applied only to clipped media
+   layers, never to text content, so focus outlines and copy stay legible. */
+.shape-hero {
+  clip-path: polygon(6.6% 0%,
+      35.2% 0%,
+      90.6% 3.37%,
+      100% 20.2%,
+      100% 77%,
+      88.7% 96.3%,
+      11.8% 100%,
+      0% 86.7%,
+      0% 10.7%);
+}
+
+@media (max-width: 640px) {
+  .shape-hero {
+    clip-path: polygon(9% 0%, 100% 3%, 100% 82%, 86% 100%, 0% 100%, 0% 8%);
+  }
+}
+
+/* True equal-corner chamfer, sized in px via --chamfer so the cut stays
+   crisp at any aspect ratio instead of skewing on tall/wide rects. */
+.shape-chamfered {
+  --chamfer: 16px;
+  clip-path: polygon(var(--chamfer) 0,
+      calc(100% - var(--chamfer)) 0,
+      100% var(--chamfer),
+      100% calc(100% - var(--chamfer)),
+      calc(100% - var(--chamfer)) 100%,
+      var(--chamfer) 100%,
+      0 calc(100% - var(--chamfer)),
+      0 var(--chamfer));
+}
+
+.shape-lean-left {
+  clip-path: polygon(0% 1.8%,
+      87.3% 6.1%,
+      100% 21.4%,
+      100% 78.2%,
+      84.8% 95.6%,
+      0% 100%);
+}
+
+.shape-lean-right {
+  clip-path: polygon(27.6% 0%,
+      100% 3.6%,
+      100% 98.6%,
+      25.1% 96.8%,
+      0% 77.6%,
+      0% 22%);
+}
+
+.shape-cta {
+  clip-path: polygon(0% 0%,
+      100% 0%,
+      100% 92%,
+      92% 100%,
+      0% 100%);
+}
+
+.footer-edge {
+  clip-path: polygon(0 24px, 59% 0, 100% 14px, 100% 100%, 0 100%);
+}
+
+/* Sloped section edges live on the absolutely-positioned background layer
+   only (see SectionShell), so copy and focus rings inside stay unclipped. */
+.section-edge-top {
+  clip-path: polygon(0% 2.5rem, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.section-edge-bottom {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% calc(100% - 2.5rem));
+}
+
+.section-edge-top.section-edge-bottom {
+  clip-path: polygon(0% 2.5rem,
+      100% 0%,
+      100% 100%,
+      0% calc(100% - 2.5rem));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
