@@ -73,13 +73,15 @@ export function BrandingShowcaseSection({ heading, verticalLabel, slides }: Bran
               />
             ))}
           </div>
-          <div className="absolute bottom-[-8.5%] left-1/2 z-20 flex -translate-x-1/2 gap-[10px]">
-            <button type="button" onClick={() => setActive(previous)} aria-label="Previous slide" className="flex aspect-square w-[clamp(24px,2.8vw,44px)] items-center justify-center rounded-[7px] bg-forest text-cream focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream">
-              <span aria-hidden className="text-[1.4em] leading-none">&#8592;</span>
-            </button>
-            <button type="button" onClick={() => setActive(next)} aria-label="Next slide" className="flex aspect-square w-[clamp(24px,2.8vw,44px)] items-center justify-center rounded-[7px] bg-forest text-cream focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream">
-              <span aria-hidden className="text-[1.4em] leading-none">&#8594;</span>
-            </button>
+          <div className="absolute bottom-[-8.5%] left-1/2 z-20 aspect-[136.094/65] w-[13.9%] -translate-x-1/2">
+            <svg aria-hidden viewBox="0 0 137 65" fill="none" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 h-full w-full">
+              <path d="M7.42434 5.25858C8.77182 3.91111 10.556 3.08888 12.4558 2.93992L46.6386 0.259581C48.7579 0.0934002 50.8562 0.777573 52.4703 2.16105L58.253 7.11762C60.0261 8.63748 61.0466 10.8563 61.0466 13.1917V51.8083C61.0466 54.1437 60.0261 56.3625 58.253 57.8824L52.4703 62.839C50.8562 64.2224 48.7579 64.9066 46.6386 64.7404L12.4558 62.0601C10.556 61.9111 8.77182 61.0889 7.42435 59.7414L2.34315 54.6602C0.842856 53.1599 0 51.1251 0 49.0034V15.9966C0 13.8749 0.842854 11.8401 2.34315 10.3398L7.42434 5.25858Z" fill="#2E4437" />
+              <path d="M26.2835 41.616L28.4105 39.413L23.017 34.0194H41.4766V30.9808H23.017L28.4105 25.5873L26.2835 23.3843L17.1676 32.5001L26.2835 41.616Z" fill="#FFF4E0" />
+              <path d="M81.9522 2.60686C83.6065 0.952558 85.9021 0.105307 88.2344 0.288193L122.395 2.96682C124.085 3.09933 125.689 3.76516 126.976 4.86829L133.3 10.2884C135.073 11.8082 136.093 14.027 136.093 16.3624V48.6376C136.093 50.973 135.073 53.1918 133.3 54.7116L126.976 60.1317C125.689 61.2348 124.085 61.9007 122.395 62.0332L88.2344 64.7118C85.9021 64.8947 83.6065 64.0474 81.9522 62.3931L77.39 57.831C75.8897 56.3307 75.0469 54.2958 75.0469 52.1741V12.8259C75.0469 10.7042 75.8897 8.66934 77.39 7.16905L81.9522 2.60686Z" fill="#2E4437" />
+              <path d="M107.42 41.616L105.293 39.413L110.686 34.0194H92.2266V30.9808H110.686L105.293 25.5873L107.42 23.3843L116.536 32.5001L107.42 41.616Z" fill="#FFF4E0" />
+            </svg>
+            <button type="button" onClick={() => setActive(previous)} aria-label="Previous slide" className="absolute inset-y-0 left-0 w-[44.85%] rounded-[10%] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream" />
+            <button type="button" onClick={() => setActive(next)} aria-label="Next slide" className="absolute inset-y-0 right-0 w-[44.85%] rounded-[10%] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream" />
           </div>
         </div>
       </div>

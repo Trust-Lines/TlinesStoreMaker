@@ -51,16 +51,22 @@ export function HeroSection({ eyebrow, heading, backgroundImage, primaryAction }
       </div>
 
       {/* Partner logo strip, matching the dark bar under the hero photo. */}
-      <div className="bg-forest">
-        <div className="mx-auto flex w-full max-w-[1592px] flex-wrap items-center justify-center gap-x-10 gap-y-3 px-6 py-5 md:h-[80px] md:justify-between md:px-0 md:py-0">
-          <Image
-            src="/images/figma/hero-bottom-icons.svg"
-            alt="Trusted by leading c-store, grocery, and travel-plaza brands"
-            width={1588}
-            height={34}
-            unoptimized
-            className="h-6 w-auto opacity-90 md:h-8"
-          />
+      <div className="brand-marquee overflow-hidden bg-forest">
+        <div className="brand-marquee-track flex h-[64px] w-max items-center md:h-[80px]">
+          {[0, 1].map((copy) => (
+            <div key={copy} className="w-[max(100vw,760px)] shrink-0">
+              <Image
+                src="/images/figma/hero-bottom-icons.svg"
+                alt={copy === 0 ? "Trusted by leading c-store, grocery, and travel-plaza brands" : ""}
+                aria-hidden={copy === 1}
+                width={1588}
+                height={34}
+                unoptimized
+                priority
+                className="h-auto w-full opacity-90"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>

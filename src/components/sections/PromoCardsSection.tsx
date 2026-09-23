@@ -75,20 +75,28 @@ function Card({ card }: { card: PromoCard }) {
         </div>
 
         {isTruckStops ? (
-          <span className="absolute bottom-[4%] left-1/2 inline-flex aspect-[314/68.7871] w-[65.4167%] -translate-x-1/2 items-center justify-center text-sm font-bold text-coral md:text-base">
+          <span className="absolute left-1/2 top-[92%] inline-flex aspect-[314/68.7871] w-[65.4167%] -translate-x-1/2 -translate-y-1/2 items-center justify-center text-sm font-bold text-coral md:text-base">
             <svg aria-hidden viewBox="0 0 314 69" fill="none" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 h-full w-full">
               <path d="M7.73957 3.56995C9.63961 1.30688 12.4433 0 15.3982 0H298.602C301.557 0 304.36 1.30688 306.26 3.56995L311.659 9.99956C313.171 11.8009 314 14.0776 314 16.4296V52.3574C314 54.7094 313.171 56.9862 311.659 58.7875L306.26 65.2171C304.36 67.4802 301.557 68.7871 298.602 68.7871H15.3982C12.4432 68.7871 9.63961 67.4802 7.73957 65.2171L2.34137 58.7875C0.829027 56.9862 0 54.7094 0 52.3574V16.4296C0 14.0776 0.829031 11.8009 2.34138 9.99956L7.73957 3.56995Z" fill="#FFF4E0" />
             </svg>
             <span className="relative z-10">See More</span>
           </span>
         ) : (
-          <span className="absolute bottom-[7.5%] left-1/2 inline-flex aspect-[281/82] w-[58.5417%] -translate-x-1/2 items-center justify-center font-display text-[clamp(.75rem,1.51vw,24px)] font-bold leading-[1] text-cream">
+          <span className="absolute left-1/2 top-[92%] inline-flex aspect-[281/82] w-[58.5417%] -translate-x-1/2 -translate-y-1/2 items-center justify-center font-display text-[clamp(.75rem,1.51vw,24px)] font-bold leading-[1] text-cream">
             {card.id === "c-store" ? (
               <svg aria-hidden viewBox="0 0 281 82" fill="none" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 h-full w-full scale-y-[-1]">
                 <path d="M280.985 63.3056V21.1961C280.985 20.1027 280.543 19.0547 279.756 18.3007L270.452 9.36559C269.754 8.69453 268.832 8.30244 267.865 8.25719L16.5312 0.00346375C15.4516 -0.0417786 14.3945 0.357849 13.6148 1.10432L1.22952 12.9951C0.442319 13.7491 0 14.7972 0 15.8905V66.3217C0 67.4075 0.442334 68.448 1.22204 69.202L13.2699 80.8817C14.0421 81.6281 15.0767 82.0353 16.1488 81.9976L269.349 74.7742C270.332 74.744 271.276 74.3519 271.988 73.6658L279.771 66.186C280.558 65.4319 281 64.3839 281 63.2906L280.985 63.3056Z" fill="#DB7358" />
               </svg>
             ) : isGrocery ? (
-              <svg aria-hidden viewBox="0 0 281 82" fill="none" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 h-full w-full rotate-180">
+              <svg
+                aria-hidden
+                width="281"
+                height="82"
+                viewBox="0 0 281 82"
+                fill="none"
+                preserveAspectRatio="none"
+                className="pointer-events-none absolute inset-0 h-full w-full"
+              >
                 <path d="M0.0149231 63.3056V21.1961C0.0149231 20.1027 0.457275 19.0547 1.24448 18.3007L10.5484 9.36559C11.2456 8.69453 12.1678 8.30244 13.1349 8.25719L264.469 0.00346375C265.548 -0.0417786 266.606 0.357849 267.385 1.10432L279.77 12.9951C280.558 13.7491 281 14.7972 281 15.8905V66.3217C281 67.4075 280.558 68.448 279.778 69.202L267.73 80.8817C266.958 81.6281 265.923 82.0353 264.851 81.9976L11.6505 74.7742C10.6684 74.744 9.72375 74.3519 9.01154 73.6658L1.22946 66.186C0.442261 65.4319 0 64.3839 0 63.2906L0.0149231 63.3056Z" fill="#939878" />
               </svg>
             ) : (
