@@ -41,9 +41,11 @@ export function HomeHero({ heading, backgroundImage, imageAlt, action, clients }
           </h1>
           <Link
             href={action.href}
-            className="relative isolate mt-6 inline-flex aspect-[338/67] w-[clamp(220px,21vw,338px)] items-center justify-center text-sm font-bold text-cream transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream sm:mt-8 sm:text-base"
+            className="relative isolate mt-6 inline-flex aspect-[338/67] w-[var(--bw)] items-start justify-center pl-[calc(var(--bw)*57/338)] pr-[calc(var(--bw)*59/338)] pt-[calc(var(--bw)*17/338)] text-center font-display text-[calc(var(--bw)*24/338)] [--bw:clamp(220px,21.23vw,338px)] font-bold leading-none text-cream transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream sm:mt-8"
           >
-            {/* Exact Figma button shape (338 x 67). */}
+            {/* Exact Figma button shape (338 x 67). Text: Montserrat 24/24 bold; box inset
+                17 top / 26 bottom / 57 left / 59 right — padding and font derived
+                from the button width (--bw), so the proportions hold at every size. */}
             <Image src="/images/figma/ribbon-service.svg" alt="" fill unoptimized className="pointer-events-none -z-10" />
             {action.label}
           </Link>
