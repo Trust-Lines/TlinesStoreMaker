@@ -248,6 +248,7 @@ export const contactCTAs = [
 
 export const footer = {
   logo,
+  tagline: ["Design.", "Production.", "Installation."],
   emailAction: { label: "Send us an email", href: "mailto:hello@tlines.com" },
   followLabel: "Follow us on:",
   columns: [

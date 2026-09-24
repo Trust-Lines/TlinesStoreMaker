@@ -27,7 +27,8 @@ export default function StoreMakerPage() {
     // frame width (1592px). Wider screens / zoomed-out views get cream margins
     // instead of stretching every section edge to edge.
     <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
-      <main className="relative bg-cream pb-3 md:pb-6">
+      {/* Cream gap above the footer: ~48px at the 1592 frame (3.08%). */}
+      <main className="relative bg-cream pb-[3.08%]">
         <ReferenceTopBar />
         <HomeHero {...homeHero} />
         <ServiceCardsSection cards={serviceCards} />
