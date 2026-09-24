@@ -13,7 +13,15 @@ export function SpecialtyCardsSection({ cards }: SpecialtyCardsSectionProps) {
       <ul className="mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-10 md:grid-cols-2 md:gap-[clamp(1.5rem,4.5vw,4.5rem)] lg:max-w-none lg:gap-x-[3.9%]">
         {cards.map((card) => (
           <li key={card.id} id={card.id} className="@container">
-            <ServiceCard card={card} imageAspect="598 / 386" mobileImageAspect="359 / 346" minHeight="108.6cqw" mobileMinHeight="155.5cqw" ribbonAlign="right" sizes="(min-width: 768px) 45vw, 100vw" />
+            <ServiceCard
+              card={card}
+              imageAspect="598 / 386"
+              mobileImageAspect="360.65 / 346.83"
+              minHeight="108.6cqw"
+              mobileMinHeight="168.61cqw"
+              ribbonAlign="right"
+              sizes="(min-width: 768px) 45vw, 100vw"
+            />
           </li>
         ))}
       </ul>

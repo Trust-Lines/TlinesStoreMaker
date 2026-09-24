@@ -8,8 +8,9 @@ export interface ServiceCardData {
   href: string;
   image: string;
   bullets: string[];
-  /** Optional centered bold subtitle + paragraph, shown instead of the bullets. */
+  /** Optional centered bold subtitle, shown above the description. */
   subtitle?: string;
+  /** Paragraph shown instead of the bullets. */
   description?: string;
   /** Tailwind classes for the card body color and its text color. */
   bgClass: string;
@@ -20,16 +21,15 @@ export interface ServiceCardData {
   ribbonShape?: string;
   /** Exact Figma card outline; masks the card background instead of the CSS chamfer. */
   cardShape?: string;
-  /** Ribbon left inset from the card edge, as % of card width (left-aligned ribbons). */
-  ribbonInset?: number;
-  /** Card outline used below md when the card takes the service-card layout on phones. */
+  /** Card outline used below md (phones), when a wide card takes the service layout. */
   mobileCardShape?: string;
+  /** Ribbon left inset from the card edge, as % of card width. */
+  ribbonInset?: number;
 }
 
 export interface ServiceCardProps {
   card: ServiceCardData;
   imageAspect?: string;
-  ribbonAlign?: "left" | "right";
   /** Photo aspect below md; defaults to imageAspect. */
   mobileImageAspect?: string;
   /**
@@ -39,32 +39,42 @@ export interface ServiceCardProps {
   minHeight?: string;
   /** minHeight below md; defaults to minHeight. */
   mobileMinHeight?: string;
+  /** Photo insets from the card edge (CSS lengths; cqw / % = of card width). */
+  photoInset?: { top?: string; left?: string; right?: string };
+  /**
+   * "left": service-card layout at every size.
+   * "right": Branding / Management — service layout below md, the wide Figma
+   * layout (right-hand ribbon, bullets) from md up.
+   */
+  ribbonAlign?: "left" | "right";
   sizes?: string;
 }
 
 /**
- * Colored card with an inset photo and a slanted title ribbon, built from the
- * exact Figma vectors at every breakpoint: card outline and ribbon applied as
- * CSS masks (tinted by bgClass / ribbonClass), chamfered photo, centered
- * ribbon title. On phones the cards simply stack one per row; the section
- * gives the card its Figma aspect ratio as a minimum height (container query
- * units), so the outline isn't distorted and longer text grows the card
- * instead of spilling out of it. Right-ribbon cards (Branding / Management) take the
- * service-card layout below md (left ribbon, service outline, taller photo)
- * so every card on a phone looks the same.
+ * Colored card built from the exact Figma vectors (card outline + ribbon as
+ * CSS masks tinted by bgClass / ribbonClass).
+ *
+ * Service layout — Figma card 381.593 x 643.424: photo 360.65 x 346.83 inset
+ * 10.25 / 8.74 / 12.61; ribbon 412.726 x 71.823 (Orbitron 32/48); description
+ * box 320 wide at x=31, y=424 (Montserrat 22/26). All sizes are in cqw (% of the
+ * card width) so the whole card scales as one at every breakpoint. The card's
+ * Figma proportions are a minimum height; longer text grows the card instead
+ * of spilling out.
  *
  * The card shape lives on a background layer only, so the ribbon can overhang
  * the card edge and focus rings stay visible.
  */
 export function ServiceCard({
   card,
-  imageAspect = "455 / 376",
-  ribbonAlign = "left",
+  imageAspect = "360.65 / 346.83",
   mobileImageAspect,
-  minHeight = "155.5cqw",
+  minHeight = "168.61cqw",
   mobileMinHeight,
+  photoInset,
+  ribbonAlign = "left",
   sizes = "(min-width: 768px) 33vw, 100vw",
 }: ServiceCardProps) {
+  const wide = ribbonAlign === "right";
   const cardMask = card.cardShape ? `url(${card.cardShape})` : undefined;
   const mobileCardMask = card.mobileCardShape ? `url(${card.mobileCardShape})` : cardMask;
   const ribbonMask = card.ribbonShape ? `url(${card.ribbonShape})` : undefined;
@@ -73,7 +83,9 @@ export function ServiceCard({
     <Link
       href={card.href}
       style={{ "--card-min": minHeight, "--card-min-sm": mobileMinHeight ?? minHeight } as CSSProperties}
-      className={`group relative isolate flex h-full min-h-[var(--card-min-sm)] flex-col pb-8 outline-offset-4 md:min-h-[var(--card-min)] transition-transform hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral ${card.textClass}`}
+      className={`group relative isolate flex h-full min-h-[var(--card-min-sm)] flex-col pb-[6.3cqw] outline-offset-4 transition-transform hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral md:min-h-[var(--card-min)] ${
+        wide ? "md:pb-8" : ""
+      } ${card.textClass}`}
     >
       <div
         aria-hidden
@@ -86,44 +98,51 @@ export function ServiceCard({
       />
 
       <div
-        className="shape-chamfered relative m-2.5 aspect-[var(--img-aspect-sm)] shrink-0 overflow-hidden md:aspect-[var(--img-aspect)]"
-        style={{ "--img-aspect": imageAspect, "--img-aspect-sm": mobileImageAspect ?? imageAspect, "--chamfer": "12px" } as CSSProperties}
+        className="shape-chamfered relative mb-[2.62cqw] ml-[var(--ph-l)] mr-[var(--ph-r)] mt-[var(--ph-t)] aspect-[var(--img-aspect-sm)] shrink-0 overflow-hidden md:aspect-[var(--img-aspect)]"
+        style={
+          {
+            "--img-aspect": imageAspect,
+            "--img-aspect-sm": mobileImageAspect ?? imageAspect,
+            "--ph-t": photoInset?.top ?? "2.686cqw",
+            "--ph-l": photoInset?.left ?? "2.29cqw",
+            "--ph-r": photoInset?.right ?? "3.305cqw",
+            "--chamfer": "12px",
+          } as CSSProperties
+        }
       >
         <Image src={card.image} alt="" fill sizes={sizes} className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
       </div>
 
-      {/* Ribbon outline is the exact Figma vector, used as a mask so each card
-          can tint it with its own ribbon color. */}
+      {/* Ribbon: exact Figma vector as a mask, tinted per card. Service layout:
+          412.726 x 71.823 (108.16% of the card), Orbitron 32/48 (8.386cqw). */}
       <h3
         style={{ "--ribbon-mask": ribbonMask, "--ribbon-x": `${card.ribbonInset ?? 2.094}%` } as CSSProperties}
-        className={`relative z-10 -mt-9 flex items-center justify-center px-6 text-center font-accent text-[clamp(1.4rem,2.7vw,2.6rem)] font-bold uppercase leading-none [-webkit-mask-image:var(--ribbon-mask)] [mask-image:var(--ribbon-mask)] [mask-repeat:no-repeat] [mask-size:100%_100%] lg:text-[min(2.513vw,40px)] lg:leading-[1.2] ${card.ribbonClass} ${
-          ribbonAlign === "left"
-            ? "ml-[var(--ribbon-x)] aspect-[412/66] w-[107.85%] max-w-none"
-            : "ml-[var(--ribbon-x)] aspect-[412/66] w-[107.85%] max-w-none md:-mr-[6.4%] md:ml-0 md:aspect-[431/69] md:w-[68.63%] md:max-w-full md:self-end"
+        className={`relative z-10 -mt-[9.43cqw] ml-[var(--ribbon-x)] flex aspect-[412.726/71.823] w-[108.16%] max-w-none items-center justify-center px-6 text-center font-accent text-[8.386cqw] font-bold uppercase leading-[1.5] [-webkit-mask-image:var(--ribbon-mask)] [mask-image:var(--ribbon-mask)] [mask-repeat:no-repeat] [mask-size:100%_100%] ${card.ribbonClass} ${
+          wide
+            ? "md:-mr-[6.4%] md:ml-0 md:aspect-[431/69] md:w-[68.63%] md:max-w-full md:self-end md:text-[clamp(1.4rem,2.7vw,2.6rem)] md:leading-none lg:text-[min(2.513vw,40px)] lg:leading-[1.2]"
+            : ""
         }`}
       >
         {card.title}
       </h3>
 
       {card.subtitle || card.description ? (
-        // Figma: bold centered subtitle in a 255px box (78.1% of the text area), then a
-        // left-aligned paragraph 317.43px wide (97.19% of the text area; 147px gap to
-        // the next card's paragraph); both Montserrat 22/24.
-        <div className="mt-4 pl-[6.5%] pr-[8%] font-display sm:mt-[min(1.76vw,28px)]">
+        // Figma description box: 320 wide (83.86cqw) starting 31px in (8.124cqw), its
+        // top 424px down the card (5.53cqw below the ribbon); Montserrat 22/26.
+        <div className="mt-[5.53cqw] pl-[8.124cqw] font-display">
           {card.subtitle ? (
-            <p className="mx-auto w-[78.1%] translate-x-[1.14%] text-balance text-center text-[0.95rem] font-bold leading-snug sm:text-[clamp(0.95rem,1.2vw,1.15rem)] lg:text-[min(1.382vw,22px)] lg:leading-[1.0909]">
-              {card.subtitle}
-            </p>
+            <p className="w-[83.86cqw] text-balance text-center text-[5.765cqw] font-bold leading-[6.814cqw]">{card.subtitle}</p>
           ) : null}
           {card.description ? (
-            <p className="mt-2 w-[97.19%] text-[0.9rem] font-normal leading-[1.3] sm:mt-[min(1.57vw,25px)] sm:text-[clamp(0.95rem,1.2vw,1.15rem)] sm:leading-snug lg:text-[min(1.382vw,22px)] lg:leading-[1.0909]">
-              {card.description}
-            </p>
+            <p className={`w-[83.86cqw] text-[5.765cqw] font-normal leading-[6.814cqw] ${card.subtitle ? "mt-[4cqw]" : ""}`}>{card.description}</p>
           ) : null}
         </div>
       ) : (
-        // Figma subtitle: Montserrat 22/24, regular.
-        <ul className="mt-5 list-none space-y-0.5 px-[12%] font-display text-[clamp(0.95rem,1.2vw,1.15rem)] font-normal leading-snug lg:text-[min(1.382vw,22px)] lg:leading-[1.0909]">
+        <ul
+          className={`mt-[5.53cqw] list-none space-y-0.5 pl-[8.124cqw] pr-[8cqw] font-display text-[5.765cqw] font-normal leading-[6.814cqw] ${
+            wide ? "md:mt-5 md:px-[12%] md:text-[clamp(0.95rem,1.2vw,1.15rem)] md:leading-snug lg:text-[min(1.382vw,22px)] lg:leading-[1.0909]" : ""
+          }`}
+        >
           {card.bullets.map((bullet) => (
             <li key={bullet} className="relative pl-4 before:absolute before:left-0 before:content-['•']">
               {bullet}
