@@ -34,6 +34,7 @@ const locations = [
 export function SiteFooter({
   logo,
   goldMembersHeading,
+  emailAction,
   followLabel,
   columns,
   callUsHeading,
@@ -41,7 +42,7 @@ export function SiteFooter({
   copyright,
 }: SiteFooterProps) {
   return (
-    <footer className="relative isolate mt-auto overflow-hidden bg-forest text-cream md:h-[636px]">
+    <footer id="footer-navigation" className="relative isolate mt-auto overflow-hidden bg-forest text-cream md:min-h-[636px]">
       <div aria-hidden className="pointer-events-none absolute right-[12%] top-[-30%] -z-10 aspect-[516.194/421.689] w-[32.42%] rotate-180">
         <Image src="/images/figma/footer-outline-nest.svg" alt="" fill unoptimized className="h-full w-full" />
       </div>
@@ -49,7 +50,7 @@ export function SiteFooter({
         <Image src="/images/figma/footer-outline-nest.svg" alt="" fill unoptimized className="h-full w-full" />
       </div>
 
-      <div className="mx-auto flex h-full w-full max-w-[1592px] flex-col px-6 pb-10 pt-16 md:px-[8%] md:pb-[38px] md:pt-[78px]">
+      <div className="mx-auto flex min-h-full w-full max-w-[1592px] flex-col px-6 pb-8 pt-12 sm:px-8 sm:pb-10 sm:pt-16 md:px-[8%] md:pb-[38px] md:pt-[78px]">
         <div className="grid gap-12 md:grid-cols-[310px_1fr] md:gap-[90px]">
           <div>
             <Link href={logo.href} className="flex w-fit items-center gap-2">
@@ -60,12 +61,12 @@ export function SiteFooter({
               </span>
             </Link>
 
-            <p className="mt-5 font-display text-[30px] font-medium leading-none">{goldMembersHeading}</p>
-            <div className="mt-4 flex items-center gap-[6px]">
+            <p className="mt-5 font-display text-[clamp(24px,2.2vw,30px)] font-medium leading-none">{goldMembersHeading}</p>
+            <div className="mt-4 grid max-w-[298px] grid-cols-4 gap-1 sm:flex sm:gap-[6px]">
               {memberMarks.map((mark, index) => (
                 <div
                   key={mark.label}
-                  className="flex h-[70px] w-[70px] shrink-0 items-center justify-center bg-cream text-center"
+                  className="flex aspect-square w-full max-w-[70px] shrink-0 items-center justify-center bg-cream text-center"
                   style={{
                     clipPath:
                       index % 2 === 0
@@ -101,10 +102,20 @@ export function SiteFooter({
           <div>
             <p className="text-[16px] font-medium">{followLabel}</p>
             <div className="mt-3 flex items-center gap-[8px]">
-              <Image src="/images/figma/social-icon-1.svg" alt="Facebook" width={49} height={49} unoptimized className="h-[42px] w-[42px]" />
-              <Image src="/images/figma/social-icon-2.svg" alt="Instagram" width={49} height={49} unoptimized className="h-[42px] w-[42px]" />
-              <Image src="/images/figma/social-icon-3.svg" alt="LinkedIn" width={49} height={49} unoptimized className="h-[42px] w-[42px]" />
+              {[1, 2, 3].map((icon, index) => (
+                <Link
+                  key={icon}
+                  href="/contact"
+                  aria-label={["Facebook", "Instagram", "LinkedIn"][index]}
+                  className="rounded-full outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral"
+                >
+                  <Image src={`/images/figma/social-icon-${icon}.svg`} alt="" width={49} height={49} unoptimized className="h-[42px] w-[42px]" />
+                </Link>
+              ))}
             </div>
+            <Link href={emailAction.href} className="mt-5 inline-block text-[16px] font-semibold underline underline-offset-2 hover:text-coral focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral">
+              {emailAction.label}
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-4">
@@ -135,9 +146,8 @@ export function SiteFooter({
           </div>
         </div>
 
-        <div className="mt-auto flex items-center justify-between text-[13px] text-muted-green">
+        <div className="mt-12 flex flex-col items-start gap-2 text-[13px] text-muted-green sm:flex-row sm:items-center sm:justify-between md:mt-auto">
           <p>{copyright}</p>
-          <p className="hidden md:block">{copyright}</p>
         </div>
       </div>
     </footer>

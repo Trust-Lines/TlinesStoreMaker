@@ -13,6 +13,14 @@ const hotspots = [
   { label: "View projects", href: "/work", left: 5.1, top: 57.0, width: 89.8, height: 13.5 },
   { label: "Request a consultation", href: "/contact", left: 9.2, top: 86.75, width: 16.5, height: 1.15 },
   { label: "Contact us", href: "/contact", left: 76.4, top: 86.75, width: 12.5, height: 1.15 },
+  { label: "Footer home", href: "/", left: 7.4, top: 92.1, width: 11.5, height: 3.2 },
+  { label: "Footer menu", href: "/", left: 43.5, top: 91.4, width: 7.5, height: 7.3 },
+  { label: "Footer news", href: "/news", left: 55.2, top: 91.4, width: 7.2, height: 6.6 },
+  { label: "Footer work", href: "/work", left: 69.2, top: 91.4, width: 7.3, height: 6.6 },
+  { label: "Footer about", href: "/about", left: 80.8, top: 91.4, width: 11.2, height: 6.6 },
+  { label: "Footer social links", href: "/contact", left: 7.5, top: 95.1, width: 11.5, height: 2.8 },
+  { label: "Footer locations", href: "/contact", left: 43.5, top: 96.1, width: 19.5, height: 3.1 },
+  { label: "Footer phone", href: "tel:8006603772", left: 69.2, top: 96.1, width: 12.5, height: 2.1 },
 ] as const;
 
 export default function StoreMakerPage() {
