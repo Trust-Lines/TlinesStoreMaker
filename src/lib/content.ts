@@ -38,7 +38,7 @@ export const serviceCards = [
   {
     id: "c-store",
     title: "C-store",
-    href: "/#contact",
+    href: "/services/c-store",
     image: "/images/figma/project-grid-08.webp",
     bullets: serviceBullets,
     bgClass: "bg-gold",
@@ -50,7 +50,7 @@ export const serviceCards = [
   {
     id: "truck-stops",
     title: "Truck stops",
-    href: "/#contact",
+    href: "/services/truck-stops",
     image: "/images/figma/project-grid-03.webp",
     bullets: serviceBullets,
     bgClass: "bg-coral",
@@ -62,7 +62,7 @@ export const serviceCards = [
   {
     id: "grocery",
     title: "Grocery",
-    href: "/#contact",
+    href: "/services/grocery",
     image: "/images/figma/card-grocery.webp",
     bullets: serviceBullets,
     bgClass: "bg-sage-dark",

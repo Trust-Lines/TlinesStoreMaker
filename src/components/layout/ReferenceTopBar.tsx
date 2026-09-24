@@ -7,9 +7,9 @@ import { useEffect, useRef, useState } from "react";
 const menuItems = [
   { label: "Home", href: "/#home" },
   { label: "Services", href: "/#services" },
-  { label: "C-store", href: "/#c-store", sub: true },
-  { label: "Truck stops", href: "/#truck-stops", sub: true },
-  { label: "Grocery", href: "/#grocery", sub: true },
+  { label: "C-store", href: "/services/c-store", sub: true },
+  { label: "Truck stops", href: "/services/truck-stops", sub: true },
+  { label: "Grocery", href: "/services/grocery", sub: true },
   { label: "Branding", href: "/#branding", sub: true },
   { label: "Management", href: "/#management", sub: true },
   { label: "Work", href: "/#projects" },
@@ -110,12 +110,11 @@ export function ReferenceTopBar() {
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="-mr-3 self-end grid h-12 w-12 place-items-center rounded-md hover:bg-cream/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream"
+          className="self-end transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
         >
           <span className="sr-only">Close menu</span>
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+          {/* Same Figma close button as the project lightbox (coral ribbon + ×, 117 x 67). */}
+          <Image src="/images/figma/close-button.svg" alt="" width={117} height={67} unoptimized className="h-auto w-[88px] sm:w-[117px]" />
         </button>
 
         <nav aria-label="Primary navigation" className="mt-4">
