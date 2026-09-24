@@ -8,8 +8,12 @@ export interface ServiceCardData {
   href: string;
   image: string;
   bullets: string[];
-  /** Optional centered bold subtitle, shown above the description. */
+  /** Optional heading, shown above the description / bullets. */
   subtitle?: string;
+  /** Heading weight (Figma: Branding regular, Management bold). */
+  subtitleBold?: boolean;
+  /** Wide layout (md+): text box right inset in px of the 628 card (Figma 560 box = 26, 558 box = 28). */
+  textRightInset?: number;
   /** Paragraph shown instead of the bullets. */
   description?: string;
   /** Tailwind classes for the card body color and its text color. */
@@ -119,37 +123,40 @@ export function ServiceCard({
         style={{ "--ribbon-mask": ribbonMask, "--ribbon-x": `${card.ribbonInset ?? 2.094}%` } as CSSProperties}
         className={`relative z-10 -mt-[9.43cqw] ml-[var(--ribbon-x)] flex aspect-[412.726/71.823] w-[108.16%] max-w-none items-center justify-center px-6 text-center font-accent text-[8.386cqw] font-bold uppercase leading-[1.5] [-webkit-mask-image:var(--ribbon-mask)] [mask-image:var(--ribbon-mask)] [mask-repeat:no-repeat] [mask-size:100%_100%] ${card.ribbonClass} ${
           wide
-            ? "md:-mr-[6.4%] md:ml-0 md:aspect-[431/69] md:w-[68.63%] md:max-w-full md:self-end md:text-[clamp(1.4rem,2.7vw,2.6rem)] md:leading-none lg:text-[min(2.513vw,40px)] lg:leading-[1.2]"
+            ? "md:-mr-[6.4%] md:ml-0 md:aspect-[431/69] md:w-[68.63%] md:max-w-full md:self-end md:text-[6.051cqw] md:leading-[7.643cqw]"
             : ""
         }`}
       >
         {card.title}
       </h3>
 
-      {card.subtitle || card.description ? (
-        // Figma description box: 320 wide (83.86cqw) starting 31px in (8.124cqw), its
-        // top 424px down the card (5.53cqw below the ribbon); Montserrat 22/26.
-        <div className="mt-[5.53cqw] pl-[8.124cqw] font-display">
-          {card.subtitle ? (
-            <p className="w-[83.86cqw] text-balance text-center text-[5.765cqw] font-bold leading-[6.814cqw]">{card.subtitle}</p>
-          ) : null}
-          {card.description ? (
-            <p className={`w-[83.86cqw] text-[5.765cqw] font-normal leading-[6.814cqw] ${card.subtitle ? "mt-[4cqw]" : ""}`}>{card.description}</p>
-          ) : null}
-        </div>
-      ) : (
-        <ul
-          className={`mt-[5.53cqw] list-none space-y-0.5 pl-[8.124cqw] pr-[8cqw] font-display text-[5.765cqw] font-normal leading-[6.814cqw] ${
-            wide ? "md:mt-5 md:px-[12%] md:text-[clamp(0.95rem,1.2vw,1.15rem)] md:leading-snug lg:text-[min(1.382vw,22px)] lg:leading-[1.0909]" : ""
-          }`}
-        >
-          {card.bullets.map((bullet) => (
-            <li key={bullet} className="relative pl-4 before:absolute before:left-0 before:content-['•']">
-              {bullet}
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* Text area. Service layout (Figma 381.593 wide card): box 320 wide (83.86cqw)
+          starting 31px in (8.124cqw), top 424px down (5.53cqw below the ribbon);
+          Montserrat 22/26. Wide layout from md (Branding / Management, 628 wide card):
+          560 x 121 text box 42px in and ~30px below the ribbon (heading, then bullet with
+          dot at 53px / text at 74px), Montserrat 22/24 regular; ribbon title Orbitron 38/48 — all in cqw so it scales with the card. */}
+      <div
+        style={{ "--text-pr": `${((card.textRightInset ?? 26) / 628) * 100}cqw` } as CSSProperties}
+        className={`mt-[5.53cqw] pl-[8.124cqw] font-display text-[5.765cqw] font-normal leading-[6.814cqw] ${
+          wide ? "md:mt-[4.78cqw] md:pl-[6.69cqw] md:pr-[var(--text-pr)] md:text-[3.503cqw] md:leading-[3.822cqw]" : ""
+        }`}
+      >
+        {card.subtitle ? <p className={`w-[83.86cqw] md:w-auto ${card.subtitleBold ? "font-bold" : ""}`}>{card.subtitle}</p> : null}
+        {card.description ? (
+          <p className={`w-[83.86cqw] ${card.subtitle ? "mt-[4cqw]" : ""}`}>{card.description}</p>
+        ) : card.bullets.length ? (
+          <ul className={`list-none space-y-0.5 pr-[8cqw] ${card.subtitle ? "mt-[3cqw] md:mt-[3.98cqw]" : ""} ${wide ? "md:pl-[1.75cqw] md:pr-0" : ""}`}>
+            {card.bullets.map((bullet) => (
+              <li
+                key={bullet}
+                className={`relative pl-[4.5cqw] before:absolute before:left-0 before:content-['•'] ${wide ? "md:pl-[3.34cqw]" : ""}`}
+              >
+                {bullet}
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </div>
     </Link>
   );
 }

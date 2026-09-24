@@ -91,7 +91,10 @@ export const specialtyCards = [
     title: "Branding",
     href: "/#contact",
     image: "/images/figma/card-grocery.webp",
-    bullets: serviceBullets,
+    subtitle: "Build a Brand Customers Remember",
+    bullets: [
+      "We create a consistent identity across your signage, displays, interiors, and customer touch points inside and outside of your store.",
+    ],
     bgClass: "bg-forest",
     textClass: "text-cream",
     ribbonClass: "bg-coral text-cream",
@@ -104,7 +107,12 @@ export const specialtyCards = [
     title: "Management",
     href: "/#contact",
     image: "/images/figma/card-grocery.webp",
-    bullets: serviceBullets,
+    subtitle: "From Concept to Completion",
+    subtitleBold: true,
+    textRightInset: 28, // Figma text box 558 wide
+    bullets: [
+      "Our team coordinates every phase of your project, keeping the work organized, efficient, and aligned with your vision.",
+    ],
     bgClass: "bg-sage-dark",
     textClass: "text-cream",
     ribbonClass: "bg-coral text-cream",
