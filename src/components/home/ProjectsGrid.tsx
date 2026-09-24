@@ -137,58 +137,63 @@ export function ProjectsGrid({ title, tiles, frame, label }: ProjectsGridProps) 
         onClick={(event) => {
           if (event.target === event.currentTarget) setActive(null);
         }}
-        className="m-0 h-dvh max-h-none w-screen max-w-none bg-transparent p-0 backdrop:bg-forest-dark/90"
+        className="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-forest-dark/90"
       >
         {current ? (
           <div
-            className="relative flex h-full w-full flex-col items-center justify-center gap-4 px-4 py-16 sm:px-24"
+            className="relative flex h-full w-full flex-col items-center justify-center gap-3 p-4"
             onClick={(event) => {
               if (event.target === event.currentTarget) setActive(null);
             }}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
-            <div className="relative h-full max-h-[80dvh] w-full max-w-6xl">
+            {/* Viewer box matches the page column / Projects frame: up to 1592px
+                wide at the frame's 1592 x 1091 ratio, capped to the window height.
+                The photo is fitted inside; close sits in the box's top-right
+                corner and the arrows on its left/right edges. */}
+            <div className="relative aspect-[1592/1091] w-[min(calc(100vw-2rem),1592px,calc((100dvh-8rem)*1592/1091))]">
               <Image
                 key={current.id}
                 src={current.image}
                 alt={current.alt}
                 fill
-                sizes="(min-width: 1200px) 1152px, 100vw"
+                loading="eager"
+                sizes="(min-width: 1592px) 1592px, 100vw"
                 className="object-contain"
               />
+
+              <button
+                type="button"
+                onClick={() => go(-1)}
+                aria-label="Previous photo"
+                className="absolute left-2 top-1/2 -translate-y-1/2 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream sm:left-4"
+              >
+                <Image src="/images/figma/carousel-arrow-prev.svg" alt="" width={61} height={65} unoptimized className="h-12 w-auto sm:h-[65px]" />
+              </button>
+              <button
+                type="button"
+                onClick={() => go(1)}
+                aria-label="Next photo"
+                className="absolute right-2 top-1/2 -translate-y-1/2 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream sm:right-4"
+              >
+                <Image src="/images/figma/carousel-arrow-next.svg" alt="" width={61} height={65} unoptimized className="h-12 w-auto sm:h-[65px]" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActive(null)}
+                aria-label="Close"
+                className="absolute right-2 top-2 z-10 transition-transform sm:right-4 sm:top-4 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
+              >
+                {/* Exact Figma close button (coral ribbon + ×), 117 x 67. */}
+                <Image src="/images/figma/close-button.svg" alt="" width={117} height={67} unoptimized className="h-auto w-[88px] sm:w-[117px]" />
+              </button>
             </div>
 
             <p aria-live="polite" className="text-sm font-semibold text-cream">
               {(active ?? 0) + 1} / {count}
             </p>
-
-            <button
-              type="button"
-              onClick={() => go(-1)}
-              aria-label="Previous photo"
-              className="absolute left-2 top-1/2 -translate-y-1/2 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream sm:left-6"
-            >
-              <Image src="/images/figma/carousel-arrow-prev.svg" alt="" width={61} height={65} unoptimized className="h-12 w-auto sm:h-[65px]" />
-            </button>
-            <button
-              type="button"
-              onClick={() => go(1)}
-              aria-label="Next photo"
-              className="absolute right-2 top-1/2 -translate-y-1/2 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream sm:right-6"
-            >
-              <Image src="/images/figma/carousel-arrow-next.svg" alt="" width={61} height={65} unoptimized className="h-12 w-auto sm:h-[65px]" />
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setActive(null)}
-              aria-label="Close"
-              className="absolute right-3 top-3 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream sm:right-6 sm:top-6"
-            >
-              {/* Exact Figma close button (coral ribbon + ×), 117 x 67. */}
-              <Image src="/images/figma/close-button.svg" alt="" width={117} height={67} unoptimized className="h-auto w-[88px] sm:w-[117px]" />
-            </button>
           </div>
         ) : null}
       </dialog>

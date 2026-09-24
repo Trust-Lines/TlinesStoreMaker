@@ -115,7 +115,7 @@ export const virtualTours = {
 
 export const members = {
   heading: "Members at",
-  strip: "/images/figma/homepage-members-strip.png",
+  strip: "/images/figma/homepage-members-strip-forest.png",
   alt: "NATSO, M-PACT, The NGA Show, and NACS",
 };
 
