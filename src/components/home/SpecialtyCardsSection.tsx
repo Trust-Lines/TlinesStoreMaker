@@ -6,9 +6,10 @@ export interface SpecialtyCardsSectionProps {
 
 export function SpecialtyCardsSection({ cards }: SpecialtyCardsSectionProps) {
   return (
-    <section aria-label="Branding and management services" className="bg-cream px-5 py-12 sm:px-8 md:py-16 lg:pb-[5%] lg:pl-[9.51%] lg:pr-[8.4%] lg:pt-[12.56%]">
+    <section aria-label="Branding and management services" className="bg-cream px-5 py-12 sm:px-8 md:py-16 lg:pb-[12.56%] lg:pl-[9.51%] lg:pr-[8.4%] lg:pt-[12.56%]">
       {/* lg+: Figma spacing — same 151.45px-to-1458px content box as the service
-          cards, two ~624px cards 58px apart, 200px below the NACS banner. */}
+          cards, two ~624px cards 58px apart, 200px below the NACS banner and
+          200px above the Projects frame. */}
       <ul className="mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-10 md:grid-cols-2 md:gap-[clamp(1.5rem,4.5vw,4.5rem)] lg:max-w-none lg:gap-x-[4.44%]">
         {cards.map((card) => (
           <li key={card.id} id={card.id} className="lg:aspect-[624/680]">
