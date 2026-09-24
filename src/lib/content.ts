@@ -41,11 +41,16 @@ export const serviceCards = [
     href: "/services/c-store",
     image: "/images/figma/project-grid-08.webp",
     bullets: serviceBullets,
+    subtitle: "Convenience Stores That Sell More",
+    description:
+      "From efficient layouts to striking interiors, we create inviting stores designed to improve traffic, visibility, and sales in your store.",
     bgClass: "bg-gold",
     textClass: "text-sage-dark",
     ribbonClass: "bg-coral text-gold",
     ribbonShape: "/images/figma/ribbon-card-coral.svg",
     cardShape: "/images/figma/card-cstore.svg",
+    ribbonInset: 2.094, // 8px of 382
+
   },
   {
     id: "truck-stops",
@@ -53,11 +58,16 @@ export const serviceCards = [
     href: "/services/truck-stops",
     image: "/images/figma/project-grid-03.webp",
     bullets: serviceBullets,
+    subtitle: "Built for Every Stop",
+    description:
+      "We design modern truck stops that make navigation easier, operations smoother, and every customer visit more comfortable.",
     bgClass: "bg-coral",
     textClass: "text-cream",
     ribbonClass: "bg-sage-dark text-cream",
     ribbonShape: "/images/figma/ribbon-card-green.svg",
     cardShape: "/images/figma/card-truck-stops.svg",
+    ribbonInset: 1.461, // 5.58px of 382
+
   },
   {
     id: "grocery",
@@ -65,11 +75,16 @@ export const serviceCards = [
     href: "/services/grocery",
     image: "/images/figma/card-grocery.webp",
     bullets: serviceBullets,
+    subtitle: "Fresh Ideas for Modern Markets",
+    description:
+      "Functional layouts, engaging displays, and thoughtful details come together to create a better shopping experience.",
     bgClass: "bg-sage-dark",
     textClass: "text-cream",
     ribbonClass: "bg-sage text-cream",
     ribbonShape: "/images/figma/ribbon-card-green.svg",
     cardShape: "/images/figma/card-grocery.svg",
+    ribbonInset: 2.911, // 11.12px of 382
+
   },
 ];
 
@@ -85,6 +100,7 @@ export const specialtyCards = [
     ribbonClass: "bg-coral text-cream",
     ribbonShape: "/images/figma/ribbon-specialty-coral.svg",
     cardShape: "/images/figma/card-branding.svg",
+    mobileCardShape: "/images/figma/card-cstore.svg", // service-card outline on phones (tinted by bgClass)
   },
   {
     id: "management",
@@ -97,6 +113,7 @@ export const specialtyCards = [
     ribbonClass: "bg-coral text-cream",
     ribbonShape: "/images/figma/ribbon-specialty-coral.svg",
     cardShape: "/images/figma/card-management.svg",
+    mobileCardShape: "/images/figma/card-cstore.svg", // service-card outline on phones (tinted by bgClass)
   },
 ];
 
