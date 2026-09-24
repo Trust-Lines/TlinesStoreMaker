@@ -72,6 +72,15 @@ export function FeaturedProjectsSection({ title, photos, tourHeading }: Featured
             <div key={index} className="relative aspect-[317/198] w-1/4 overflow-hidden rounded-[2%]" style={{ clipPath: index % 2 ? "polygon(3% 2%,97% 0,100% 8%,98% 95%,93% 100%,2% 97%,0 8%)" : "polygon(5% 0,96% 3%,100% 12%,97% 96%,5% 100%,0 91%,1% 8%)" }}>
               <Image src={tourImage} alt={index === 0 ? "Interactive 360 degree project tour preview" : ""} fill priority sizes="21vw" className="object-cover" />
               <div aria-hidden className="absolute inset-0 bg-forest/10" />
+              <Image
+                src="/images/figma/project-badge-icon-b.svg"
+                alt=""
+                aria-hidden
+                width={72}
+                height={72}
+                unoptimized
+                className="pointer-events-none absolute left-1/2 top-1/2 z-10 aspect-square w-[22.65%] -translate-x-1/2 -translate-y-1/2"
+              />
             </div>
           ))}
         </div>
