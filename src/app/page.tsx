@@ -29,6 +29,26 @@ export default function StoreMakerPage() {
           className="block h-auto w-full"
         />
 
+        <div
+          aria-hidden="true"
+          className="brand-marquee absolute left-0 w-full overflow-hidden bg-sage-dark"
+          style={{ top: "16.1477%", height: "1.3646%" }}
+        >
+          <div className="brand-marquee-track flex h-full w-[200%] items-stretch">
+            {[0, 1].map((copy) => (
+              <Image
+                key={copy}
+                src="/images/figma/homepage-partner-strip.png"
+                alt=""
+                width={1592}
+                height={78}
+                unoptimized
+                className="h-full w-1/2 shrink-0 object-fill"
+              />
+            ))}
+          </div>
+        </div>
+
         <nav aria-label="Homepage actions" className="absolute inset-0">
           {hotspots.map((hotspot) => (
             <Link
