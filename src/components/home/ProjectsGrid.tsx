@@ -28,7 +28,8 @@ const pct = (value: number, of: number) => `${(value / of) * 100}%`;
 /**
  * Projects mosaic. From lg up every tile sits at its exact Figma position
  * (percentages of the 1592 x 1091 frame, so it scales with the page); below
- * lg it falls back to a two-column grid. Each tile opens a lightbox (native
+ * lg it falls back to a grid: 2 columns on phones, 3 on tablets, with the wide
+ * first tile spanning the row so every row is full. Each tile opens a lightbox (native
  * <dialog>) that steps through the unique photos with arrows, ← / →, or swipe.
  */
 export function ProjectsGrid({ title, tiles, frame, label }: ProjectsGridProps) {
@@ -94,11 +95,11 @@ export function ProjectsGrid({ title, tiles, frame, label }: ProjectsGridProps) 
         </h2>
       </div>
 
-      <ul className="grid grid-cols-2 gap-2 sm:gap-3 lg:absolute lg:inset-0 lg:block">
+      <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:absolute lg:inset-0 lg:block">
         {tiles.map((tile, index) => (
           <li
             key={tile.id}
-            className={`relative lg:absolute lg:left-[var(--x)] lg:top-[var(--y)] lg:h-[var(--h)] lg:w-[var(--w)] lg:aspect-auto ${index === 0 ? "col-span-2 aspect-[510/232]" : "aspect-[4/3]"}`}
+            className={`relative lg:absolute lg:left-[var(--x)] lg:top-[var(--y)] lg:h-[var(--h)] lg:w-[var(--w)] lg:aspect-auto ${index === 0 ? "col-span-2 aspect-[510/232] sm:col-span-3" : "aspect-[4/3]"}`}
             style={{
               "--x": pct(tile.x, frame.w),
               "--y": pct(tile.y, frame.h),

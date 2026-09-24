@@ -32,10 +32,12 @@ export function HomeHero({ heading, backgroundImage, imageAlt, action, clients }
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(31,47,38,.85)_0%,rgba(31,47,38,.35)_45%,rgba(31,47,38,.15)_100%)] sm:bg-[linear-gradient(100deg,rgba(31,47,38,.7)_0%,rgba(31,47,38,.35)_35%,rgba(31,47,38,0)_60%)]"
         />
 
-        <div className="absolute inset-x-0 bottom-0 px-6 pb-10 sm:bottom-[9%] sm:px-[9.5%] sm:pb-0">
+        {/* lg+: Figma heading box at x=121.13, y=560.8 (60.76% of the 923px hero),
+            463.6 wide; the button follows below, left-aligned with it. */}
+        <div className="absolute inset-x-0 bottom-0 px-6 pb-10 sm:bottom-[9%] sm:px-[9.5%] sm:pb-0 lg:bottom-auto lg:top-[60.76%] lg:pl-[7.61%] lg:pr-0">
           <h1
             id="home-hero-heading"
-            className="max-w-[10.5ch] font-display text-[clamp(2.5rem,5.4vw,5.25rem)] font-semibold leading-[1.02] tracking-[-0.02em] text-cream"
+            className="max-w-[10.5ch] font-display text-[clamp(2.5rem,5.4vw,5.25rem)] font-semibold uppercase leading-[1.02] tracking-[-0.02em] text-cream lg:w-[min(29.12vw,463.6px)] lg:max-w-none lg:text-[min(3.769vw,60px)] lg:leading-[0.9667] lg:tracking-normal"
           >
             {heading}
           </h1>

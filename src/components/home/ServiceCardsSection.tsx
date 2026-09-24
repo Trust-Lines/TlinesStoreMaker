@@ -11,14 +11,14 @@ export function ServiceCardsSection({ cards }: ServiceCardsSectionProps) {
           with the hero heading), 382 x 594 (exact Figma vectors), 82.43px apart
           so Grocery starts at 1080.3. Expressed as % so it scales with the page width. */}
       {/* 1 column on phones, 2 on small tablets (odd card centered), 3 from md. */}
-      <ul className="mx-auto grid w-full max-w-[1480px] grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 md:gap-[clamp(1.5rem,4.5vw,4.5rem)] lg:max-w-none lg:gap-x-[6.288%]">
+      <ul className="mx-auto grid w-full max-w-[1480px] grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-10 md:grid-cols-3 md:gap-[clamp(1.5rem,4.5vw,4.5rem)] lg:max-w-none lg:gap-x-[6.288%]">
         {cards.map((card) => (
           <li
             key={card.id}
             id={card.id}
             className="lg:aspect-[382/594] sm:last:col-span-2 sm:last:mx-auto sm:last:w-[calc(50%-1.25rem)] md:last:col-span-1 md:last:mx-0 md:last:w-auto"
           >
-            <ServiceCard card={card} imageAspect="359 / 346" />
+            <ServiceCard card={card} imageAspect="359 / 346" mobileImageAspect="8 / 3" />
           </li>
         ))}
       </ul>

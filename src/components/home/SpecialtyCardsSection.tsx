@@ -10,10 +10,10 @@ export function SpecialtyCardsSection({ cards }: SpecialtyCardsSectionProps) {
       {/* lg+: Figma spacing — same 151.45px-to-1458px content box as the service
           cards, two 628 x 682 cards (exact Figma vectors) ~51px apart, 200px below the NACS banner and
           200px above the Projects frame. */}
-      <ul className="mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-10 md:grid-cols-2 md:gap-[clamp(1.5rem,4.5vw,4.5rem)] lg:max-w-none lg:gap-x-[3.9%]">
+      <ul className="mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-3 sm:gap-10 md:grid-cols-2 md:gap-[clamp(1.5rem,4.5vw,4.5rem)] lg:max-w-none lg:gap-x-[3.9%]">
         {cards.map((card) => (
           <li key={card.id} id={card.id} className="lg:aspect-[628/682]">
-            <ServiceCard card={card} imageAspect="598 / 386" ribbonAlign="right" sizes="(min-width: 768px) 45vw, 100vw" />
+            <ServiceCard card={card} imageAspect="598 / 386" mobileImageAspect="8 / 3" ribbonAlign="right" sizes="(min-width: 768px) 45vw, 100vw" />
           </li>
         ))}
       </ul>

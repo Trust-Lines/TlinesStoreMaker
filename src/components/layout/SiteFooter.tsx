@@ -142,10 +142,10 @@ export function SiteFooter({
               {columns.map((column) => (
                 <div key={column.id}>
                   <p className="text-[14px] uppercase text-cream/65">{column.heading}</p>
-                  <ul className="mt-4 flex flex-col gap-[14px]">
+                  <ul className="mt-2 flex flex-col lg:mt-4 lg:gap-[14px]">
                     {column.links.map((link) => (
                       <li key={link.id}>
-                        <Link href={link.href} className="text-[16px] font-semibold leading-none hover:text-coral focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral lg:text-[min(1.13vw,18px)]">
+                        <Link href={link.href} className="inline-flex min-h-11 items-center text-[16px] font-semibold leading-none hover:text-coral lg:min-h-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral lg:text-[min(1.13vw,18px)]">
                           {link.label}
                         </Link>
                       </li>
@@ -158,10 +158,10 @@ export function SiteFooter({
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-4 lg:grid-cols-[413fr_353fr] lg:gap-0">
               <div className="sm:col-span-2 lg:col-span-1">
                 <p className="text-[14px] uppercase text-cream/65">Locations</p>
-                <ul className="mt-4 flex flex-col gap-[12px]">
+                <ul className="mt-2 flex flex-col lg:mt-4 lg:gap-[12px]">
                   {locations.map((location) => (
                     <li key={location}>
-                      <a href="/contact" className="text-[16px] font-semibold underline underline-offset-2 hover:text-coral lg:text-[min(1.13vw,18px)]">
+                      <a href="/contact" className="inline-flex min-h-11 items-center gap-1 text-[16px] font-semibold underline underline-offset-2 hover:text-coral lg:min-h-0 lg:text-[min(1.13vw,18px)]">
                         {location} <span aria-hidden>↗</span>
                       </a>
                     </li>
@@ -170,10 +170,10 @@ export function SiteFooter({
               </div>
               <div>
                 <p className="text-[14px] uppercase text-cream/65">{callUsHeading}</p>
-                <ul className="mt-4 flex flex-col gap-[12px]">
+                <ul className="mt-2 flex flex-col lg:mt-4 lg:gap-[12px]">
                   {phoneNumbers.map((number, index) => (
                     <li key={`${number}-${index}`}>
-                      <a href={`tel:${number.replace(/[^\d+]/g, "")}`} className="whitespace-nowrap text-[16px] font-semibold tracking-wide hover:text-coral lg:text-[min(1.13vw,18px)]">
+                      <a href={`tel:${number.replace(/[^\d+]/g, "")}`} className="inline-flex min-h-11 items-center whitespace-nowrap text-[16px] font-semibold tracking-wide hover:text-coral lg:min-h-0 lg:text-[min(1.13vw,18px)]">
                         {number}
                       </a>
                     </li>
