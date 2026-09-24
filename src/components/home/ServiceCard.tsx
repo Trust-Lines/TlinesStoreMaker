@@ -13,6 +13,8 @@ export interface ServiceCardData {
   textClass: string;
   /** Tailwind bg + text classes for the slanted title ribbon. */
   ribbonClass: string;
+  /** Exact Figma ribbon vector, used as a mask and tinted by ribbonClass. */
+  ribbonShape?: string;
 }
 
 export interface ServiceCardProps {
@@ -54,10 +56,11 @@ export function ServiceCard({
       {/* Ribbon outline is the exact Figma vector, used as a mask so each card
           can tint it with its own ribbon color. */}
       <h3
+        style={card.ribbonShape ? { maskImage: `url(${card.ribbonShape})`, WebkitMaskImage: `url(${card.ribbonShape})` } : undefined}
         className={`relative z-10 -mt-7 flex items-center justify-center px-6 font-accent text-[clamp(1.5rem,2.7vw,2.6rem)] font-bold uppercase leading-none tracking-[0.02em] [mask-repeat:no-repeat] [mask-size:100%_100%] sm:-mt-9 ${card.ribbonClass} ${
           ribbonAlign === "left"
-            ? "-mr-3 ml-2 aspect-[338/67] [mask-image:url(/images/figma/ribbon-service.svg)]"
-            : "-mr-3 ml-[18%] aspect-[464/74] [mask-image:url(/images/figma/ribbon-specialty.svg)]"
+            ? "-mr-4 ml-2 aspect-[412/66] sm:-mr-[11.1%]"
+            : "-mr-4 aspect-[431/69] w-[80%] self-end sm:-mr-[6.4%] sm:w-[69%]"
         }`}
       >
         {card.title}

@@ -21,8 +21,10 @@ const menuItems = [
 export function ReferenceTopBar() {
   const [open, setOpen] = useState(false);
 
+  // Fixed so it stays visible while scrolling; centered and capped to the same
+  // 1592px column as the page. Height matches --header-h in globals.css.
   return (
-    <header className="absolute inset-x-0 top-0 z-50 h-[88px] text-forest sm:h-[120px] lg:h-[min(9.58vw,153px)]">
+    <header className="fixed left-1/2 top-0 z-50 h-[88px] w-full max-w-[1592px] -translate-x-1/2 text-forest sm:h-[120px] lg:h-[min(9.58vw,153px)]">
       {/* Exact Figma top-bar vector (1534 x 147). Rotation/flip from the
           layer transform are already baked into the path. Stretched to the
           viewport width; non-scaling stroke keeps the 3px cream outline crisp. */}
@@ -41,26 +43,25 @@ export function ReferenceTopBar() {
         />
       </svg>
 
-      <div className="relative mx-auto flex h-[72px] w-full items-center justify-between px-6 sm:h-[92px] sm:px-[9.5%] lg:h-[112px]">
+      {/* lg+: Figma placement on the 1592 frame — logo 143px in / 24px down,
+          "Get in touch" 97px from the menu icon, icon 94px from the right edge. */}
+      <div className="relative mx-auto flex h-[72px] w-full items-center justify-between px-6 sm:h-[92px] sm:px-[9.5%] lg:h-auto lg:items-start lg:pl-[9%] lg:pr-[5.15%] lg:pt-[22px]">
         <Link href="/#home" className="flex items-center gap-2 outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest">
           <Image
-            src="/images/figma/header-logo-mark.svg"
-            alt=""
-            width={86}
+            src="/images/figma/topbar-logo.svg"
+            alt="T Lines Store Maker"
+            width={311}
             height={85}
             unoptimized
-            className="h-10 w-auto sm:h-[58px] lg:h-[72px] [filter:brightness(0)_saturate(100%)_invert(23%)_sepia(12%)_saturate(939%)_hue-rotate(99deg)_brightness(91%)]"
+            priority
+            className="h-auto w-[150px] sm:w-[210px] lg:mt-0.5 lg:w-[min(19.5vw,311px)]"
           />
-          <span className="leading-none">
-            <span className="block font-display text-[22px] font-medium tracking-[-0.04em] sm:text-[31px] lg:text-[39px]">T Lines</span>
-            <span className="block text-[9px] font-medium tracking-[0.08em] sm:text-[12px] lg:text-[14px]">STORE MAKER</span>
-          </span>
         </Link>
 
-        <div className="flex items-center gap-4 sm:gap-8">
+        <div className="flex items-center gap-4 sm:gap-8 lg:gap-[min(5.28vw,84px)]">
           <Link
             href="/#contact"
-            className="hidden text-sm font-bold hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest sm:block lg:text-base"
+            className="hidden text-center font-display text-sm font-bold text-forest hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest sm:block lg:text-[min(1.445vw,23px)] lg:leading-[1.0435]"
           >
             Get in touch
           </Link>
@@ -69,16 +70,25 @@ export function ReferenceTopBar() {
             aria-expanded={open}
             aria-controls="responsive-menu"
             onClick={() => setOpen((value) => !value)}
-            className="grid h-11 w-11 place-items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
+            className="relative grid h-11 w-11 place-items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
           >
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
-              {open ? (
-                <path d="M7 7L23 23M23 7L7 23" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-              ) : (
+            {open ? (
+              // Exact Figma close button (coral ribbon + ×, 117 x 67). Centered on
+              // the 44px hit area and allowed to overflow so the row doesn't shift.
+              <Image
+                src="/images/figma/close-button.svg"
+                alt=""
+                width={117}
+                height={67}
+                unoptimized
+                className="pointer-events-none absolute left-1/2 top-1/2 h-auto w-[72px] max-w-none -translate-x-1/2 -translate-y-1/2 sm:w-[90px] lg:w-[min(7.35vw,117px)]"
+              />
+            ) : (
+              <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
                 <path d="M5 8H25M5 15H25M5 22H25" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-              )}
-            </svg>
+              </svg>
+            )}
           </button>
         </div>
       </div>

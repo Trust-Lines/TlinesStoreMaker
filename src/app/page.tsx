@@ -14,6 +14,8 @@ import {
   getStarted,
   homeHero,
   members,
+  projectTiles,
+  projectsLayout,
   serviceCards,
   specialtyCards,
   virtualTours,
@@ -31,7 +33,7 @@ export default function StoreMakerPage() {
         <ServiceCardsSection cards={serviceCards} />
         <BoothBanner {...boothBanner} />
         <SpecialtyCardsSection cards={specialtyCards} />
-        <ProjectsGallery title={featuredProjects.title} photos={featuredProjects.photos} tours={virtualTours} />
+        <ProjectsGallery title={featuredProjects.title} tiles={projectTiles} layout={projectsLayout} tours={virtualTours} />
         <MembersStrip {...members} />
         <GetStartedSection {...getStarted} />
       </main>

@@ -1,27 +1,44 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type TouchEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type TouchEvent } from "react";
 
-export interface ProjectPhoto {
+export interface ProjectTile {
   id: string;
   image: string;
+  /** Exact Figma tile outline, applied as a CSS mask. */
+  mask: string;
   alt: string;
+  /** Design px inside the Figma frame. */
+  x: number;
+  y: number;
+  w: number;
+  h: number;
 }
 
 export interface ProjectsGridProps {
-  photos: ProjectPhoto[];
+  title: string;
+  tiles: ProjectTile[];
+  frame: { w: number; h: number };
+  label: { src: string; x: number; y: number; w: number; h: number };
 }
 
+const pct = (value: number, of: number) => `${(value / of) * 100}%`;
+
 /**
- * Project mosaic. Each photo opens a full-size lightbox (native <dialog>, so
- * focus trapping, Esc-to-close and the backdrop come from the browser) where
- * visitors can switch photos with the arrows, ← / → keys, or a swipe.
+ * Projects mosaic. From lg up every tile sits at its exact Figma position
+ * (percentages of the 1592 x 1091 frame, so it scales with the page); below
+ * lg it falls back to a two-column grid. Each tile opens a lightbox (native
+ * <dialog>) that steps through the unique photos with arrows, ← / →, or swipe.
  */
-export function ProjectsGrid({ photos }: ProjectsGridProps) {
+export function ProjectsGrid({ title, tiles, frame, label }: ProjectsGridProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const touchStartX = useRef<number | null>(null);
   const [active, setActive] = useState<number | null>(null);
+
+  // Several tiles reuse the same photo; the lightbox shows each photo once.
+  const photos = useMemo(() => [...new Map(tiles.map((tile) => [tile.image, tile])).values()], [tiles]);
+  const photoIndex = (tile: ProjectTile) => photos.findIndex((photo) => photo.image === tile.image);
 
   const count = photos.length;
   const go = useCallback(
@@ -60,26 +77,51 @@ export function ProjectsGrid({ photos }: ProjectsGridProps) {
 
   return (
     <>
-      {/* 2 columns on phones, 5 from md: ten photos always fill complete rows. */}
-      <ul className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-5">
-        {photos.map((photo, index) => (
-          <li key={photo.id}>
+      <div
+        className="relative z-10 mx-auto mb-4 aspect-[544/139] w-[min(80%,360px)] lg:absolute lg:left-[var(--lx)] lg:top-[var(--ly)] lg:mb-0 lg:w-[var(--lw)]"
+        style={{
+          "--lx": pct(label.x, frame.w),
+          "--ly": pct(label.y, frame.h),
+          "--lw": pct(label.w, frame.w),
+        } as CSSProperties}
+      >
+        <Image src={label.src} alt="" fill unoptimized />
+        <h2
+          id="projects-heading"
+          className="relative flex h-full items-center justify-center font-accent text-[clamp(1.75rem,3.64vw,58px)] font-bold tracking-[0.25em] text-cream"
+        >
+          {title}
+        </h2>
+      </div>
+
+      <ul className="grid grid-cols-2 gap-2 sm:gap-3 lg:absolute lg:inset-0 lg:block">
+        {tiles.map((tile, index) => (
+          <li
+            key={tile.id}
+            className={`relative lg:absolute lg:left-[var(--x)] lg:top-[var(--y)] lg:h-[var(--h)] lg:w-[var(--w)] lg:aspect-auto ${index === 0 ? "col-span-2 aspect-[510/232]" : "aspect-[4/3]"}`}
+            style={{
+              "--x": pct(tile.x, frame.w),
+              "--y": pct(tile.y, frame.h),
+              "--w": pct(tile.w, frame.w),
+              "--h": pct(tile.h, frame.h),
+            } as CSSProperties}
+          >
             <button
               type="button"
-              onClick={() => setActive(index)}
-              aria-label={`View project photo ${index + 1} of ${count}`}
+              onClick={() => setActive(photoIndex(tile))}
+              aria-label={`View project photo ${photoIndex(tile) + 1} of ${count}`}
               aria-haspopup="dialog"
-              className="group block w-full cursor-zoom-in outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral"
+              className="group block h-full w-full cursor-zoom-in outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream"
             >
               <span
-                className="shape-chamfered relative block aspect-[4/3] overflow-hidden"
-                style={{ "--chamfer": "clamp(10px,2vw,24px)" } as CSSProperties}
+                className="relative block h-full w-full overflow-hidden [mask-repeat:no-repeat] [mask-size:100%_100%]"
+                style={{ maskImage: `url(${tile.mask})`, WebkitMaskImage: `url(${tile.mask})` }}
               >
                 <Image
-                  src={photo.image}
-                  alt={photo.alt}
+                  src={tile.image}
+                  alt={tile.alt}
                   fill
-                  sizes="(min-width: 768px) 20vw, 50vw"
+                  sizes="(min-width: 1024px) 32vw, 50vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </span>
@@ -93,7 +135,6 @@ export function ProjectsGrid({ photos }: ProjectsGridProps) {
         aria-label="Project photos"
         onClose={() => setActive(null)}
         onClick={(event) => {
-          // Clicking the backdrop (the dialog element itself) closes it.
           if (event.target === event.currentTarget) setActive(null);
         }}
         className="m-0 h-dvh max-h-none w-screen max-w-none bg-transparent p-0 backdrop:bg-forest-dark/90"
@@ -143,11 +184,10 @@ export function ProjectsGrid({ photos }: ProjectsGridProps) {
               type="button"
               onClick={() => setActive(null)}
               aria-label="Close"
-              className="absolute right-3 top-3 grid h-11 w-11 place-items-center rounded-full bg-cream text-forest transition-colors hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream sm:right-6 sm:top-6"
+              className="absolute right-3 top-3 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream sm:right-6 sm:top-6"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-              </svg>
+              {/* Exact Figma close button (coral ribbon + ×), 117 x 67. */}
+              <Image src="/images/figma/close-button.svg" alt="" width={117} height={67} unoptimized className="h-auto w-[88px] sm:w-[117px]" />
             </button>
           </div>
         ) : null}

@@ -39,6 +39,7 @@ export const serviceCards = [
     bgClass: "bg-gold",
     textClass: "text-sage-dark",
     ribbonClass: "bg-coral text-gold",
+    ribbonShape: "/images/figma/ribbon-card-coral.svg",
   },
   {
     id: "truck-stops",
@@ -49,6 +50,7 @@ export const serviceCards = [
     bgClass: "bg-coral",
     textClass: "text-cream",
     ribbonClass: "bg-sage-dark text-cream",
+    ribbonShape: "/images/figma/ribbon-card-green.svg",
   },
   {
     id: "grocery",
@@ -59,6 +61,7 @@ export const serviceCards = [
     bgClass: "bg-sage-dark",
     textClass: "text-cream",
     ribbonClass: "bg-sage text-cream",
+    ribbonShape: "/images/figma/ribbon-card-green.svg",
   },
 ];
 
@@ -72,6 +75,7 @@ export const specialtyCards = [
     bgClass: "bg-forest",
     textClass: "text-cream",
     ribbonClass: "bg-coral text-cream",
+    ribbonShape: "/images/figma/ribbon-specialty-coral.svg",
   },
   {
     id: "management",
@@ -82,6 +86,7 @@ export const specialtyCards = [
     bgClass: "bg-sage-dark",
     textClass: "text-cream",
     ribbonClass: "bg-coral text-cream",
+    ribbonShape: "/images/figma/ribbon-specialty-coral.svg",
   },
 ];
 
@@ -180,6 +185,38 @@ export const featuredProjects = {
       alt: "Completed retail interior project",
     })),
   ],
+};
+
+const tileDir = "/images/figma/projects";
+
+/**
+ * Projects mosaic tiles from the Figma "Projects" frame (1592 x 1091).
+ * x / y / w / h are design px inside that frame; `mask` is the tile's exact
+ * outline, `image` its photo (cover-cropped, as in Figma).
+ * Tiles marked `placeholderShape` weren't in the Figma export: they borrow the
+ * nearest tile outline until the real vectors are provided.
+ */
+export const projectTiles = [
+  { id: "cstore-soda", image: `${tileDir}/rectangle-4396.webp`, mask: `${tileDir}/rectangle-4396-mask.svg`, x: 0, y: 21, w: 510, h: 232 },
+  { id: "relax", image: `${tileDir}/rectangle-4403.webp`, mask: `${tileDir}/rectangle-4403-mask.svg`, x: 525, y: 21, w: 271, h: 286 },
+  { id: "seating", image: "/images/figma/card-truck-stops.webp", mask: `${tileDir}/rectangle-4406-mask.svg`, x: 808, y: 21, w: 258, h: 288, placeholderShape: true },
+  { id: "shelving", image: `${tileDir}/rectangle-4397.webp`, mask: `${tileDir}/rectangle-4397-mask.svg`, x: 1080, y: 21, w: 274, h: 232 },
+  { id: "pretzel-1", image: `${tileDir}/rectangle-4400.webp`, mask: `${tileDir}/rectangle-4400-mask.svg`, x: 1367, y: 21, w: 225, h: 232 },
+  { id: "speedy", image: `${tileDir}/vector-1.webp`, mask: `${tileDir}/vector-1-mask.svg`, x: 0, y: 266, w: 251, h: 250 },
+  { id: "pretzel-2", image: `${tileDir}/rectangle-4400.webp`, mask: `${tileDir}/vector-mask.svg`, x: 264, y: 266, w: 245, h: 250 },
+  { id: "slushie", image: `${tileDir}/rectangle-4401.webp`, mask: `${tileDir}/rectangle-4401-mask.svg`, x: 1082, y: 266, w: 510, h: 251 },
+  { id: "tikka", image: `${tileDir}/rectangle-4399.webp`, mask: `${tileDir}/rectangle-4399-mask.svg`, x: 0, y: 531, w: 509, h: 232 },
+  { id: "welcome", image: "/images/figma/project-grid-02.webp", mask: `${tileDir}/rectangle-4403-mask.svg`, x: 525, y: 464, w: 271, h: 300, placeholderShape: true },
+  { id: "prince-market", image: `${tileDir}/rectangle-4406.webp`, mask: `${tileDir}/rectangle-4406-mask.svg`, x: 808, y: 449, w: 260, h: 315 },
+  { id: "checkout", image: `${tileDir}/rectangle-4398.webp`, mask: `${tileDir}/rectangle-4398-mask.svg`, x: 1080, y: 531, w: 274, h: 232 },
+  { id: "pretzel-3", image: `${tileDir}/rectangle-4400.webp`, mask: `${tileDir}/rectangle-4402-mask.svg`, x: 1367, y: 531, w: 225, h: 232 },
+].map((tile) => ({ ...tile, alt: "Completed T Lines retail project" }));
+
+export const projectsLayout = {
+  frame: { w: 1592, h: 1091 },
+  label: { src: `${tileDir}/projects-label.svg`, x: 525, y: 314, w: 544, h: 139 },
+  tourBar: { y: 781, h: 68 },
+  tours: { y: 867, h: 203, tileW: 362, gap: 13, offsetX: -127 },
 };
 
 export const contactCTAs = [

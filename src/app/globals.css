@@ -61,6 +61,32 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Height of the fixed top bar (ReferenceTopBar). In-page anchors land just
+   below it instead of underneath it; cards get a little extra breathing room. */
+:root {
+  --header-h: 88px;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --header-h: 120px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-h: min(9.58vw, 153px);
+  }
+}
+
+section[id] {
+  scroll-margin-top: var(--header-h);
+}
+
+li[id] {
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+
 @keyframes brand-marquee-scroll {
   from {
     transform: translate3d(0, 0, 0);
