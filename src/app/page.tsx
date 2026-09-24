@@ -21,7 +21,10 @@ import {
 
 export default function StoreMakerPage() {
   return (
-    <>
+    // Boxed layout: the whole site is a centered column capped at the Figma
+    // frame width (1592px). Wider screens / zoomed-out views get cream margins
+    // instead of stretching every section edge to edge.
+    <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
       <main className="relative bg-cream pb-3 md:pb-6">
         <ReferenceTopBar />
         <HomeHero {...homeHero} />
@@ -33,6 +36,6 @@ export default function StoreMakerPage() {
         <GetStartedSection {...getStarted} />
       </main>
       <SiteFooter {...footer} />
-    </>
+    </div>
   );
 }

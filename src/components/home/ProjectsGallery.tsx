@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { ProjectsGrid, type ProjectPhoto } from "./ProjectsGrid";
 
 export interface ProjectsGalleryProps {
   title: string;
-  photos: { id: string; image: string; alt: string }[];
+  photos: ProjectPhoto[];
   tours: {
     heading: string;
     tours: { id: string; title: string; image: string; href: string }[];
@@ -13,7 +14,7 @@ export interface ProjectsGalleryProps {
 
 export function ProjectsGallery({ title, photos, tours }: ProjectsGalleryProps) {
   return (
-    <section aria-labelledby="projects-heading" className="bg-cream py-12 md:pb-20 md:pt-16">
+    <section id="projects" aria-labelledby="projects-heading" className="bg-cream py-12 md:pb-20 md:pt-16">
       <div className="mx-auto max-w-[1592px] px-4 sm:px-6 lg:px-0">
         <h2
           id="projects-heading"
@@ -23,24 +24,7 @@ export function ProjectsGallery({ title, photos, tours }: ProjectsGalleryProps) 
           {title}
         </h2>
 
-        {/* 2 columns on phones, 5 from md: ten photos always fill complete rows. */}
-        <ul className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-5">
-          {photos.map((photo) => (
-            <li
-              key={photo.id}
-              className="shape-chamfered relative aspect-[4/3] overflow-hidden"
-              style={{ "--chamfer": "clamp(10px,2vw,24px)" } as CSSProperties}
-            >
-              <Image
-                src={photo.image}
-                alt={photo.alt}
-                fill
-                sizes="(min-width: 768px) 20vw, 50vw"
-                className="object-cover"
-              />
-            </li>
-          ))}
-        </ul>
+        <ProjectsGrid photos={photos} />
       </div>
 
       <p className="mt-8 bg-sage px-6 py-4 text-center font-display text-[clamp(1.15rem,2vw,1.9rem)] font-bold text-forest md:mt-10 md:py-5">

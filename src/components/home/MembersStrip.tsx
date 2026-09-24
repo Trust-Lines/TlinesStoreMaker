@@ -8,7 +8,7 @@ export interface MembersStripProps {
 
 export function MembersStrip({ heading, strip, alt }: MembersStripProps) {
   return (
-    <section aria-labelledby="members-heading" className="bg-cream py-12 md:py-20">
+    <section id="members" aria-labelledby="members-heading" className="bg-cream py-12 md:py-20">
       <h2 id="members-heading" className="text-center font-display text-[clamp(1.5rem,2.1vw,2rem)] font-bold text-forest">
         {heading}
       </h2>

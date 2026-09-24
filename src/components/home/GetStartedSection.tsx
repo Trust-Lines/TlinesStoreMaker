@@ -13,7 +13,7 @@ export interface GetStartedSectionProps {
 
 export function GetStartedSection({ primary, secondary }: GetStartedSectionProps) {
   return (
-    <section aria-label="Contact" className="grid bg-sage-dark text-cream md:grid-cols-[minmax(0,1.95fr)_minmax(0,1fr)]">
+    <section id="contact" aria-label="Contact" className="grid bg-sage-dark text-cream md:grid-cols-[minmax(0,1.95fr)_minmax(0,1fr)]">
       <div className="bg-forest px-6 py-12 sm:px-10 md:py-[clamp(3rem,6vw,5.5rem)] md:pl-[21%] md:pr-12 md:[clip-path:polygon(0_0,92%_0,100%_12%,100%_82%,93%_100%,0_100%)]">
         <h2 className="font-display text-[clamp(1.6rem,2.3vw,2.25rem)] font-medium">{primary.title}</h2>
         <p className="mt-3 max-w-[30rem] text-[clamp(1rem,1.3vw,1.25rem)] font-light leading-snug text-cream/90">{primary.description}</p>

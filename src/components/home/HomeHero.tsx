@@ -16,7 +16,7 @@ export interface HomeHeroProps {
  */
 export function HomeHero({ heading, backgroundImage, imageAlt, action, partnerStrip }: HomeHeroProps) {
   return (
-    <section aria-labelledby="home-hero-heading" className="relative isolate bg-forest">
+    <section id="home" aria-labelledby="home-hero-heading" className="relative isolate bg-forest">
       <div className="relative h-[min(100svh,640px)] min-h-[480px] w-full sm:aspect-[1592/923] sm:h-auto sm:min-h-0">
         <Image
           src={backgroundImage}

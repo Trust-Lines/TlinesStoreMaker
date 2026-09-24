@@ -41,7 +41,7 @@ export function BoothBanner({
   });
 
   return (
-    <section aria-label={`${exhibitorLine} ${showName}, booth ${boothNumber}`} className="my-6 md:my-12">
+    <section id="nacs" aria-label={`${exhibitorLine} ${showName}, booth ${boothNumber}`} className="my-6 md:my-12">
       <Link
         href={action.href}
         aria-label={`${action.label}: ${adAlt}`}

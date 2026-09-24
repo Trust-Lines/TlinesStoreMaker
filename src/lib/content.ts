@@ -1,16 +1,16 @@
 // Content for the homepage, matching the Tlines Figma frame (node 16:605).
 
 export const navItems = [
-  { id: "home", label: "Home", href: "/" },
-  { id: "work", label: "Work", href: "/work" },
+  { id: "home", label: "Home", href: "/#home" },
+  { id: "work", label: "Work", href: "/#projects" },
   { id: "news", label: "News", href: "/news" },
   { id: "about", label: "About us", href: "/about" },
 ];
 
-export const contactAction = { label: "Get in touch", href: "/contact" };
-export const startProjectAction = { label: "Start Your Project", href: "/contact" };
+export const contactAction = { label: "Get in touch", href: "/#contact" };
+export const startProjectAction = { label: "Start Your Project", href: "/#contact" };
 
-export const logo = { src: "/images/figma/header-logo-mark.svg", alt: "Tlines", href: "/" };
+export const logo = { src: "/images/figma/header-logo-mark.svg", alt: "Tlines", href: "/#home" };
 
 export const hero = {
   eyebrow: "STEP 01",
@@ -33,7 +33,7 @@ export const serviceCards = [
   {
     id: "c-store",
     title: "C-store",
-    href: "/services/c-store",
+    href: "/#contact",
     image: "/images/figma/project-grid-08.webp",
     bullets: serviceBullets,
     bgClass: "bg-gold",
@@ -43,7 +43,7 @@ export const serviceCards = [
   {
     id: "truck-stops",
     title: "Truck stops",
-    href: "/services/truck-stops",
+    href: "/#contact",
     image: "/images/figma/project-grid-03.webp",
     bullets: serviceBullets,
     bgClass: "bg-coral",
@@ -53,7 +53,7 @@ export const serviceCards = [
   {
     id: "grocery",
     title: "Grocery",
-    href: "/services/grocery",
+    href: "/#contact",
     image: "/images/figma/card-grocery.webp",
     bullets: serviceBullets,
     bgClass: "bg-sage-dark",
@@ -66,7 +66,7 @@ export const specialtyCards = [
   {
     id: "branding",
     title: "Branding",
-    href: "/services/branding",
+    href: "/#contact",
     image: "/images/figma/card-grocery.webp",
     bullets: serviceBullets,
     bgClass: "bg-forest",
@@ -76,7 +76,7 @@ export const specialtyCards = [
   {
     id: "management",
     title: "Management",
-    href: "/services/management",
+    href: "/#contact",
     image: "/images/figma/card-grocery.webp",
     bullets: serviceBullets,
     bgClass: "bg-sage-dark",
@@ -95,7 +95,7 @@ export const boothBanner = {
   stillAd: "/images/figma/nacs-banner-still.png",
   adAlt:
     "T Lines Store Maker, booth N3276, official exhibitor at NACS Show 2026. C-store solutions: claim your free design proposal.",
-  action: { label: "Explore More", href: "/contact" },
+  action: { label: "Explore More", href: "/#contact" },
 };
 
 export const virtualTours = {
@@ -123,7 +123,7 @@ export const getStarted = {
   secondary: {
     title: "Still not sure?",
     description: "Feel free to contact us if you have any questions.",
-    action: { label: "Contact us", href: contactAction.href },
+    action: { label: "Contact us", href: "/contact" },
   },
 };
 
@@ -208,8 +208,8 @@ export const footer = {
       id: "menu",
       heading: "Menu",
       links: [
-        { id: "home", label: "Home", href: "/" },
-        { id: "work", label: "Work", href: "/work" },
+        { id: "home", label: "Home", href: "/#home" },
+        { id: "work", label: "Work", href: "/#projects" },
         { id: "news", label: "News", href: "/news" },
         { id: "about", label: "About us", href: "/about" },
       ],
@@ -227,8 +227,8 @@ export const footer = {
       id: "work",
       heading: "Work",
       links: [
-        { id: "project", label: "Project", href: "/work/project" },
-        { id: "services", label: "Services", href: "/services" },
+        { id: "project", label: "Project", href: "/#projects" },
+        { id: "services", label: "Services", href: "/#services" },
         { id: "designs", label: "Designs", href: "/work/designs" },
       ],
     },
