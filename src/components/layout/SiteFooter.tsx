@@ -42,7 +42,7 @@ export function SiteFooter({
   copyright,
 }: SiteFooterProps) {
   return (
-    <footer id="footer-navigation" className="relative isolate mt-auto overflow-hidden bg-forest text-cream lg:min-h-[636px]">
+    <footer id="footer-navigation" className="relative isolate mt-auto overflow-hidden bg-forest text-cream">
       <div aria-hidden className="pointer-events-none absolute right-[12%] top-[-30%] -z-10 aspect-[516.194/421.689] w-[32.42%] rotate-180">
         <Image src="/images/figma/footer-outline-nest.svg" alt="" fill unoptimized className="h-full w-full" />
       </div>
@@ -50,7 +50,7 @@ export function SiteFooter({
         <Image src="/images/figma/footer-outline-nest.svg" alt="" fill unoptimized className="h-full w-full" />
       </div>
 
-      <div className="mx-auto flex min-h-full w-full max-w-[1592px] flex-col px-6 pb-8 pt-12 sm:px-8 sm:pb-10 sm:pt-16 md:px-[8%] md:pb-[38px] md:pt-[78px]">
+      <div className="mx-auto flex w-full max-w-[1592px] flex-col px-6 pb-8 pt-12 sm:px-8 sm:pb-10 sm:pt-14 md:px-[8%] md:pb-[32px] md:pt-[48px]">
         <div className="grid gap-12 lg:grid-cols-[310px_1fr] lg:gap-[90px]">
           <div>
             <Link href={logo.href} className="flex w-fit items-center gap-2">
@@ -102,7 +102,7 @@ export function SiteFooter({
           </div>
         </div>
 
-        <div className="mt-[48px] grid gap-10 lg:grid-cols-[310px_1fr] lg:gap-[90px]">
+        <div className="mt-8 grid gap-10 lg:grid-cols-[310px_1fr] lg:gap-[90px]">
           <div>
             <p className="text-[16px] font-medium">{followLabel}</p>
             <div className="mt-3 flex items-center gap-[8px]">
@@ -150,7 +150,7 @@ export function SiteFooter({
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-start gap-2 text-[13px] text-muted-green sm:flex-row sm:items-center sm:justify-between lg:mt-auto">
+        <div className="mt-8 flex flex-col items-start gap-2 text-[13px] text-muted-green sm:flex-row sm:items-center sm:justify-between">
           <p>{copyright}</p>
         </div>
       </div>
