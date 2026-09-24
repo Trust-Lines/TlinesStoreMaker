@@ -117,11 +117,15 @@ li[id] {
   }
 }
 
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-display), "Segoe UI", sans-serif;
+/* In the base layer so utility classes (e.g. font-accent on a heading) can
+   override it — unlayered rules would beat every Tailwind utility. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), "Segoe UI", sans-serif;
+  }
 }
 
 /* Shape variants for decorative media/cards. Applied only to clipped media
@@ -218,4 +222,24 @@ h4 {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Side nav drawer (ReferenceTopBar): slides in from the right when opened. */
+@keyframes side-nav-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+dialog.side-nav[open] {
+  animation: side-nav-in 0.28s ease-out;
+}
+
+/* Lock page scroll while any modal (side nav, photo lightbox) is open. */
+html:has(dialog[open]) {
+  overflow: hidden;
 }

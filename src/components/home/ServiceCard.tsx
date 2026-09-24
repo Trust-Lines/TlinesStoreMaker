@@ -15,6 +15,8 @@ export interface ServiceCardData {
   ribbonClass: string;
   /** Exact Figma ribbon vector, used as a mask and tinted by ribbonClass. */
   ribbonShape?: string;
+  /** Exact Figma card outline; masks the card background instead of the CSS chamfer. */
+  cardShape?: string;
 }
 
 export interface ServiceCardProps {
@@ -42,8 +44,12 @@ export function ServiceCard({
     >
       <div
         aria-hidden
-        className={`shape-chamfered absolute inset-0 -z-10 ${card.bgClass}`}
-        style={{ "--chamfer": "14px" } as CSSProperties}
+        className={`absolute inset-0 -z-10 ${card.bgClass} ${card.cardShape ? "[mask-repeat:no-repeat] [mask-size:100%_100%]" : "shape-chamfered"}`}
+        style={
+          card.cardShape
+            ? { maskImage: `url(${card.cardShape})`, WebkitMaskImage: `url(${card.cardShape})` }
+            : ({ "--chamfer": "14px" } as CSSProperties)
+        }
       />
 
       <div
@@ -57,7 +63,7 @@ export function ServiceCard({
           can tint it with its own ribbon color. */}
       <h3
         style={card.ribbonShape ? { maskImage: `url(${card.ribbonShape})`, WebkitMaskImage: `url(${card.ribbonShape})` } : undefined}
-        className={`relative z-10 -mt-7 flex items-center justify-center px-6 font-accent text-[clamp(1.5rem,2.7vw,2.6rem)] font-bold uppercase leading-none tracking-[0.02em] [mask-repeat:no-repeat] [mask-size:100%_100%] sm:-mt-9 ${card.ribbonClass} ${
+        className={`relative z-10 -mt-7 flex items-center justify-center px-6 text-center font-accent text-[clamp(1.5rem,2.7vw,2.6rem)] font-bold uppercase leading-none lg:text-[min(2.513vw,40px)] lg:leading-[1.2] [mask-repeat:no-repeat] [mask-size:100%_100%] sm:-mt-9 ${card.ribbonClass} ${
           ribbonAlign === "left"
             ? "-mr-4 ml-2 aspect-[412/66] sm:-mr-[11.1%]"
             : "-mr-4 aspect-[431/69] w-[80%] self-end sm:-mr-[6.4%] sm:w-[69%]"
@@ -66,7 +72,8 @@ export function ServiceCard({
         {card.title}
       </h3>
 
-      <ul className="mt-5 list-none space-y-0.5 px-8 text-[clamp(0.95rem,1.2vw,1.15rem)] leading-snug sm:px-[12%]">
+      {/* Figma subtitle: Montserrat 22/24, regular. */}
+      <ul className="mt-5 list-none space-y-0.5 px-8 font-display text-[clamp(0.95rem,1.2vw,1.15rem)] font-normal leading-snug sm:px-[12%] lg:text-[min(1.382vw,22px)] lg:leading-[1.0909]">
         {card.bullets.map((bullet) => (
           <li key={bullet} className="relative pl-4 before:absolute before:left-0 before:content-['•']">
             {bullet}

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const menuItems = [
   { label: "Home", href: "/#home" },
@@ -20,10 +20,19 @@ const menuItems = [
 
 export function ReferenceTopBar() {
   const [open, setOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (open && !dialog.open) dialog.showModal();
+    if (!open && dialog.open) dialog.close();
+  }, [open]);
 
   // Fixed so it stays visible while scrolling; centered and capped to the same
   // 1592px column as the page. Height matches --header-h in globals.css.
   return (
+    <>
     <header className="fixed left-1/2 top-0 z-50 h-[88px] w-full max-w-[1592px] -translate-x-1/2 text-forest sm:h-[120px] lg:h-[min(9.58vw,153px)]">
       {/* Exact Figma top-bar vector (1534 x 147). Rotation/flip from the
           layer transform are already baked into the path. Stretched to the
@@ -68,52 +77,71 @@ export function ReferenceTopBar() {
           <button
             type="button"
             aria-expanded={open}
-            aria-controls="responsive-menu"
-            onClick={() => setOpen((value) => !value)}
-            className="relative grid h-11 w-11 place-items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
+            aria-controls="side-nav"
+            aria-haspopup="dialog"
+            onClick={() => setOpen(true)}
+            className="grid h-11 w-11 place-items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
           >
-            <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-            {open ? (
-              // Exact Figma close button (coral ribbon + ×, 117 x 67). Centered on
-              // the 44px hit area and allowed to overflow so the row doesn't shift.
-              <Image
-                src="/images/figma/close-button.svg"
-                alt=""
-                width={117}
-                height={67}
-                unoptimized
-                className="pointer-events-none absolute left-1/2 top-1/2 h-auto w-[72px] max-w-none -translate-x-1/2 -translate-y-1/2 sm:w-[90px] lg:w-[min(7.35vw,117px)]"
-              />
-            ) : (
-              <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
-                <path d="M5 8H25M5 15H25M5 22H25" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-              </svg>
-            )}
+            <span className="sr-only">Open menu</span>
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+              <path d="M5 8H25M5 15H25M5 22H25" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+            </svg>
           </button>
         </div>
       </div>
+    </header>
 
-      {open ? (
-        <nav
-          id="responsive-menu"
-          aria-label="Primary navigation"
-          className="absolute right-4 top-[68px] w-[min(280px,calc(100vw-32px))] rounded-xl bg-forest p-4 text-cream shadow-2xl sm:right-[7%] sm:top-[88px] lg:top-[104px]"
+    {/* Side nav drawer: a modal <dialog> (focus trap, Esc, inert page) pinned to
+        the right edge, full height, over a dimmed page. Rendered outside the
+        header because the header's transform would otherwise become the
+        containing block for this fixed-position panel. */}
+    <dialog
+      ref={dialogRef}
+      id="side-nav"
+      aria-label="Site navigation"
+      onClose={() => setOpen(false)}
+      onClick={(event) => {
+        // Clicking the dimmed backdrop (outside the panel) closes the drawer.
+        if (event.target === event.currentTarget) setOpen(false);
+      }}
+      className="side-nav m-0 ml-auto h-dvh max-h-none w-[min(420px,max(60vw,240px))] max-w-none bg-forest p-0 text-cream backdrop:bg-forest-dark/60"
+    >
+      <div className="flex h-full flex-col overflow-y-auto overscroll-contain px-[14%] pb-10 pt-5">
+        <button
+          type="button"
+          onClick={() => setOpen(false)}
+          className="-mr-3 self-end grid h-12 w-12 place-items-center rounded-md hover:bg-cream/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream"
         >
-          <ul className="max-h-[calc(100dvh-120px)] space-y-0.5 overflow-y-auto overscroll-contain">
-            {menuItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className={`block rounded-lg hover:bg-cream/10 ${"sub" in item ? "py-2 pl-8 pr-4 text-sm font-medium text-cream/85" : "px-4 py-3 font-semibold"} focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream`}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+          <span className="sr-only">Close menu</span>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </button>
+
+        <nav aria-label="Primary navigation" className="mt-4">
+          <ul className="flex flex-col">
+            {menuItems.map((item) => {
+              const sub = "sub" in item;
+              return (
+                <li key={item.href} className={sub ? "" : "mt-3 first:mt-0"}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    className={`block rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream ${
+                      sub
+                        ? "py-1.5 pl-[1.6em] font-sans text-[clamp(1rem,4.2vw,1.3rem)] font-normal text-cream/90 hover:text-gold"
+                        : "py-2 font-display text-[clamp(1.25rem,5.2vw,1.75rem)] font-bold hover:text-gold"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
-      ) : null}
-    </header>
+      </div>
+    </dialog>
+    </>
   );
 }

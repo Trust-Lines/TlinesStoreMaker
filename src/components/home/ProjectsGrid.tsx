@@ -88,7 +88,7 @@ export function ProjectsGrid({ title, tiles, frame, label }: ProjectsGridProps) 
         <Image src={label.src} alt="" fill unoptimized />
         <h2
           id="projects-heading"
-          className="relative flex h-full items-center justify-center font-accent text-[clamp(1.75rem,3.64vw,58px)] font-bold tracking-[0.25em] text-cream"
+          className="relative flex h-full items-center justify-center font-accent text-[clamp(1.75rem,3.769vw,60px)] font-bold leading-[0.8] tracking-[0.3em] text-cream"
         >
           {title}
         </h2>

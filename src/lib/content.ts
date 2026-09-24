@@ -24,7 +24,12 @@ export const homeHero = {
   backgroundImage: "/images/figma/hero-photo.png",
   imageAlt: "T Lines mascot planning a store layout at a drafting table",
   action: startProjectAction,
-  partnerStrip: "/images/figma/homepage-partner-strip.png",
+  clients: {
+    src: "/images/figma/clients/clients-strip.svg",
+    width: 1705,
+    height: 50,
+    names: ["TA (TravelCenters of America)", "Prince Market", "Pilot", "Teddy’s Market", "Speedy", "Brew", "Chestnut Market"],
+  },
 };
 
 const serviceBullets = ["Bring your project,", "Start with a complimentary initial store design."];
@@ -40,6 +45,7 @@ export const serviceCards = [
     textClass: "text-sage-dark",
     ribbonClass: "bg-coral text-gold",
     ribbonShape: "/images/figma/ribbon-card-coral.svg",
+    cardShape: "/images/figma/card-cstore.svg",
   },
   {
     id: "truck-stops",
@@ -51,6 +57,7 @@ export const serviceCards = [
     textClass: "text-cream",
     ribbonClass: "bg-sage-dark text-cream",
     ribbonShape: "/images/figma/ribbon-card-green.svg",
+    cardShape: "/images/figma/card-truck-stops.svg",
   },
   {
     id: "grocery",
@@ -62,6 +69,7 @@ export const serviceCards = [
     textClass: "text-cream",
     ribbonClass: "bg-sage text-cream",
     ribbonShape: "/images/figma/ribbon-card-green.svg",
+    cardShape: "/images/figma/card-grocery.svg",
   },
 ];
 
@@ -76,6 +84,7 @@ export const specialtyCards = [
     textClass: "text-cream",
     ribbonClass: "bg-coral text-cream",
     ribbonShape: "/images/figma/ribbon-specialty-coral.svg",
+    cardShape: "/images/figma/card-branding.svg",
   },
   {
     id: "management",
@@ -87,6 +96,7 @@ export const specialtyCards = [
     textClass: "text-cream",
     ribbonClass: "bg-coral text-cream",
     ribbonShape: "/images/figma/ribbon-specialty-coral.svg",
+    cardShape: "/images/figma/card-management.svg",
   },
 ];
 

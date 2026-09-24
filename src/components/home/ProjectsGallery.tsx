@@ -42,7 +42,7 @@ export function ProjectsGallery({ title, tiles, layout, tours }: ProjectsGallery
       >
         <ProjectsGrid title={title} tiles={tiles} frame={frame} label={layout.label} />
 
-        <p className="-mx-4 mt-8 flex items-center justify-center bg-forest px-6 py-4 text-center font-display text-[clamp(1.1rem,1.63vw,26px)] font-bold text-cream sm:-mx-6 lg:absolute lg:inset-x-0 lg:top-[var(--bar-y)] lg:mx-0 lg:mt-0 lg:h-[var(--bar-h)] lg:py-0">
+        <p className="-mx-4 mt-8 flex items-center justify-center bg-forest px-6 py-4 text-center font-display text-[clamp(1.1rem,1.884vw,30px)] font-bold text-cream lg:leading-[1.6] sm:-mx-6 lg:absolute lg:inset-x-0 lg:top-[var(--bar-y)] lg:mx-0 lg:mt-0 lg:h-[var(--bar-h)] lg:py-0">
           {tours.heading}
         </p>
 
