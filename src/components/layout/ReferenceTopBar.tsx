@@ -53,8 +53,9 @@ export function ReferenceTopBar() {
       </svg>
 
       {/* lg+: Figma placement on the 1592 frame — logo 143px in / 24px down,
-          "Get in touch" 97px from the menu icon, icon 94px from the right edge. */}
-      <div className="relative mx-auto flex h-[72px] w-full items-center justify-between px-6 sm:h-[92px] sm:px-[9.5%] lg:h-auto lg:items-start lg:pl-[9%] lg:pr-[5.15%] lg:pt-[22px]">
+          "Get in touch" 97px from the menu bars, 51px menu icon (Group 382)
+          101.3px from the right edge, centred ~44px down. */}
+      <div className="relative mx-auto flex h-[72px] w-full items-center justify-between px-6 sm:h-[92px] sm:px-[9.5%] lg:h-auto lg:items-start lg:pl-[9%] lg:pr-[6.363%] lg:pt-[22px]">
         <Link href="/#home" className="flex items-center gap-2 outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest">
           <Image
             src="/images/figma/topbar-logo.svg"
@@ -67,7 +68,7 @@ export function ReferenceTopBar() {
           />
         </Link>
 
-        <div className="flex items-center gap-4 sm:gap-8 lg:gap-[min(5.28vw,84px)]">
+        <div className="flex items-center gap-4 sm:gap-8 lg:-mt-[min(0.22vw,3.5px)] lg:gap-[min(5.69vw,90.6px)]">
           <Link
             href="/#contact"
             className="hidden text-center font-display text-sm font-bold text-forest hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest sm:block lg:text-[min(1.445vw,23px)] lg:leading-[1.0435]"
@@ -80,12 +81,11 @@ export function ReferenceTopBar() {
             aria-controls="side-nav"
             aria-haspopup="dialog"
             onClick={() => setOpen(true)}
-            className="grid h-11 w-11 place-items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
+            className="grid h-11 w-11 place-items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest sm:h-[51px] sm:w-[51px] lg:h-[min(3.2vw,51px)] lg:w-[min(3.2vw,51px)]"
           >
             <span className="sr-only">Open menu</span>
-            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
-              <path d="M5 8H25M5 15H25M5 22H25" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-            </svg>
+            {/* Exact Figma menu icon (51 x 51). */}
+            <Image src="/images/figma/menu-icon.svg" alt="" width={51} height={51} unoptimized className="h-full w-full" />
           </button>
         </div>
       </div>
