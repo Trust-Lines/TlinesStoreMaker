@@ -4,9 +4,11 @@ export interface MembersStripProps {
   heading: string;
   strip: string;
   alt: string;
+  /** Tailwind bg class for the strip. Defaults to gold. */
+  bgClass?: string;
 }
 
-export function MembersStrip({ heading, strip, alt }: MembersStripProps) {
+export function MembersStrip({ heading, strip, alt, bgClass = "bg-gold" }: MembersStripProps) {
   return (
     <section id="members" aria-labelledby="members-heading" className="bg-cream py-8 md:py-10 lg:pb-[2.01%] lg:pt-[2.32%]">
       <h2 id="members-heading" className="sr-only">
@@ -17,7 +19,7 @@ export function MembersStrip({ heading, strip, alt }: MembersStripProps) {
           under the Projects frame (heading kept for screen readers only); 32px
           down to the "Let's Get Started" band. Fixed-height strip at native aspect so logos
           stay legible on phones. */}
-      <div aria-hidden className="brand-marquee overflow-hidden bg-gold">
+      <div aria-hidden className={`brand-marquee overflow-hidden ${bgClass}`}>
         <div className="brand-marquee-track flex w-max">
           {[0, 1].map((copy) => (
             <Image

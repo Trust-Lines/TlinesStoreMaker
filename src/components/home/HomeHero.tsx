@@ -8,6 +8,8 @@ export interface HomeHeroProps {
   action: { label: string; href: string };
   /** Client logo strip exported from Figma, plus the client names for screen readers. */
   clients: { src: string; width: number; height: number; names: string[] };
+  /** Tailwind bg class for the client-strip bar. Defaults to sage-dark. */
+  stripBgClass?: string;
 }
 
 /**
@@ -15,7 +17,7 @@ export interface HomeHeroProps {
  * a tall fixed-ish height so the copy never collides with the header; from sm
  * up it follows the Figma frame ratio (1592 x 923).
  */
-export function HomeHero({ heading, backgroundImage, imageAlt, action, clients }: HomeHeroProps) {
+export function HomeHero({ heading, backgroundImage, imageAlt, action, clients, stripBgClass = "bg-sage-dark" }: HomeHeroProps) {
   return (
     <section id="home" aria-labelledby="home-hero-heading" className="relative isolate bg-forest">
       <div className="relative h-[min(100svh,640px)] min-h-[480px] w-full sm:aspect-[1592/923] sm:h-auto sm:min-h-0">
@@ -59,7 +61,7 @@ export function HomeHero({ heading, backgroundImage, imageAlt, action, clients }
           apart with no end margins, so each copy gets one 142px gap after it to
           keep the loop seamless. Sized via --strip-h so it scales per breakpoint. */}
       <p className="sr-only">Clients: {clients.names.join(", ")}</p>
-      <div aria-hidden className="brand-marquee overflow-hidden bg-sage-dark">
+      <div aria-hidden className={`brand-marquee overflow-hidden ${stripBgClass}`}>
         <div className="brand-marquee-track flex h-[var(--strip-h)] w-max items-center [--strip-h:44px] sm:[--strip-h:56px] lg:[--strip-h:80px]">
           {[0, 1].map((copy) => (
             <Image

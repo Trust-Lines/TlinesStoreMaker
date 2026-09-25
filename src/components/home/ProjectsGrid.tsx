@@ -30,6 +30,10 @@ export interface ProjectsGridProps {
   tiles: ProjectTile[];
   frame: { w: number; h: number };
   label: { src: string; x: number; y: number; w: number; h: number };
+  /** Tailwind text class for the label text. Defaults to cream. */
+  labelTextClass?: string;
+  /** Tailwind bg class for a placeholder tile with no image. Defaults to forest. */
+  placeholderClass?: string;
   /** Below-lg layout: rows of tile ids ("Project Mobile" frame). */
   mobileRows: MobileTileRef[][];
   /** Where every photo tile (and the label) leads: the full Projects gallery. */
@@ -48,7 +52,16 @@ const maskStyle = (mask?: string): CSSProperties | undefined =>
  * alternate one wide tile and a pair; tiles in a row share one height (each
  * grows by its w/h ratio) so the pre-shaped photos never distort.
  */
-export function ProjectsGrid({ title, tiles, frame, label, mobileRows, href }: ProjectsGridProps) {
+export function ProjectsGrid({
+  title,
+  tiles,
+  frame,
+  label,
+  labelTextClass = "text-cream",
+  placeholderClass = "bg-forest",
+  mobileRows,
+  href,
+}: ProjectsGridProps) {
   const byId = new Map(tiles.map((tile) => [tile.id, tile]));
 
   const tileLink = (tile: ProjectTile, mask: string | undefined, sizes: string) => (
@@ -84,7 +97,7 @@ export function ProjectsGrid({ title, tiles, frame, label, mobileRows, href }: P
         <Image src={label.src} alt="" fill unoptimized />
         <h2
           id="projects-heading"
-          className="relative flex h-full items-center justify-center font-accent text-[clamp(2rem,11vw,60px)] font-bold leading-[0.8] tracking-[0.2em] text-cream lg:text-[clamp(1.75rem,3.769vw,60px)] lg:tracking-[0.3em]"
+          className={`relative flex h-full items-center justify-center font-accent text-[clamp(2rem,11vw,60px)] font-bold leading-[0.8] tracking-[0.2em] lg:text-[clamp(1.75rem,3.769vw,60px)] lg:tracking-[0.3em] ${labelTextClass}`}
         >
           {title}
         </h2>
@@ -126,7 +139,7 @@ export function ProjectsGrid({ title, tiles, frame, label, mobileRows, href }: P
               tile.image ? (
                 <Image src={tile.image} alt="" fill sizes="32vw" className="object-fill" />
               ) : (
-                <span className="block h-full w-full bg-forest [mask-repeat:no-repeat] [mask-size:100%_100%]" style={maskStyle(tile.mask)} />
+                <span className={`block h-full w-full [mask-repeat:no-repeat] [mask-size:100%_100%] ${placeholderClass}`} style={maskStyle(tile.mask)} />
               )
             ) : (
               tileLink(tile, tile.mask, "32vw")

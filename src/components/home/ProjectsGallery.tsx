@@ -7,6 +7,14 @@ type Box = { x: number; y: number; w: number; h: number };
 
 export interface ProjectsGalleryProps {
   title: string;
+  /** Tailwind bg class for the section. Defaults to sage. */
+  bgClass?: string;
+  /** Tailwind text class for the "Projects" label. Defaults to cream. */
+  labelTextClass?: string;
+  /** Tailwind bg class for a placeholder tile with no image. Defaults to forest. */
+  placeholderClass?: string;
+  /** Tailwind bg class for the tour tab + frame. Defaults to forest. */
+  tourBgClass?: string;
   tiles: ProjectTile[];
   layout: {
     frame: { w: number; h: number };
@@ -30,16 +38,34 @@ const pct = (value: number, of: number) => `${(value / of) * 100}%`;
  * tiles (15px padding / gaps), all at their Figma positions in %. Below lg it
  * stacks, and the tours become a swipeable row.
  */
-export function ProjectsGallery({ title, tiles, layout, tours }: ProjectsGalleryProps) {
+export function ProjectsGallery({
+  title,
+  bgClass = "bg-sage",
+  labelTextClass,
+  placeholderClass,
+  tourBgClass = "bg-forest",
+  tiles,
+  layout,
+  tours,
+}: ProjectsGalleryProps) {
   const { frame, tourTab: tab, tourFrame: box } = layout;
 
   return (
-    <section id="projects" aria-labelledby="projects-heading" className="bg-sage py-10 lg:py-0">
+    <section id="projects" aria-labelledby="projects-heading" className={`${bgClass} py-10 lg:py-0`}>
       <div
         className="relative px-4 sm:px-6 lg:aspect-[var(--frame-ratio)] lg:px-0"
         style={{ "--frame-ratio": `${frame.w} / ${frame.h}` } as CSSProperties}
       >
-        <ProjectsGrid title={title} tiles={tiles} frame={frame} label={layout.label} mobileRows={layout.mobileRows} href="/projects" />
+        <ProjectsGrid
+          title={title}
+          tiles={tiles}
+          frame={frame}
+          label={layout.label}
+          labelTextClass={labelTextClass}
+          placeholderClass={placeholderClass}
+          mobileRows={layout.mobileRows}
+          href="/projects"
+        />
 
         <div
           className="mt-8 lg:absolute lg:left-[var(--bx)] lg:top-[var(--ty)] lg:mt-0 lg:w-[var(--bw)]"
@@ -51,12 +77,12 @@ export function ProjectsGallery({ title, tiles, layout, tours }: ProjectsGallery
         >
           {/* Tab: centred on the frame, chamfered top corners. */}
           <p
-            className="mx-auto flex w-fit items-center justify-center bg-forest px-8 pb-2 pt-3 text-center font-display text-[clamp(1rem,1.63vw,26px)] font-bold leading-none text-cream [clip-path:polygon(14px_0,calc(100%-14px)_0,100%_14px,100%_100%,0_100%,0_14px)] lg:h-[calc(var(--u)*58)] lg:w-[calc(var(--u)*528)] lg:px-0 lg:py-0 lg:pt-[calc(var(--u)*4)]"
+            className={`mx-auto flex w-fit items-center justify-center px-8 pb-2 pt-3 text-center font-display text-[clamp(1rem,1.63vw,26px)] font-bold leading-none text-cream [clip-path:polygon(14px_0,calc(100%-14px)_0,100%_14px,100%_100%,0_100%,0_14px)] lg:h-[calc(var(--u)*58)] lg:w-[calc(var(--u)*528)] lg:px-0 lg:py-0 lg:pt-[calc(var(--u)*4)] ${tourBgClass}`}
           >
             {tours.heading}
           </p>
 
-          <div className="-mx-4 rounded-[10px] bg-forest p-3 sm:-mx-6 lg:mx-0 lg:h-[calc(var(--u)*179)] lg:rounded-[calc(var(--u)*14)] lg:p-[calc(var(--u)*15)]">
+          <div className={`-mx-4 rounded-[10px] p-3 sm:-mx-6 lg:mx-0 lg:h-[calc(var(--u)*179)] lg:rounded-[calc(var(--u)*14)] lg:p-[calc(var(--u)*15)] ${tourBgClass}`}>
             <ul className="flex snap-x snap-mandatory gap-3 overflow-x-auto [scrollbar-width:none] lg:h-full lg:gap-[calc(var(--u)*15)] lg:overflow-visible">
               {tours.tours.map((tour) => (
                 <li key={tour.id} className="w-[62%] shrink-0 snap-start sm:w-[36%] lg:h-full lg:w-auto lg:flex-1">

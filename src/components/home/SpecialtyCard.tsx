@@ -17,6 +17,10 @@ export interface SpecialtyCardData {
   points: string[];
   /** Tailwind bg class for the card body. */
   bgClass: string;
+  /** Tailwind text class for the bullet list. Defaults to cream. */
+  textClass?: string;
+  /** Tailwind bg + text classes for the ribbon. Defaults to coral / cream. */
+  ribbonClass?: string;
 }
 
 const shapes = {
@@ -58,7 +62,7 @@ export function SpecialtyCard({ card }: { card: SpecialtyCardData }) {
       </span>
 
       <h3
-        className={`relative z-10 -mt-[8.11cqw] ml-[28cqw] flex aspect-[456/90] w-[72.56cqw] max-w-none shrink-0 flex-col justify-center pl-[10.7cqw] pt-[0.6cqw] font-accent uppercase sm:ml-[34.05cqw] ${maskClass} bg-coral`}
+        className={`relative z-10 -mt-[8.11cqw] ml-[28cqw] flex aspect-[456/90] w-[72.56cqw] max-w-none shrink-0 flex-col justify-center pl-[10.7cqw] pt-[0.6cqw] font-accent uppercase sm:ml-[34.05cqw] ${maskClass} ${card.ribbonClass ?? "bg-coral text-cream"}`}
         style={{ maskImage: shapes.ribbon, WebkitMaskImage: shapes.ribbon } as CSSProperties}
       >
         <span className="block text-[4.455cqw] font-normal leading-[5.1cqw]">{card.eyebrow}</span>
@@ -66,7 +70,9 @@ export function SpecialtyCard({ card }: { card: SpecialtyCardData }) {
       </h3>
 
       {/* Figma 22/36 = 3.5cqw of the 628 card; floored at 14px for narrow cards. */}
-      <ul className="ml-[5.4cqw] mt-[5.72cqw] flex w-[87.5cqw] list-none flex-col font-display text-[clamp(14px,3.5cqw,22px)] font-medium leading-[1.636]">
+      <ul
+        className={`ml-[5.4cqw] mt-[5.72cqw] flex w-[87.5cqw] list-none flex-col font-display text-[clamp(14px,3.5cqw,22px)] font-medium leading-[1.636] ${card.textClass ?? "text-cream"}`}
+      >
         {card.points.map((point) => (
           <li key={point} className="relative pl-[1.64em] before:absolute before:left-[0.64em] before:content-['•']">
             {withBold(point)}

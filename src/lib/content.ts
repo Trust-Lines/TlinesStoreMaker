@@ -80,89 +80,110 @@ export const serviceCards = [
   },
 ];
 
-// Placeholder copy from the "CStore" Figma frame until final text is supplied.
-const featureCopy = [
-  "Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-  "sum dolor sit amet consectetur adipiscing elit Lorem.",
+// C-store page process cards (Figma "C Store" frame, node 294:4055): same card
+// shape as the homepage store-type cards, but Design/Supply/Build steps.
+export const cStoreProcessCards = [
+  {
+    id: "design",
+    title: "Design",
+    href: "/services/c-store",
+    image: "/images/figma/home-service/design-photo.png",
+    points: ["Site survey", "Planning", "Layout", "Realistic Renders", "Estimate & Finalization"],
+    bgClass: "bg-gold",
+    textClass: "text-sage-dark",
+    ribbonClass: "bg-coral text-gold",
+  },
+  {
+    id: "supply",
+    title: "Supply",
+    href: "/services/c-store",
+    image: "/images/figma/home-service/supply-photo.png",
+    points: ["Supply planning", "In-house fabrication", "Global Sourcing", "Quality control", "Delivery"],
+    bgClass: "bg-coral",
+    textClass: "text-cream",
+    ribbonClass: "bg-gold text-sage-dark",
+  },
+  {
+    id: "build",
+    title: "Build",
+    href: "/services/c-store",
+    image: "/images/figma/home-service/build-photo.png",
+    points: ["Pre-build Planning", "Coordination", "Installation", "Finishing and inspection", "After build services"],
+    bgClass: "bg-gold",
+    textClass: "text-sage-dark",
+    ribbonClass: "bg-coral text-gold",
+  },
 ];
 
-const featureSections = (images: [string, string, string]) => [
-  { id: "services", title: "Services", paragraphs: featureCopy, image: images[0] },
-  { id: "capabilities", title: "Capabilities", paragraphs: featureCopy, image: images[1] },
-  { id: "business-process", title: "Business Process", paragraphs: featureCopy, image: images[2] },
+// Truck-stops page process cards (Figma "Truck stops" frame, node 298:4487):
+// same card shape, coral/sage-dark colourway, cream text throughout.
+export const truckStopsProcessCards = [
+  {
+    id: "design",
+    title: "Design",
+    href: "/services/truck-stops",
+    image: "/images/figma/home-service/truck-design-photo.png",
+    points: ["Site survey", "Planning", "Layout", "Realistic Renders", "Estimate & Finalization"],
+    bgClass: "bg-coral",
+    textClass: "text-cream",
+    ribbonClass: "bg-sage-dark text-cream",
+  },
+  {
+    id: "supply",
+    title: "Supply",
+    href: "/services/truck-stops",
+    image: "/images/figma/home-service/truck-supply-photo.png",
+    points: ["Supply planning", "In-house fabrication", "Global Sourcing", "Quality control", "Delivery"],
+    bgClass: "bg-sage-dark",
+    textClass: "text-cream",
+    ribbonClass: "bg-coral text-cream",
+  },
+  {
+    id: "build",
+    title: "Build",
+    href: "/services/truck-stops",
+    image: "/images/figma/home-service/truck-build-photo.png",
+    points: ["Pre-build Planning", "Coordination", "Installation", "Finishing and inspection", "After build services"],
+    bgClass: "bg-coral",
+    textClass: "text-cream",
+    ribbonClass: "bg-sage-dark text-cream",
+  },
 ];
 
-/** Shape fill (bg-* class) and the ink (text-* class) drawn on it. */
-export interface ShapeTone {
-  fill: string;
-  text: string;
-}
-
-/** Colourway of a service page: top bar tone plus the ribbon / text box tones. */
-export interface ServiceTheme {
-  topBar: "gold" | "coral" | "sage";
-  heroRibbon: ShapeTone;
-  titleRibbon: ShapeTone;
-  textBox: ShapeTone;
-}
-
-const goldTheme: ServiceTheme = {
-  topBar: "gold",
-  heroRibbon: { fill: "bg-coral", text: "text-gold" },
-  titleRibbon: { fill: "bg-coral", text: "text-gold" },
-  textBox: { fill: "bg-gold", text: "text-forest" },
-};
-
-const coralTheme: ServiceTheme = {
-  topBar: "coral",
-  heroRibbon: { fill: "bg-sage-dark", text: "text-cream" },
-  titleRibbon: { fill: "bg-sage-dark", text: "text-cream" },
-  textBox: { fill: "bg-coral", text: "text-cream" },
-};
-
-const sageTheme: ServiceTheme = {
-  topBar: "sage",
-  heroRibbon: { fill: "bg-sage", text: "text-cream" },
-  titleRibbon: { fill: "bg-sage", text: "text-cream" },
-  textBox: { fill: "bg-sage-dark", text: "text-cream" },
-};
-
-/**
- * Service detail pages (/services/[slug]), keyed by serviceCards id. Layout from
- * the "CStore", "Truck Stops" and "Grocery" Figma frames (same layout, different colourway).
- */
-export const serviceDetails: Record<
-  string,
-  { heroImage: string; theme: ServiceTheme; sections: ReturnType<typeof featureSections> }
-> = {
-  "c-store": {
-    theme: goldTheme,
-    heroImage: "/images/figma/card-cstore.webp",
-    sections: featureSections([
-      "/images/figma/projects/vector-1.webp",
-      "/images/figma/projects/rectangle-4397.webp",
-      "/images/figma/projects/rectangle-4398.webp",
-    ]),
+// Grocery page process cards (Figma "Grocery" frame, node 298:4919): same card
+// shape, sage / sage-dark colourway, cream text throughout.
+export const groceryProcessCards = [
+  {
+    id: "design",
+    title: "Design",
+    href: "/services/grocery",
+    image: "/images/figma/home-service/grocery-design-photo.png",
+    points: ["Site survey", "Planning", "Layout", "Realistic Renders", "Estimate & Finalization"],
+    bgClass: "bg-sage-dark",
+    textClass: "text-cream",
+    ribbonClass: "bg-sage text-cream",
   },
-  "truck-stops": {
-    theme: coralTheme,
-    heroImage: "/images/figma/card-truck-stops.webp",
-    sections: featureSections([
-      "/images/figma/project-grid-03.webp",
-      "/images/figma/project-grid-05.webp",
-      "/images/figma/project-grid-06.webp",
-    ]),
+  {
+    id: "supply",
+    title: "Supply",
+    href: "/services/grocery",
+    image: "/images/figma/home-service/grocery-supply-photo.png",
+    points: ["Supply planning", "In-house fabrication", "Global Sourcing", "Quality control", "Delivery"],
+    bgClass: "bg-sage",
+    textClass: "text-cream",
+    ribbonClass: "bg-sage-dark text-cream",
   },
-  grocery: {
-    theme: sageTheme,
-    heroImage: "/images/figma/project-grid-01.webp",
-    sections: featureSections([
-      "/images/figma/card-grocery.webp",
-      "/images/figma/project-grid-04.webp",
-      "/images/figma/project-grid-07.webp",
-    ]),
+  {
+    id: "build",
+    title: "Build",
+    href: "/services/grocery",
+    image: "/images/figma/home-service/grocery-build-photo.png",
+    points: ["Pre-build Planning", "Coordination", "Installation", "Finishing and inspection", "After build services"],
+    bgClass: "bg-sage-dark",
+    textClass: "text-cream",
+    ribbonClass: "bg-sage text-cream",
   },
-};
+];
 
 // Branding / Management cards (Figma "Vector" 628.455 x 782.425).
 export const specialtyCards = [
@@ -197,6 +218,124 @@ export const specialtyCards = [
       "Communication and progress updates",
     ],
     bgClass: "bg-sage-dark",
+  },
+];
+
+// C-store page branding / management cards (Figma "C Store" frame, node
+// 294:4322): same card shape as the homepage version, but gold/coral colourway
+// and the Prince Market branding board + jobsite blueprint photos.
+export const cStoreSpecialtyCards = [
+  {
+    id: "branding",
+    eyebrow: "Project",
+    title: "Branding",
+    href: "/#contact",
+    image: "/images/figma/specialty/cstore-branding-photo.png",
+    points: [
+      "Brand identity",
+      "Store concept",
+      "Custom signage and graphics",
+      "Colors, materials and finishes",
+      "Consistent brand executions",
+    ],
+    bgClass: "bg-gold",
+    textClass: "text-sage-dark",
+    ribbonClass: "bg-coral text-cream",
+  },
+  {
+    id: "management",
+    eyebrow: "Project",
+    title: "Management",
+    href: "/#contact",
+    image: "/images/figma/specialty/cstore-management-photo.png",
+    points: [
+      "Dedicated project manager",
+      "Planning and scheduling",
+      "Team coordination",
+      "Logistics and installation",
+      "Communication and progress updates",
+    ],
+    bgClass: "bg-coral",
+    textClass: "text-cream",
+    ribbonClass: "bg-gold text-sage-dark",
+  },
+];
+
+// Truck-stops page branding / management cards (Figma "Truck stops" frame,
+// node 298:4754): coral/sage-dark colourway, cream text throughout.
+export const truckStopsSpecialtyCards = [
+  {
+    id: "branding",
+    eyebrow: "Project",
+    title: "Branding",
+    href: "/#contact",
+    image: "/images/figma/specialty/truck-branding-photo.png",
+    points: [
+      "Brand identity",
+      "Store concept",
+      "Custom signage and graphics",
+      "Colors, materials and finishes",
+      "Consistent brand executions",
+    ],
+    bgClass: "bg-coral",
+    textClass: "text-cream",
+    ribbonClass: "bg-sage-dark text-cream",
+  },
+  {
+    id: "management",
+    eyebrow: "Project",
+    title: "Management",
+    href: "/#contact",
+    image: "/images/figma/specialty/truck-management-photo.png",
+    points: [
+      "Dedicated project manager",
+      "Planning and scheduling",
+      "Team coordination",
+      "Logistics and installation",
+      "Communication and progress updates",
+    ],
+    bgClass: "bg-sage-dark",
+    textClass: "text-cream",
+    ribbonClass: "bg-coral text-cream",
+  },
+];
+
+// Grocery page branding / management cards (Figma "Grocery" frame, node
+// 298:5186): sage/sage-dark colourway, cream text throughout.
+export const grocerySpecialtyCards = [
+  {
+    id: "branding",
+    eyebrow: "Project",
+    title: "Branding",
+    href: "/#contact",
+    image: "/images/figma/specialty/grocery-branding-photo.png",
+    points: [
+      "Brand identity",
+      "Store concept",
+      "Custom signage and graphics",
+      "Colors, materials and finishes",
+      "Consistent brand executions",
+    ],
+    bgClass: "bg-sage-dark",
+    textClass: "text-cream",
+    ribbonClass: "bg-sage text-cream",
+  },
+  {
+    id: "management",
+    eyebrow: "Project",
+    title: "Management",
+    href: "/#contact",
+    image: "/images/figma/specialty/grocery-management-photo.png",
+    points: [
+      "Dedicated project manager",
+      "Planning and scheduling",
+      "Team coordination",
+      "Logistics and installation",
+      "Communication and progress updates",
+    ],
+    bgClass: "bg-sage",
+    textClass: "text-cream",
+    ribbonClass: "bg-sage-dark text-cream",
   },
 ];
 
@@ -350,6 +489,83 @@ export const projectsLayout = {
     [{ id: "welcome", mask: `${tileDir}/rectangle-4396-mask.svg`, ratio: 489 / 223 }],
     [{ id: "snack-aisle" }, { id: "checkout-lanes" }, { id: "on-the-go" }],
   ] as { id: string; mask?: string; ratio?: number }[][],
+};
+
+// C-store page Projects mosaic (Figma "C Store" frame): same tiles/positions
+// as the homepage, but the two baked-color placeholder tiles are coral instead
+// of forest (the CSS-only placeholder and the label/tour bands are recolored
+// via props on the c-store page instead of new assets).
+export const cStoreProjectTiles = projectTiles.map((tile) =>
+  tile.id === "placeholder-top-left"
+    ? { ...tile, image: `${tileV2}/rect-4396-coral.png` }
+    : tile.id === "placeholder-right"
+      ? { ...tile, image: `${tileV2}/rect-4401-coral.png` }
+      : tile,
+);
+
+export const cStoreProjectsLayout = {
+  ...projectsLayout,
+  label: { ...projectsLayout.label, src: `${tileV2}/projects-label-coral.svg` },
+};
+
+// Truck-stops page Projects mosaic (Figma "Truck stops" frame, node 298:4512):
+// same tiles/positions as the homepage, with this page's own photos (11 of the
+// 13 slots have a dedicated Figma export; "coffee-counter" and "island-counter"
+// keep the homepage photo, same as the c-store page).
+const truckStopsTileImages: Record<string, string> = {
+  "placeholder-top-left": `${tileV2}/truck-rect-4396.png`,
+  "snack-aisle": `${tileV2}/truck-rect-4397.png`,
+  checkout: `${tileV2}/truck-rect-4398.png`,
+  "uk-market": `${tileV2}/truck-rect-4399.png`,
+  "checkout-lanes": `${tileV2}/truck-rect-4400.png`,
+  "placeholder-right": `${tileV2}/truck-rect-4401.png`,
+  "on-the-go": `${tileV2}/truck-rect-4402.png`,
+  "coffee-bar": `${tileV2}/truck-rect-4403.png`,
+  welcome: `${tileV2}/truck-rect-4404.png`,
+  "placeholder-top-center": `${tileV2}/truck-rect-4405.png`,
+  "cafe-seating": `${tileV2}/truck-rect-4406.png`,
+};
+
+export const truckStopsProjectTiles = projectTiles.map((tile) => {
+  const image = truckStopsTileImages[tile.id];
+  if (!image) return tile;
+  const { mask: _mask, ...rest } = tile;
+  return { ...rest, image };
+});
+
+export const truckStopsProjectsLayout = {
+  ...projectsLayout,
+  label: { ...projectsLayout.label, src: `${tileV2}/projects-label-sage-dark.svg` },
+};
+
+// Grocery page Projects mosaic (Figma "Grocery" frame, node 298:4944): same
+// tiles/positions as the homepage, with this page's own photos (11 of the 13
+// slots have a dedicated Figma export; "coffee-counter" and "island-counter"
+// keep the homepage photo, same as the other two service pages).
+const groceryTileImages: Record<string, string> = {
+  "placeholder-top-left": `${tileV2}/grocery-rect-4396.png`,
+  "snack-aisle": `${tileV2}/grocery-rect-4397.png`,
+  checkout: `${tileV2}/grocery-rect-4398.png`,
+  "uk-market": `${tileV2}/grocery-rect-4399.png`,
+  "checkout-lanes": `${tileV2}/grocery-rect-4400.png`,
+  "placeholder-right": `${tileV2}/grocery-rect-4401.png`,
+  "on-the-go": `${tileV2}/grocery-rect-4402.png`,
+  "coffee-bar": `${tileV2}/grocery-rect-4403.png`,
+  welcome: `${tileV2}/grocery-rect-4404.png`,
+  "placeholder-top-center": `${tileV2}/grocery-rect-4405.png`,
+  "cafe-seating": `${tileV2}/grocery-rect-4406.png`,
+};
+
+export const groceryProjectTiles = projectTiles.map((tile) => {
+  const image = groceryTileImages[tile.id];
+  if (!image) return tile;
+  const { mask: _mask, ...rest } = tile;
+  return { ...rest, image };
+});
+
+export const groceryProjectsLayout = {
+  ...projectsLayout,
+  label: { ...projectsLayout.label, src: `${tileV2}/projects-label-sage.svg` },
 };
 
 export const contactCTAs = [
