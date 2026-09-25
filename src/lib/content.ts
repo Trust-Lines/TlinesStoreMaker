@@ -894,3 +894,74 @@ export const galleryProjects: GalleryProject[] = interleaveByPattern(galleryPhot
   ...project,
   location: "State, USA",
 }));
+
+/** About us page ("About us" Figma frame, 1592 wide). */
+const aboutLorem =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+
+export const aboutPage = {
+  hero: {
+    image: "/images/about/hero-beverages.webp",
+    imageAlt: "Store signage installation: large BEVERAGES letters on a wood-slat wall",
+    // Rendered as: QUALITY / IS THE KEY ("IS THE" in the lighter 50px style).
+    headingLines: ["Quality", "is the", "key"],
+  },
+  story: {
+    title: "Our Story",
+    // Placeholder still until the story video and its poster frame are supplied.
+    poster: "/images/figma/hero-photo.png",
+    posterAlt: "T Lines mascot planning a store layout at a drafting table",
+    /** MP4/WebM of the story video; the play button only appears once this is set. */
+    video: null as string | null,
+  },
+  mission: {
+    title: "Our Mission",
+    // Placeholder copy from the Figma frame until the real mission text is written.
+    paragraphs: [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    ],
+    image: "/images/about/mission-store.svg",
+    imageAlt: "C-store aisles with snack shelving and drinks coolers",
+  },
+  members: {
+    title: "Members at",
+    logos: [
+      { name: "NACS", src: "/images/about/members/nacs.svg", width: 207, height: 56 },
+      { name: "NATSO", src: "/images/about/members/natso.svg", width: 219, height: 56 },
+      { name: "M-PACT", src: "/images/about/members/mpact.svg", width: 193, height: 84 },
+      { name: "The NGA Show 2026", src: "/images/about/members/nga.svg", width: 201, height: 84 },
+    ],
+  },
+  testimonials: {
+    title: "Testimonials",
+    // Placeholder quotes from the Figma frame until real client testimonials are supplied.
+    items: Array.from({ length: 5 }, (_, index) => ({
+      id: `testimonial-${index + 1}`,
+      quote: aboutLorem,
+      author: "Lorem ipsum do.",
+    })),
+  },
+  trustedBy: {
+    title: "Trusted by",
+    /**
+     * Figma "Trusted by" band (1592 x 707): two rows of #547255 logos at their
+     * native Figma sizes. Prince Market has no standalone export yet, so it is cut
+     * from the cream client strip and tinted (`tint: true`).
+     */
+    rows: [
+      [
+        { name: "Prince Market", src: "/images/about/clients/prince-market.svg", width: 142, height: 65, tint: true },
+        { name: "Teddy’s Market", src: "/images/about/clients/teddys-market.svg", width: 306, height: 62 },
+        { name: "Speedy", src: "/images/about/clients/speedy.svg", width: 304, height: 61 },
+      ],
+      [
+        { name: "TA (TravelCenters of America)", src: "/images/about/clients/ta.svg", width: 107, height: 76 },
+        { name: "Pilot", src: "/images/about/clients/pilot.svg", width: 157, height: 67 },
+        { name: "Gauge", src: "/images/about/clients/gauge.svg", width: 101, height: 101 },
+        { name: "Brew", src: "/images/about/clients/brew.svg", width: 150, height: 76 },
+        { name: "Chestnut Market", src: "/images/about/clients/chestnut-market.svg", width: 130, height: 100 },
+      ],
+    ] as { name: string; src: string; width: number; height: number; tint?: boolean }[][],
+  },
+};
