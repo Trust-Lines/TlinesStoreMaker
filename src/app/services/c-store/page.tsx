@@ -37,7 +37,7 @@ export default function CStorePage() {
     <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
       <main className="relative bg-cream pb-[3.08%]">
         <ReferenceTopBar />
-        <HomeHero {...homeHero} stripBgClass="bg-gold" />
+        <HomeHero {...homeHero} stripBgClass="bg-gold" badge={{ label: "C-Store" }} />
         <ServiceCardsSection cards={cStoreProcessCards} />
         <BoothBanner {...boothBanner} />
         <SpecialtyCardsSection cards={cStoreSpecialtyCards} />

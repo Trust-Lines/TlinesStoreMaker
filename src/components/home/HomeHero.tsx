@@ -10,6 +10,8 @@ export interface HomeHeroProps {
   clients: { src: string; width: number; height: number; names: string[] };
   /** Tailwind bg class for the client-strip bar. Defaults to sage-dark. */
   stripBgClass?: string;
+  /** Service-page hero (Figma node 353:8060): a coral ribbon badge with the store name, in place of `heading`. */
+  badge?: { label: string };
 }
 
 /**
@@ -17,7 +19,7 @@ export interface HomeHeroProps {
  * a tall fixed-ish height so the copy never collides with the header; from sm
  * up it follows the Figma frame ratio (1592 x 923).
  */
-export function HomeHero({ heading, backgroundImage, imageAlt, action, clients, stripBgClass = "bg-sage-dark" }: HomeHeroProps) {
+export function HomeHero({ heading, backgroundImage, imageAlt, action, clients, stripBgClass = "bg-sage-dark", badge }: HomeHeroProps) {
   return (
     <section id="home" aria-labelledby="home-hero-heading" className="relative isolate bg-forest">
       <div className="relative h-[min(100svh,640px)] min-h-[480px] w-full sm:aspect-[1592/923] sm:h-auto sm:min-h-0">
@@ -37,12 +39,24 @@ export function HomeHero({ heading, backgroundImage, imageAlt, action, clients, 
         {/* lg+: Figma heading box at x=121.13, y=560.8 (60.76% of the 923px hero),
             463.6 wide; the button follows below, left-aligned with it. */}
         <div className="absolute inset-x-0 bottom-0 px-6 pb-10 sm:bottom-[9%] sm:px-[9.5%] sm:pb-0 lg:bottom-auto lg:top-[60.76%] lg:pl-[7.61%] lg:pr-0">
-          <h1
-            id="home-hero-heading"
-            className="max-w-[10.5ch] font-display text-[clamp(2.5rem,5.4vw,5.25rem)] font-semibold uppercase leading-[1.02] tracking-[-0.02em] text-cream lg:w-[min(29.12vw,463.6px)] lg:max-w-none lg:text-[min(3.769vw,60px)] lg:leading-[0.9667] lg:tracking-normal"
-          >
-            {heading}
-          </h1>
+          {badge ? (
+            <h1
+              id="home-hero-heading"
+              className="relative isolate flex aspect-[938.227/162.975] w-[240px] items-center justify-start pb-[2%] pl-[13%] font-accent text-[clamp(1.5rem,3.4vw,3rem)] font-bold uppercase leading-none tracking-[0.04em] text-gold lg:w-[clamp(280px,59.05vw,940px)] lg:pl-[38%] lg:[transform:translateX(calc(min(36vw,573px)*-1))]"
+            >
+              {/* Flipped and bled ~25% of its own width past the hero's left edge (Figma inset left: -24.69%) —
+                  the page's own overflow-x-clip crops it, so it reads as cut off rather than a clean point. */}
+              <Image src="/images/figma/hero-badge-ribbon.svg" alt="" fill unoptimized className="pointer-events-none -z-10 lg:-scale-x-100" />
+              {badge.label}
+            </h1>
+          ) : (
+            <h1
+              id="home-hero-heading"
+              className="max-w-[10.5ch] font-display text-[clamp(2.5rem,5.4vw,5.25rem)] font-semibold uppercase leading-[1.02] tracking-[-0.02em] text-cream lg:w-[min(29.12vw,463.6px)] lg:max-w-none lg:text-[min(3.769vw,60px)] lg:leading-[0.9667] lg:tracking-normal"
+            >
+              {heading}
+            </h1>
+          )}
           <Link
             href={action.href}
             className="relative isolate mt-6 inline-flex aspect-[338/67] w-[var(--bw)] items-start justify-center pl-[calc(var(--bw)*57/338)] pr-[calc(var(--bw)*59/338)] pt-[calc(var(--bw)*17/338)] text-center whitespace-nowrap font-display text-[calc(var(--bw)*24/338)] [--bw:clamp(220px,21.23vw,338px)] font-bold leading-none text-cream transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream sm:mt-8"
