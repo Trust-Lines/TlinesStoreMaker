@@ -34,7 +34,8 @@ const cardTone: Record<Tone, { frame: string; label: string; text: string }> = {
  * under the hero over a divider, then a 2-column grid of 637 x 407 photo cards
  * (139px / 134px side margins, 45px column gap), each framed in its category
  * colour with a "STATE, USA" ribbon hanging off its bottom-left corner.
- * Clicking a card opens the photo viewer over the filtered set.
+ * Clicking a card opens the photo viewer over the filtered set. 120px of cream
+ * separates the grid from the next section. (No pager: that lives on the Blog.)
  */
 export function ProjectGallery({ projects, categories }: ProjectGalleryProps) {
   const [filter, setFilter] = useState<Filter>("all");

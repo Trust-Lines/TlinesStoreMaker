@@ -11,7 +11,8 @@ export interface BlogHeroProps {
 
 /**
  * Journal hero (Figma 1592 x 768): darkened store photo; coral eyebrow ribbon
- * (169 x 33) at x=141 / y=292, heading 60px, description ~750 wide.
+ * (169 x 33) at x=141 / y=292, heading Montserrat 64/72 bold (-1.28px tracking),
+ * description ~750 wide.
  */
 export function BlogHero({ eyebrow, heading, description, image, headingId = "blog-heading" }: BlogHeroProps) {
   return (
@@ -31,7 +32,7 @@ export function BlogHero({ eyebrow, heading, description, image, headingId = "bl
           </p>
           <h1
             id={headingId}
-            className="mt-4 font-accent text-[2.4rem] font-bold leading-[1.05] text-cream lg:mt-[calc(var(--u)*20)] lg:text-[max(33px,calc(var(--u)*60))]"
+            className="mt-4 font-display text-[2.4rem] font-bold leading-[1.125] tracking-[-0.02em] text-cream lg:mt-[calc(var(--u)*20)] lg:text-[max(36px,calc(var(--u)*64))]"
           >
             {heading}
           </h1>

@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import type { BlogCategoryId, BlogPost } from "@/lib/content";
+import { Pager } from "@/components/primitives/Pager";
 import { BlogCard } from "./BlogCard";
 
 export interface BlogIndexProps {
@@ -53,7 +53,7 @@ export function BlogIndex({ posts, categories, pageSize }: BlogIndexProps) {
                   type="button"
                   onClick={() => choose(item.id)}
                   aria-pressed={active}
-                  className={`inline-flex h-9 items-center gap-2 rounded-[6px] px-3.5 font-display text-[11px] font-bold uppercase tracking-[0.03em] text-cream transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral lg:h-[calc(var(--u)*42)] lg:gap-[calc(var(--u)*10)] lg:rounded-[calc(var(--u)*8)] lg:px-[calc(var(--u)*20)] lg:text-[max(12px,calc(var(--u)*14))] ${
+                  className={`inline-flex h-9 items-center gap-2 rounded-[6px] px-3.5 font-display text-[12px] font-semibold uppercase tracking-[0.5px] text-cream transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral lg:h-[calc(var(--u)*42)] lg:gap-[calc(var(--u)*10)] lg:rounded-[calc(var(--u)*8)] lg:px-[calc(var(--u)*20)] lg:text-[max(12px,calc(var(--u)*14))] ${
                     active ? "bg-coral" : "bg-forest hover:bg-sage-dark"
                   }`}
                 >
@@ -80,43 +80,13 @@ export function BlogIndex({ posts, categories, pageSize }: BlogIndexProps) {
           ))}
         </ul>
 
-        <nav aria-label="Blog pages" className="mt-12 flex items-center justify-center gap-2.5 lg:mt-[calc(var(--u)*60)] lg:gap-[calc(var(--u)*12)] lg:pt-[calc(var(--u)*32)]">
-          <button
-            type="button"
-            onClick={() => setPage((current) => current - 1)}
-            disabled={page === 1}
-            aria-label="Previous page"
-            className="transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral disabled:opacity-40"
-          >
-            <Image src="/images/blog/page-prev.svg" alt="" width={72} height={41} unoptimized className="h-[34px] w-auto lg:h-[calc(var(--u)*41)]" />
-          </button>
-          {Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => {
-            const current = number === page;
-            return (
-              <button
-                key={number}
-                type="button"
-                onClick={() => setPage(number)}
-                aria-current={current ? "page" : undefined}
-                aria-label={`Page ${number}`}
-                className={`grid h-[34px] place-items-center rounded-[7px] font-display text-[13px] font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral lg:h-[max(34px,calc(var(--u)*41))] lg:rounded-[calc(var(--u)*8)] lg:text-[max(12px,calc(var(--u)*14))] ${
-                  current ? "w-[32px] bg-coral text-cream lg:w-[max(32px,calc(var(--u)*38))]" : "w-[34px] border border-forest text-forest hover:bg-forest hover:text-cream lg:w-[max(34px,calc(var(--u)*41))]"
-                }`}
-              >
-                {number}
-              </button>
-            );
-          })}
-          <button
-            type="button"
-            onClick={() => setPage((current) => current + 1)}
-            disabled={page === pageCount}
-            aria-label="Next page"
-            className="transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral disabled:opacity-40"
-          >
-            <Image src="/images/blog/page-next.svg" alt="" width={72} height={41} unoptimized className="h-[34px] w-auto lg:h-[calc(var(--u)*41)]" />
-          </button>
-        </nav>
+        <Pager
+          label="Blog pages"
+          page={page}
+          pageCount={pageCount}
+          onChange={setPage}
+          className="mt-12 lg:mt-[calc(var(--u)*60)] lg:pt-[calc(var(--u)*32)]"
+        />
       </div>
     </>
   );
