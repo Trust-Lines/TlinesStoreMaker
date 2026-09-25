@@ -38,7 +38,16 @@ export default function TruckStopsPage() {
     <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
       <main className="relative bg-cream pb-[3.08%]">
         <ReferenceTopBar tone="coral" />
-        <HomeHero {...homeHero} stripBgClass="bg-coral" />
+        <HomeHero
+          {...homeHero}
+          stripBgClass="bg-coral"
+          badge={{
+            label: "Truck Stops",
+            ribbonSrc: "/images/figma/hero-badge-ribbon-sage-dark.svg",
+            buttonSrc: "/images/figma/ribbon-service-sage-dark.svg",
+            textClass: "text-cream",
+          }}
+        />
         <ServiceCardsSection cards={truckStopsProcessCards} />
         <BoothBanner {...boothBanner} />
         <SpecialtyCardsSection cards={truckStopsSpecialtyCards} />

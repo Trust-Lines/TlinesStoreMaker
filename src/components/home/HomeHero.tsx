@@ -10,8 +10,16 @@ export interface HomeHeroProps {
   clients: { src: string; width: number; height: number; names: string[] };
   /** Tailwind bg class for the client-strip bar. Defaults to sage-dark. */
   stripBgClass?: string;
-  /** Service-page hero (Figma node 353:8060): a coral ribbon badge with the store name, in place of `heading`. */
-  badge?: { label: string };
+  /** Service-page hero (Figma node 353:8060): a ribbon badge with the store name, in place of `heading`; also recolours the button below it. */
+  badge?: {
+    label: string;
+    /** Defaults to the coral ribbon (c-store). */
+    ribbonSrc?: string;
+    /** Defaults to the coral button (c-store). */
+    buttonSrc?: string;
+    /** Tailwind text class for the badge label. Defaults to gold (c-store). */
+    textClass?: string;
+  };
 }
 
 /**
@@ -42,11 +50,11 @@ export function HomeHero({ heading, backgroundImage, imageAlt, action, clients, 
           {badge ? (
             <h1
               id="home-hero-heading"
-              className="relative isolate flex aspect-[938.227/162.975] w-[240px] items-center justify-start pb-[2%] pl-[13%] font-accent text-[clamp(1.5rem,3.4vw,3rem)] font-bold uppercase leading-none tracking-[0.04em] text-gold lg:w-[clamp(280px,59.05vw,940px)] lg:pl-[38%] lg:[transform:translateX(calc(min(36vw,573px)*-1))]"
+              className={`relative isolate flex aspect-[938.227/162.975] w-[240px] items-center justify-start pb-[2%] pl-[13%] font-accent text-[clamp(1.5rem,3.4vw,3rem)] font-bold uppercase leading-none tracking-[0.04em] lg:w-[clamp(280px,59.05vw,940px)] lg:pl-[38%] lg:[transform:translateX(calc(min(36vw,573px)*-1))] ${badge.textClass ?? "text-gold"}`}
             >
               {/* Flipped and bled ~25% of its own width past the hero's left edge (Figma inset left: -24.69%) —
                   the page's own overflow-x-clip crops it, so it reads as cut off rather than a clean point. */}
-              <Image src="/images/figma/hero-badge-ribbon.svg" alt="" fill unoptimized className="pointer-events-none -z-10 lg:-scale-x-100" />
+              <Image src={badge.ribbonSrc ?? "/images/figma/hero-badge-ribbon.svg"} alt="" fill unoptimized className="pointer-events-none -z-10 lg:-scale-x-100" />
               {badge.label}
             </h1>
           ) : (
@@ -64,7 +72,7 @@ export function HomeHero({ heading, backgroundImage, imageAlt, action, clients, 
             {/* Exact Figma button shape (338 x 67). Text: Montserrat 24/24 bold; box inset
                 17 top / 26 bottom / 57 left / 59 right — padding and font derived
                 from the button width (--bw), so the proportions hold at every size. */}
-            <Image src="/images/figma/ribbon-service.svg" alt="" fill unoptimized className="pointer-events-none -z-10" />
+            <Image src={badge?.buttonSrc ?? "/images/figma/ribbon-service.svg"} alt="" fill unoptimized className="pointer-events-none -z-10" />
             {action.label}
           </Link>
         </div>

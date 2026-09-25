@@ -37,7 +37,16 @@ export default function GroceryPage() {
     <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
       <main className="relative bg-cream pb-[3.08%]">
         <ReferenceTopBar tone="sage" />
-        <HomeHero {...homeHero} stripBgClass="bg-sage-dark" />
+        <HomeHero
+          {...homeHero}
+          stripBgClass="bg-sage-dark"
+          badge={{
+            label: "Grocery",
+            ribbonSrc: "/images/figma/hero-badge-ribbon-sage.svg",
+            buttonSrc: "/images/figma/ribbon-service-sage.svg",
+            textClass: "text-cream",
+          }}
+        />
         <ServiceCardsSection cards={groceryProcessCards} />
         <BoothBanner {...boothBanner} />
         <SpecialtyCardsSection cards={grocerySpecialtyCards} />
