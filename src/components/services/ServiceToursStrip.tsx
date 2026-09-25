@@ -17,7 +17,7 @@ export function ServiceToursStrip({ heading, tours }: ServiceToursStripProps) {
     <section aria-labelledby="service-tours-heading" className="bg-sage pb-[clamp(16px,1.9vw,30px)]">
       <h2
         id="service-tours-heading"
-        className="bg-forest px-6 py-[clamp(12px,1.3vw,20px)] text-center font-display text-[clamp(1.1rem,1.884vw,30px)] font-bold leading-tight text-cream"
+        className="bg-forest px-6 py-[clamp(12px,1.3vw,20px)] text-center font-accent text-[clamp(1.1rem,1.884vw,30px)] font-bold leading-tight text-cream"
       >
         {heading}
       </h2>

@@ -30,7 +30,7 @@ export function HeroSection({ eyebrow, heading, backgroundImage, primaryAction }
         <div className="absolute inset-x-0 top-[43%] md:top-[54%]">
           <div className="px-6 md:px-[10%]">
             <p className="font-display text-xl font-normal text-cream md:text-3xl">{eyebrow}</p>
-            <h1 className="mt-2 max-w-[420px] font-display text-4xl font-semibold leading-[1.05] text-cream md:text-6xl">
+            <h1 className="mt-2 max-w-[420px] font-accent text-4xl font-semibold leading-[1.05] text-cream md:text-6xl">
               {heading}
             </h1>
             <Link

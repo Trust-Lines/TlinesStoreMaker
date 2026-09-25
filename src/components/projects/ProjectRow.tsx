@@ -38,7 +38,7 @@ export function ProjectRow({ project, reversed = false, tone }: ProjectRowProps)
         </div>
         <h2
           id={`${project.slug}-title`}
-          className="mt-5 font-display text-[1.2rem] font-bold leading-[1.2] lg:mt-[calc(var(--u)*34)] lg:text-[max(16px,calc(var(--u)*22))]"
+          className="mt-5 font-accent text-[1.2rem] font-bold leading-[1.2] lg:mt-[calc(var(--u)*34)] lg:text-[max(16px,calc(var(--u)*22))]"
         >
           {project.title}
         </h2>

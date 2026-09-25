@@ -63,7 +63,7 @@ function Card({ card }: { card: PromoCard }) {
         </div>
         <div className={`absolute inset-x-0 flex flex-col items-start gap-4 px-[7%] text-left ${isTruckStops ? "top-[49.5%]" : "top-[47.5%]"}`}>
           <h3
-            className={`font-sans text-3xl font-extrabold uppercase md:text-[clamp(1.7rem,2.35vw,2.8rem)] ${
+            className={`font-accent text-3xl font-extrabold uppercase md:text-[clamp(1.7rem,2.35vw,2.8rem)] ${
               isDark ? "text-sage-dark" : "text-cream"
             }`}
           >

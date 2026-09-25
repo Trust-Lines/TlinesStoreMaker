@@ -44,7 +44,7 @@ export function ServiceFeatureRow({ id, title, paragraphs, image, reversed = fal
           <ShapeFill src={side.title} className={titleTone.fill} />
           <h2
             id={headingId}
-            className="font-display text-[clamp(1.5rem,2.9vw,46px)] font-bold leading-[0.95]"
+            className="font-accent text-[clamp(1.5rem,2.9vw,46px)] font-bold leading-[0.95]"
           >
             {title}
           </h2>

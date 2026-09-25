@@ -32,13 +32,13 @@ export function SectionHeading({
   return (
     <div className={`flex flex-col gap-3 ${alignClass[align]}`}>
       <Heading
-        className={`font-display text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl ${colors.title}`}
+        className={`font-accent text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl ${colors.title}`}
       >
         {title}
         {subtitle ? (
           <>
             <br />
-            <span className="font-normal">{subtitle}</span>
+            <span className="font-display font-normal">{subtitle}</span>
           </>
         ) : null}
       </Heading>

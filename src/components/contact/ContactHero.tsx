@@ -30,7 +30,7 @@ export function ContactHero({ heading, image, phone, email, socials }: ContactHe
         <div className="px-6 sm:px-10 lg:absolute lg:left-[9.86%] lg:top-[25%] lg:px-0">
           <h1
             id="contact-heading"
-            className="font-display text-[2.25rem] font-bold uppercase leading-none text-cream lg:text-[max(33px,calc(var(--u)*60))]"
+            className="font-accent text-[2.25rem] font-bold uppercase leading-none text-cream lg:text-[max(33px,calc(var(--u)*60))]"
           >
             {heading}
           </h1>

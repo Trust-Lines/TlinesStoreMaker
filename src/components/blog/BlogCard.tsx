@@ -34,7 +34,7 @@ export function BlogCard({ post, categoryLabel, tone }: BlogCardProps) {
         </time>
       </div>
 
-      <h2 className="mt-4 font-display text-[1.15rem] font-bold leading-[1.2] lg:mt-[calc(var(--u)*18)] lg:text-[max(15px,calc(var(--u)*21))]">
+      <h2 className="mt-4 font-accent text-[1.15rem] font-bold leading-[1.2] lg:mt-[calc(var(--u)*18)] lg:text-[max(15px,calc(var(--u)*21))]">
         <Link
           href={`/blog/${post.slug}`}
           className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"

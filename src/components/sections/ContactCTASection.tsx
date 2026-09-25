@@ -38,7 +38,7 @@ export function ContactCTASection({ cards }: ContactCTASectionProps) {
                 <path d="M0.0627441 54.1707V208.993C0.0627441 213.556 1.91852 217.931 5.22131 221.078L44.2574 258.374C47.1827 261.175 51.0516 262.811 55.1094 263L375.141 280.986C379.671 281.174 384.106 279.506 387.377 276.391L439.341 226.758C442.644 223.61 444.5 219.236 444.5 214.672V65.4423C444.5 60.9102 442.644 56.5669 439.373 53.4196L388.824 4.66801C385.584 1.5522 381.243 -0.147329 376.745 0.0100358L48.8814 6.30042C44.7608 6.42631 40.7973 8.0629 37.809 10.9269L5.15839 42.1481C1.85559 45.2954 0 49.6701 0 54.2337L0.0627441 54.1707Z" fill="#547255" />
               </svg>
             )}
-            <h3 className="font-display text-[clamp(22px,2vw,32px)] font-semibold">{card.title}</h3>
+            <h3 className="font-accent text-[clamp(22px,2vw,32px)] font-semibold">{card.title}</h3>
             <p className="mt-3 max-w-[520px] text-[clamp(12px,1vw,16px)] font-light leading-[1.35] text-cream/90">{card.description}</p>
             <Link
               href={card.action.href}

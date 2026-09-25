@@ -75,7 +75,7 @@ export function HeadquartersSection({ heading, offices }: HeadquartersSectionPro
     >
       <h2
         id="hq-heading"
-        className="font-display text-[2rem] font-bold leading-[1.07] text-forest lg:w-[calc(var(--u)*780)] lg:text-[max(30px,calc(var(--u)*54))] lg:leading-[calc(var(--u)*58)]"
+        className="font-accent text-[2rem] font-bold leading-[1.07] text-forest lg:w-[calc(var(--u)*780)] lg:text-[max(30px,calc(var(--u)*54))] lg:leading-[calc(var(--u)*58)]"
       >
         {heading.map((line) => (
           <span key={line} className="block">
@@ -87,7 +87,7 @@ export function HeadquartersSection({ heading, offices }: HeadquartersSectionPro
       <div className="mt-10 flex flex-col gap-12 lg:mt-[calc(var(--u)*69)] lg:flex-row lg:items-start lg:gap-0">
         {/* Office details + divider */}
         <div aria-live="polite" className="lg:w-[calc(var(--u)*403)] lg:shrink-0 lg:border-r-2 lg:border-sage/45">
-          <h3 className="font-display text-[1.75rem] font-bold leading-[0.95] text-forest lg:w-[calc(var(--u)*387)] lg:text-[max(23px,calc(var(--u)*42))] lg:leading-[calc(var(--u)*40)]">
+          <h3 className="font-accent text-[1.75rem] font-bold leading-[0.95] text-forest lg:w-[calc(var(--u)*387)] lg:text-[max(23px,calc(var(--u)*42))] lg:leading-[calc(var(--u)*40)]">
             {office.title}
           </h3>
           <dl className="mt-6 flex flex-col gap-7 lg:mt-[calc(var(--u)*38)] lg:gap-[calc(var(--u)*42)]">

@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -16,15 +15,14 @@
   --color-muted-green: #828b7b;
   --color-ink: #2e4437;
 
-  /* System font stacks — no external font requests, so the site loads instantly
-     on locked-down networks that block/hang on Google Fonts. The named fonts
-     stay first in each stack so they apply automatically if ever installed or
-     self-hosted; otherwise the system fonts (present on every machine) are used.
-     Montserrat (subtitles / body copy) and Orbitron (titles) are the exceptions:
-     both load from Google Fonts above. */
-  --font-display: "Montserrat", "Segoe UI", system-ui, Arial, sans-serif;
+  /* Montserrat (subtitles / body copy) and Orbitron (titles) are self-hosted via
+     next/font/google (see layout.tsx), which sets --font-montserrat /
+     --font-orbitron on <html>. Referencing those here — with system fallbacks —
+     means the Tailwind font-display / font-accent utilities keep working even
+     before hydration or if a font variable is ever missing. */
+  --font-display: var(--font-montserrat), "Segoe UI", system-ui, Arial, sans-serif;
   --font-sans: "Manrope", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-  --font-accent: "Orbitron", "Segoe UI", system-ui, Arial, sans-serif;
+  --font-accent: var(--font-orbitron), "Segoe UI", system-ui, Arial, sans-serif;
 
   --background: var(--color-cream);
   --foreground: var(--color-ink);

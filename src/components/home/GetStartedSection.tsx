@@ -41,7 +41,7 @@ export function GetStartedSection({ title, description, action }: GetStartedSect
       <div className="flex flex-col items-center px-16 py-12 text-center sm:px-24 lg:h-full lg:px-0 lg:pb-0 lg:pt-[calc(var(--u)*59)]">
         <h2
           id="get-started-heading"
-          className="font-display text-[clamp(1.6rem,2.26vw,36px)] font-semibold leading-tight"
+          className="font-accent text-[clamp(1.6rem,2.26vw,36px)] font-semibold leading-tight"
         >
           {title}
         </h2>

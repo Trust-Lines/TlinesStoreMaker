@@ -31,7 +31,7 @@ export function BlogHero({ eyebrow, heading, description, image, headingId = "bl
           </p>
           <h1
             id={headingId}
-            className="mt-4 font-display text-[2.4rem] font-bold leading-[1.05] text-cream lg:mt-[calc(var(--u)*20)] lg:text-[max(33px,calc(var(--u)*60))]"
+            className="mt-4 font-accent text-[2.4rem] font-bold leading-[1.05] text-cream lg:mt-[calc(var(--u)*20)] lg:text-[max(33px,calc(var(--u)*60))]"
           >
             {heading}
           </h1>
