@@ -10,14 +10,14 @@ export const metadata: Metadata = { title: "Contact us — StoreMaker" };
 export default function ContactPage() {
   return (
     <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
-      <main className="relative bg-cream pb-[3.08%]">
+      <main className="relative bg-cream">
         <ReferenceTopBar />
         <ContactHero
           heading={contactPage.heading}
           image={contactPage.heroImage}
-          phone={contactPage.phone}
+          mascot={contactPage.mascot}
+          intro={contactPage.intro}
           email={contactPage.email}
-          socials={contactPage.socials}
         />
         <HeadquartersSection heading={contactPage.visitHeading} offices={headquarters} />
       </main>
