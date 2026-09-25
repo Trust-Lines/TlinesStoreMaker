@@ -371,7 +371,8 @@ export const members = {
 /** "Let's Get Started" band (Figma 298:5425, 1592 x 301). */
 export const getStarted = {
   title: "Let’s Get Started",
-  description: "Start by sending us your business information and let’s get started with your projects.",
+  // "\n" = the Figma line break (shown from lg up; phones wrap freely).
+  description: "Start by sending us your business information\nand let’s get started with your projects.",
   action: { label: "Request a Consultation", href: "/contact" },
 };
 
@@ -724,7 +725,7 @@ export interface BlogPost {
 
 // Placeholder posts from the Figma frame (copy and authors as designed; photos
 // borrowed from the project gallery) until real articles are written.
-export const blogPosts: BlogPost[] = [
+const designPosts: BlogPost[] = [
   {
     slug: "art-of-slow-fermentation-in-craft-soda",
     title: "The Art of Slow Fermentation in Craft Soda",
@@ -787,6 +788,32 @@ export const blogPosts: BlogPost[] = [
   },
 ];
 
+// PLACEHOLDER FILL — remove once real articles exist. The Figma Blog frame shows
+// three pages (6 cards each), so the six design posts are repeated with other
+// photos and earlier weekly dates to fill pages 2 and 3.
+const fillerPhotos = [
+  "/images/figma/project-grid-08.webp",
+  "/images/projects-gallery/cstore-uk-market.webp",
+  "/images/figma/home-service/cstore-photo.webp",
+  "/images/projects-gallery/truck-pizza-seating.webp",
+  "/images/figma/project-grid-01.webp",
+  "/images/projects-gallery/cstore-drinks-bar.webp",
+  "/images/figma/card-truck-stops.webp",
+  "/images/projects-gallery/grocery-fresh-aisles.webp",
+  "/images/figma/projects/rectangle-4398.webp",
+  "/images/projects-gallery/truck-drink-station.webp",
+  "/images/figma/project-grid-02.webp",
+  "/images/projects-gallery/cstore-checkout-lanes.webp",
+];
+
+const fillerPosts: BlogPost[] = fillerPhotos.map((image, index) => {
+  const source = designPosts[index % designPosts.length];
+  const date = new Date(Date.UTC(2026, 1, 3) - index * 7 * 24 * 60 * 60 * 1000); // weekly, back from 3 Feb 2026
+  return { ...source, slug: `${source.slug}-${index + 2}`, image, date: date.toISOString().slice(0, 10) };
+});
+
+export const blogPosts: BlogPost[] = [...designPosts, ...fillerPosts];
+
 /** Projects gallery page ("Projects" Figma frame): journal-style hero, category filter, framed photo cards. */
 export const projectsPage = {
   eyebrow: "Tlines Gallery",
@@ -834,4 +861,33 @@ const galleryPhotos: Omit<GalleryProject, "location">[] = [
   { id: "fresh-aisles", category: "grocery", image: `${galleryDir}/grocery-fresh-aisles.webp`, alt: "Grocery store aisles with fresh food signage" },
 ];
 
-export const galleryProjects: GalleryProject[] = galleryPhotos.map((project) => ({ ...project, location: "State, USA" }));
+/**
+ * Card order on "All" follows the Figma grid's colour rhythm — sage, gold /
+ * sage, coral / gold, coral — i.e. the category pattern below, repeated until
+ * every photo is placed (a slot is skipped once its category runs out).
+ * Filtering by category keeps this order within the category.
+ */
+const galleryPattern: ProjectCategoryId[] = ["grocery", "c-store", "grocery", "truck-stops", "c-store", "truck-stops"];
+
+function interleaveByPattern(photos: Omit<GalleryProject, "location">[]) {
+  const queues = new Map(galleryPattern.map((id) => [id, photos.filter((photo) => photo.category === id)]));
+  const ordered: Omit<GalleryProject, "location">[] = [];
+  let placed = true;
+  while (placed) {
+    placed = false;
+    for (const id of galleryPattern) {
+      const next = queues.get(id)?.shift();
+      if (next) {
+        ordered.push(next);
+        placed = true;
+      }
+    }
+  }
+  // Any category missing from the pattern goes at the end rather than being lost.
+  return [...ordered, ...photos.filter((photo) => !galleryPattern.includes(photo.category))];
+}
+
+export const galleryProjects: GalleryProject[] = interleaveByPattern(galleryPhotos).map((project) => ({
+  ...project,
+  location: "State, USA",
+}));

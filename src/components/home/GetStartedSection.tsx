@@ -9,7 +9,8 @@ export interface GetStartedSectionProps {
 
 /**
  * "Let's Get Started" band (Figma 298:5425, 1592 x 301, #547255): centred
- * heading and copy, a 288 x 48 coral button (radius 8) whose top sits 199.63px
+ * heading (Montserrat 38 bold, a 330px box) and two-line copy (break after
+ * "information" from lg up; free wrapping on phones), a 288 x 48 coral button (radius 8) whose top sits 199.63px
  * down and 53.37px above the bottom, and the sage "Subtract" outlines
  * (150 x 269 / 146 x 271) against the left and right edges. Below lg the band
  * takes its content height.
@@ -41,11 +42,11 @@ export function GetStartedSection({ title, description, action }: GetStartedSect
       <div className="flex flex-col items-center px-16 py-12 text-center sm:px-24 lg:h-full lg:px-0 lg:pb-0 lg:pt-[calc(var(--u)*59)]">
         <h2
           id="get-started-heading"
-          className="font-accent text-[clamp(1.6rem,2.26vw,36px)] font-semibold leading-tight"
+          className="whitespace-nowrap font-display text-[clamp(1.6rem,2.39vw,38px)] font-bold leading-tight"
         >
           {title}
         </h2>
-        <p className="mt-3 max-w-[34ch] text-[clamp(1rem,1.2vw,19px)] font-light leading-snug text-cream/85 lg:mt-[calc(var(--u)*14)] lg:max-w-[calc(var(--u)*460)]">
+        <p className="mt-3 max-w-[34ch] text-[clamp(1rem,1.2vw,19px)] font-light leading-snug text-cream/85 lg:mt-[calc(var(--u)*14)] lg:max-w-none lg:whitespace-pre-line">
           {description}
         </p>
         <Link
