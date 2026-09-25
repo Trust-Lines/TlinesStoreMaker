@@ -1,78 +1,58 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ContactForm } from "./ContactForm";
 
 export interface ContactHeroProps {
-  heading: string;
+  heading: string[];
   image: string;
-  phone: string;
+  mascot: string;
+  intro: string;
   email: string;
-  socials: { label: string; href: string; icon: string }[];
 }
 
-const labelClass = "font-display text-[13px] font-medium uppercase tracking-[0.04em] text-coral lg:text-[max(13px,calc(var(--u)*18))]";
-const valueClass =
-  "mt-1 inline-block font-display text-[1.35rem] font-medium text-cream hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream lg:mt-[calc(var(--u)*10)] lg:text-[max(19px,calc(var(--u)*30))]";
-
 /**
- * Contact hero (Figma frame 1592 x 959): darkened store photo with the contact
- * details on the left and the white form card on the right. From lg up the card
- * sits 831.68px in and 209px down, 623.6 wide, and runs ~178px past the hero
- * into the section below. Below lg the card stacks under the details.
+ * Project-enquiry hero from the new Contact frame. On the 1592px canvas the
+ * store photo is 959px tall, the mascot sits at x=197/y=455, and the 680x1031
+ * form overlaps the photo and cream panel at x=800/y=245.
  */
-export function ContactHero({ heading, image, phone, email, socials }: ContactHeroProps) {
+export function ContactHero({ heading, image, mascot, intro, email }: ContactHeroProps) {
   return (
-    <section aria-labelledby="contact-heading" className="relative isolate">
-      <div className="relative isolate bg-forest pb-24 pt-[calc(var(--header-h)+32px)] lg:aspect-[1592/959] lg:pb-0 lg:pt-0">
-        <Image src={image} alt="" fill priority sizes="(min-width: 1592px) 1592px, 100vw" className="-z-10 object-cover" />
-        <div aria-hidden className="absolute inset-0 -z-10 bg-forest-dark/75" />
-
-        <div className="px-6 sm:px-10 lg:absolute lg:left-[9.86%] lg:top-[25%] lg:px-0">
-          <h1
-            id="contact-heading"
-            className="font-accent text-[2.25rem] font-bold uppercase leading-none text-cream lg:text-[max(33px,calc(var(--u)*60))]"
-          >
-            {heading}
-          </h1>
-
-          <dl className="mt-10 flex flex-col gap-8 pl-[0.4em] sm:pl-6 lg:mt-[calc(var(--u)*80)] lg:gap-[calc(var(--u)*62)] lg:pl-[calc(var(--u)*26)]">
-            <div>
-              <dt className={labelClass}>Call</dt>
-              <dd>
-                <a href={`tel:+1${phone.replace(/\D/g, "")}`} className={valueClass}>
-                  {phone}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt className={labelClass}>Email</dt>
-              <dd>
-                <a href={`mailto:${email}`} className={valueClass}>
-                  {email}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt className={labelClass}>Social</dt>
-              <dd className="mt-2 flex gap-2 lg:mt-[calc(var(--u)*14)]">
-                {socials.map((social) => (
-                  <Link
-                    key={social.label}
-                    href={social.href}
-                    aria-label={social.label}
-                    className="rounded-[6px] outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream"
-                  >
-                    <Image src={social.icon} alt="" width={49} height={49} unoptimized className="h-11 w-11 lg:h-[calc(var(--u)*46)] lg:w-[calc(var(--u)*46)]" />
-                  </Link>
-                ))}
-              </dd>
-            </div>
-          </dl>
-        </div>
+    <section aria-labelledby="contact-heading" className="relative isolate overflow-hidden bg-cream">
+      <div className="absolute inset-x-0 top-0 h-[500px] bg-forest sm:h-[650px] lg:h-[calc(var(--u)*959)]">
+        <Image src={image} alt="" fill priority sizes="(min-width: 1592px) 1592px, 100vw" className="object-cover" />
+        <div aria-hidden className="absolute inset-0 bg-forest-dark/60" />
       </div>
+      <Image
+        src="/images/contact/hero-divider.svg"
+        alt=""
+        width={1592}
+        height={3}
+        unoptimized
+        className="pointer-events-none absolute inset-x-0 top-[497px] z-10 h-[3px] w-full sm:top-[647px] lg:top-[calc(var(--u)*956)] lg:h-[calc(var(--u)*3)]"
+      />
 
-      <div className="relative z-10 mx-4 -mt-14 sm:mx-auto sm:max-w-[560px] lg:absolute lg:left-[52.24%] lg:top-[21.8%] lg:mx-0 lg:mt-0 lg:w-[39.17%] lg:max-w-none">
-        <ContactForm email={email} />
+      <div className="relative mx-auto flex min-h-[1180px] w-full max-w-[1592px] flex-col px-5 pb-16 pt-[calc(var(--header-h)+42px)] sm:px-10 lg:aspect-[1592/1341] lg:min-h-0 lg:px-0 lg:pb-0 lg:pt-0">
+        <h1
+          id="contact-heading"
+          className="relative z-10 ml-[8%] font-display text-[clamp(2rem,8vw,3.2rem)] font-extrabold uppercase leading-[0.94] text-cream lg:absolute lg:left-[calc(var(--u)*264)] lg:top-[calc(var(--u)*320)] lg:ml-0 lg:text-[calc(var(--u)*48)]"
+        >
+          {heading.map((line) => (
+            <span key={line} className="block">
+              {line}
+            </span>
+          ))}
+        </h1>
+
+        <div className="relative z-10 mx-auto mt-8 aspect-[593/564] w-[min(86vw,460px)] lg:absolute lg:left-[calc(var(--u)*197)] lg:top-[calc(var(--u)*455)] lg:mt-0 lg:w-[calc(var(--u)*593)]">
+          <Image src={mascot} alt="T Lines project specialist holding store plans" fill priority unoptimized className="object-contain" />
+        </div>
+
+        <p className="relative z-10 mx-auto mt-6 w-[min(86vw,505px)] font-display text-[18px] font-medium leading-normal text-forest sm:text-[20px] lg:absolute lg:left-[calc(var(--u)*197)] lg:top-[calc(var(--u)*1061)] lg:mt-0 lg:w-[calc(var(--u)*505)] lg:text-[calc(var(--u)*22)]">
+          {intro}
+        </p>
+
+        <div className="relative z-20 mx-auto mt-10 w-full max-w-[560px] lg:absolute lg:left-[calc(var(--u)*800)] lg:top-[calc(var(--u)*245)] lg:mt-0 lg:w-[calc(var(--u)*680)] lg:max-w-none">
+          <ContactForm email={email} />
+        </div>
       </div>
     </section>
   );

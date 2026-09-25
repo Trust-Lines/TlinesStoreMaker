@@ -1,32 +1,28 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import type { FormEvent } from "react";
 import { useState } from "react";
 
 export interface ContactFormProps {
-  /** Inbox the message is addressed to. */
   email: string;
 }
 
 const fields = [
   { name: "name", label: "Full Name", type: "text", autoComplete: "name", placeholder: "Your first and last names.." },
+  { name: "phone", label: "Phone Number", type: "tel", autoComplete: "tel", placeholder: "example LTD.." },
+  { name: "email", label: "Email Address", type: "email", autoComplete: "email", placeholder: "example LTD.." },
   { name: "company", label: "Company Name", type: "text", autoComplete: "organization", placeholder: "example LTD.." },
-  { name: "phone", label: "Phone Number", type: "tel", autoComplete: "tel", placeholder: "+1 (000) 000-0000" },
-  { name: "email", label: "Email", type: "email", autoComplete: "email", placeholder: "you@company.com" },
+  { name: "location", label: "Store Location", type: "text", autoComplete: "street-address", placeholder: "Street, district, city, state.." },
 ] as const;
 
 const labelClass =
-  "font-display text-[15px] font-semibold text-forest lg:text-[max(13px,calc(var(--u)*18))] after:ml-0.5 after:text-coral after:content-['*']";
+  "font-display text-[13px] font-semibold text-forest after:ml-0.5 after:text-coral after:content-['*'] lg:text-[calc(var(--u)*17)]";
 const inputClass =
-  "mt-2 w-full border-0 border-b border-[#cfcac0] bg-transparent px-0 py-2 font-sans text-[15px] text-forest placeholder:text-[#c4c0b8] focus:border-forest focus:outline-none focus-visible:ring-0 lg:mt-[calc(var(--u)*10)] lg:text-[max(12px,calc(var(--u)*16))]";
+  "mt-1.5 h-8 w-full border-0 border-b border-[#d6d8d4] bg-transparent px-0 text-[13px] text-forest placeholder:text-[#c8ceca] focus:border-forest focus:outline-none focus-visible:ring-0 lg:mt-[calc(var(--u)*5)] lg:h-[calc(var(--u)*42)] lg:text-[calc(var(--u)*15)]";
 
-/**
- * "Contact us" form card: white Figma card vector (626 x 930, soft-cut corners)
- * behind Frame 427318975 (52px side
- * padding, 50px between fields, coral 518 x 87 send button). There is no
- * backend yet, so a valid submission opens the visitor's mail app with the
- * message pre-filled.
- */
+/** New-project form on the supplied 680x1031 shaped card. */
 export function ContactForm({ email }: ContactFormProps) {
   const [sent, setSent] = useState(false);
 
@@ -36,67 +32,76 @@ export function ContactForm({ email }: ContactFormProps) {
     const value = (key: string) => String(data.get(key) ?? "").trim();
     const body = [
       `Name: ${value("name")}`,
-      `Company: ${value("company")}`,
       `Phone: ${value("phone")}`,
       `Email: ${value("email")}`,
-      "",
-      value("message"),
+      `Company: ${value("company")}`,
+      `Store location: ${value("location")}`,
+      `Store condition: ${value("condition")}`,
+      `Store type: ${value("storeType")}`,
     ].join("\n");
-    const subject = `Website enquiry from ${value("name")}`;
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(`Project enquiry from ${value("name")}`)}&body=${encodeURIComponent(body)}`;
     setSent(true);
   }
 
   return (
     <form
       onSubmit={handleSubmit}
-      aria-label="Contact form"
-      className="relative isolate flex flex-col gap-7 px-6 pb-7 pt-8 drop-shadow-[0_18px_24px_rgba(31,47,38,0.22)] sm:px-10 lg:gap-[calc(var(--u)*50)] lg:px-[calc(var(--u)*52)] lg:pb-[calc(var(--u)*35)] lg:pt-[calc(var(--u)*50)]"
+      aria-label="Project enquiry form"
+      className="relative isolate flex min-h-[760px] flex-col px-[8%] pb-[6%] pt-[8%] drop-shadow-[0_18px_24px_rgba(31,47,38,0.18)] lg:aspect-[680/1031] lg:min-h-0 lg:px-[calc(var(--u)*53)] lg:pb-[calc(var(--u)*44)] lg:pt-[calc(var(--u)*50)]"
     >
-      <span
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-white [mask-repeat:no-repeat] [mask-size:100%_100%]"
-        style={{ maskImage: "url(/images/contact/form-card.svg)", WebkitMaskImage: "url(/images/contact/form-card.svg)" }}
-      />
-      {fields.map((field) => (
-        <label key={field.name} className="block">
-          <span className={labelClass}>{field.label}</span>
-          <input
-            name={field.name}
-            type={field.type}
-            autoComplete={field.autoComplete}
-            placeholder={field.placeholder}
-            required
-            className={inputClass}
-          />
+      <Image src="/images/contact/project-form-card.svg" alt="" fill unoptimized className="pointer-events-none -z-10" />
+
+      <div className="flex flex-col gap-3 lg:gap-[calc(var(--u)*15)]">
+        {fields.map((field) => (
+          <label key={field.name} className="block">
+            <span className={labelClass}>{field.label}</span>
+            <input name={field.name} type={field.type} autoComplete={field.autoComplete} placeholder={field.placeholder} required className={inputClass} />
+          </label>
+        ))}
+
+        <fieldset>
+          <legend className={labelClass}>Store Condition</legend>
+          <div className="mt-2 flex gap-8 text-[12px] text-forest lg:gap-[calc(var(--u)*34)] lg:text-[calc(var(--u)*14)]">
+            <label className="flex items-center gap-2">
+              <input type="radio" name="condition" value="New Store" defaultChecked className="accent-forest" />
+              New Store
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="radio" name="condition" value="Remodeling" className="accent-forest" />
+              Remodeling
+            </label>
+          </div>
+        </fieldset>
+
+        <label className="block">
+          <span className={labelClass}>Store Type</span>
+          <select name="storeType" required defaultValue="" className={`${inputClass} cursor-pointer`}>
+            <option value="" disabled>Select Type</option>
+            <option value="C-store">C-store</option>
+            <option value="Truck Stop">Truck Stop</option>
+            <option value="Grocery">Grocery</option>
+            <option value="Other">Other</option>
+          </select>
         </label>
-      ))}
 
-      <label className="block">
-        <span className={labelClass}>Your Message</span>
-        <textarea
-          name="message"
-          rows={4}
-          placeholder="Type your message.."
-          required
-          className={`${inputClass} resize-y lg:h-[calc(var(--u)*136)]`}
-        />
-      </label>
+        <label className="mt-1 flex items-start gap-3 text-[11px] leading-snug text-forest lg:mt-[calc(var(--u)*6)] lg:text-[calc(var(--u)*12)]">
+          <input type="checkbox" name="privacy" required className="mt-0.5 h-4 w-4 shrink-0 accent-forest" />
+          <span>
+            I agree to the T Lines <Link href="/contact#privacy-policy" className="font-semibold underline underline-offset-2">Privacy Policy</Link>
+          </span>
+        </label>
+      </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="mt-auto">
         <button
           type="submit"
-          className="relative isolate flex aspect-[518/87] w-full items-center justify-center font-display text-[17px] font-bold text-cream transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-forest lg:text-[max(16px,calc(var(--u)*22))]"
+          className="relative isolate flex aspect-[562/87] w-full items-center justify-center font-display text-[14px] font-bold text-cream transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-forest lg:text-[calc(var(--u)*18)]"
         >
-          <span
-            aria-hidden
-            className="absolute inset-0 -z-10 bg-coral [mask-repeat:no-repeat] [mask-size:100%_100%]"
-            style={{ maskImage: "url(/images/contact/send-button.svg)", WebkitMaskImage: "url(/images/contact/send-button.svg)" }}
-          />
-          Send Message
+          <Image src="/images/contact/project-submit-button.svg" alt="" fill unoptimized className="pointer-events-none -z-10" />
+          Send Project Details
         </button>
-        <p role="status" className="text-center text-sm text-forest empty:hidden">
-          {sent ? "Your mail app should open with the message ready to send." : ""}
+        <p role="status" className="mt-1 text-center text-[11px] text-forest empty:hidden">
+          {sent ? "Your mail app should open with the project details ready to send." : ""}
         </p>
       </div>
     </form>

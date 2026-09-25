@@ -669,16 +669,13 @@ export const footer = {
 
 /** Contact page ("Contact us" Figma frame). */
 export const contactPage = {
-  heading: "Contact us",
+  heading: ["Your Project", "Starts Here"],
   heroImage: "/images/figma/card-grocery.webp",
-  phone: "800 660 3772",
+  mascot: "/images/contact/project-mascot.svg",
+  intro:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   email: "info@tlines.us",
-  socials: [
-    { label: "Instagram", href: "/contact", icon: "/images/figma/social-icon-1.svg" },
-    { label: "YouTube", href: "/contact", icon: "/images/figma/social-icon-2.svg" },
-    { label: "LinkedIn", href: "/contact", icon: "/images/figma/social-icon-3.svg" },
-  ],
-  visitHeading: ["Visit us at", "Our headquarters"],
+  visitHeading: ["Building", "C-stores", "Nationwide"],
 };
 
 export type HeadquarterId = "southeast" | "southwest" | "northeast";
@@ -699,7 +696,7 @@ export const headquarters: {
 }[] = [
     {
       id: "southeast",
-      title: "South East Region (HQ)",
+      title: "Main Head\nQuarter (HQ)",
       label: "South East HQ",
       address: ["1422 Woodmont Lane #4", "Atlanta, GA"],
       hours: ["Monday–Friday", "9am–5pm"],
