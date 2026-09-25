@@ -21,7 +21,11 @@
      means the Tailwind font-display / font-accent utilities keep working even
      before hydration or if a font variable is ever missing. */
   --font-display: var(--font-montserrat), "Segoe UI", system-ui, Arial, sans-serif;
-  --font-sans: "Manrope", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  /* Body copy is Montserrat too (every Figma text spec uses it). Only fonts loaded
+     through next/font belong at the front of these stacks: a family that isn't
+     loaded (e.g. the old "Manrope") silently falls back to whatever the visitor's
+     OS has, so the deployed site would look different on each machine. */
+  --font-sans: var(--font-montserrat), "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
   --font-accent: var(--font-orbitron), "Segoe UI", system-ui, Arial, sans-serif;
 
   --background: var(--color-cream);

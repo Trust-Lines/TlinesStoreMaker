@@ -13,6 +13,7 @@ const menuItems = [
   { label: "Branding", href: "/#branding", sub: true },
   { label: "Management", href: "/#management", sub: true },
   { label: "Work", href: "/#projects" },
+  { label: "Projects", href: "/projects" },
   { label: "News", href: "/news" },
   { label: "About us", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -33,14 +34,14 @@ const tones = {
     fill: "#DB7358",
     ink: "text-cream",
     focus: "focus-visible:outline-cream",
-    logo: { src: "/images/figma/topbar-logo-cream.svg", width: 388, height: 95, className: "-ml-2 max-w-none w-[170px] sm:-ml-3 sm:w-[240px] lg:-mt-2 lg:-ml-[min(2.33vw,37px)] lg:w-[min(24.37vw,388px)]" },
+    logo: { src: "/images/figma/topbar-logo-cream.svg", width: 388, height: 95, className: "max-w-none w-[170px] sm:-ml-3 sm:w-[240px] lg:-mt-2 lg:-ml-[min(2.33vw,37px)] lg:w-[min(24.37vw,388px)]" },
     menuIcon: "/images/figma/menu-icon-cream.svg",
   },
   sage: {
     fill: "#939878",
     ink: "text-cream",
     focus: "focus-visible:outline-cream",
-    logo: { src: "/images/figma/topbar-logo-cream.svg", width: 388, height: 95, className: "-ml-2 max-w-none w-[170px] sm:-ml-3 sm:w-[240px] lg:-mt-2 lg:-ml-[min(2.33vw,37px)] lg:w-[min(24.37vw,388px)]" },
+    logo: { src: "/images/figma/topbar-logo-cream.svg", width: 388, height: 95, className: "max-w-none w-[170px] sm:-ml-3 sm:w-[240px] lg:-mt-2 lg:-ml-[min(2.33vw,37px)] lg:w-[min(24.37vw,388px)]" },
     menuIcon: "/images/figma/menu-icon-cream.svg",
   },
 } as const;
@@ -84,10 +85,12 @@ export function ReferenceTopBar({ tone = "gold" }: ReferenceTopBarProps) {
         />
       </svg>
 
-      {/* lg+: Figma placement on the 1592 frame — logo 143px in / 24px down,
+      {/* Phones: side padding clears the bar's slanted ends (~6% left at the logo,
+          ~7% right at the menu icon), so neither pokes out of the shape.
+          lg+: Figma placement on the 1592 frame — logo 143px in / 24px down,
           "Get in touch" 97px from the menu bars, 51px menu icon (Group 382)
           101.3px from the right edge, centred ~44px down. */}
-      <div className="relative mx-auto flex h-[72px] w-full items-center justify-between px-6 sm:h-[92px] sm:px-[9.5%] lg:h-auto lg:items-start lg:pl-[9%] lg:pr-[6.363%] lg:pt-[22px]">
+      <div className="relative mx-auto flex h-[72px] w-full items-center justify-between pl-[calc(6.5%+14px)] pr-[calc(7%+6px)] sm:h-[92px] sm:px-[9.5%] lg:h-auto lg:items-start lg:pl-[9%] lg:pr-[6.363%] lg:pt-[22px]">
         <Link href="/#home" className={`flex items-center gap-2 outline-offset-4 focus-visible:outline focus-visible:outline-2 ${theme.focus}`}>
           <Image
             src={theme.logo.src}

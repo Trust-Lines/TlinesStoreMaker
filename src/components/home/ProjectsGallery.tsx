@@ -39,7 +39,7 @@ export function ProjectsGallery({ title, tiles, layout, tours }: ProjectsGallery
         className="relative px-4 sm:px-6 lg:aspect-[var(--frame-ratio)] lg:px-0"
         style={{ "--frame-ratio": `${frame.w} / ${frame.h}` } as CSSProperties}
       >
-        <ProjectsGrid title={title} tiles={tiles} frame={frame} label={layout.label} mobileRows={layout.mobileRows} />
+        <ProjectsGrid title={title} tiles={tiles} frame={frame} label={layout.label} mobileRows={layout.mobileRows} href="/projects" />
 
         <div
           className="mt-8 lg:absolute lg:left-[var(--bx)] lg:top-[var(--ty)] lg:mt-0 lg:w-[var(--bw)]"

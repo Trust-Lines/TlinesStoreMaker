@@ -571,39 +571,51 @@ export const blogPosts: BlogPost[] = [
   },
 ];
 
-/** Projects page ("Projects" Figma frame): journal-style hero + alternating photo / card rows. */
+/** Projects gallery page ("Projects" Figma frame): journal-style hero, category filter, framed photo cards. */
 export const projectsPage = {
-  eyebrow: "Tlines Journal",
+  eyebrow: "Tlines Gallery",
   heading: "Projects",
   description: blogPage.description,
   heroImage: "/images/figma/card-grocery.webp",
 };
 
-export interface ProjectEntry {
-  slug: string;
-  title: string;
-  excerpt: string;
-  tag: string;
-  date: string; // ISO yyyy-mm-dd
-  author: string;
+/** Gallery categories; `tone` colours the filter pill, card frame and location label. */
+export const projectCategories = [
+  { id: "c-store", label: "C-store", tone: "gold" },
+  { id: "truck-stops", label: "Truck Stops", tone: "coral" },
+  { id: "grocery", label: "Grocery", tone: "sage" },
+] as const;
+
+export type ProjectCategoryId = (typeof projectCategories)[number]["id"];
+
+export interface GalleryProject {
+  id: string;
+  category: ProjectCategoryId;
+  /** Location label on the card; the design shows "STATE, USA" as a placeholder. */
+  location: string;
   image: string;
+  alt: string;
 }
 
-// Placeholder entries: the Figma frame repeats one sample card on every row.
-// Photos come from the project gallery; swap in real case studies when ready.
-const sampleProject = {
-  title: "The Art of Slow Fermentation in Craft Soda",
-  excerpt:
-    "How extending fermentation cycles allows natural botanicals to develop deeper, more complex flavor profiles without artificial additives.",
-  tag: "Tips & Tricks",
-  date: "2026-03-12",
-  author: "Elena Rostova",
-};
+const galleryDir = "/images/projects-gallery";
 
-export const projectEntries: ProjectEntry[] = [
-  { slug: "project-1", image: "/images/figma/project-grid-02.webp", ...sampleProject },
-  { slug: "project-2", image: "/images/figma/project-grid-05.webp", ...sampleProject },
-  { slug: "project-3", image: "/images/figma/project-grid-06.webp", ...sampleProject },
-  { slug: "project-4", image: "/images/figma/project-grid-09.webp", ...sampleProject },
-  { slug: "project-5", image: "/images/figma/project-grid-10.webp", ...sampleProject },
+// Photos from the project library, grouped by store type as best judged from
+// the images. Locations are the design's placeholder until real ones are supplied.
+const galleryPhotos: Omit<GalleryProject, "location">[] = [
+  { id: "speedy", category: "c-store", image: "/images/figma/project-grid-08.webp", alt: "Speedy c-store snack aisles" },
+  { id: "island-counter", category: "c-store", image: "/images/figma/home-service/cstore-photo.webp", alt: "C-store island counter with wood panelling" },
+  { id: "uk-market", category: "c-store", image: `${galleryDir}/cstore-uk-market.webp`, alt: "UK c-store checkout and coolers" },
+  { id: "cashier", category: "c-store", image: "/images/figma/projects/rectangle-4398.webp", alt: "C-store cashier counter" },
+  { id: "checkout-lanes", category: "c-store", image: `${galleryDir}/cstore-checkout-lanes.webp`, alt: "C-store checkout counter and shelving" },
+  { id: "drinks-bar", category: "c-store", image: `${galleryDir}/cstore-drinks-bar.webp`, alt: "C-store fountain drinks bar" },
+  { id: "dining-area", category: "truck-stops", image: "/images/figma/card-truck-stops.webp", alt: "Truck stop dining area" },
+  { id: "food-court", category: "truck-stops", image: "/images/figma/project-grid-02.webp", alt: "Truck stop food court entrance" },
+  { id: "pizza-seating", category: "truck-stops", image: `${galleryDir}/truck-pizza-seating.webp`, alt: "Truck stop pizza counter and seating" },
+  { id: "drink-station", category: "truck-stops", image: `${galleryDir}/truck-drink-station.webp`, alt: "Truck stop frozen drink station" },
+  { id: "pretzel-counter", category: "truck-stops", image: "/images/figma/projects/rectangle-4400.webp", alt: "Truck stop pretzel counter" },
+  { id: "prince-market", category: "grocery", image: "/images/figma/project-grid-01.webp", alt: "Prince Market grocery aisles and checkout" },
+  { id: "produce-tree", category: "grocery", image: "/images/figma/card-grocery.webp", alt: "Grocery produce area with a feature tree" },
+  { id: "fresh-aisles", category: "grocery", image: `${galleryDir}/grocery-fresh-aisles.webp`, alt: "Grocery store aisles with fresh food signage" },
 ];
+
+export const galleryProjects: GalleryProject[] = galleryPhotos.map((project) => ({ ...project, location: "State, USA" }));

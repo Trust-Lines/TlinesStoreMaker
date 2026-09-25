@@ -1,7 +1,6 @@
-"use client";
-
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type TouchEvent } from "react";
+import Link from "next/link";
+import type { CSSProperties } from "react";
 
 export interface ProjectTile {
   id: string;
@@ -33,6 +32,8 @@ export interface ProjectsGridProps {
   label: { src: string; x: number; y: number; w: number; h: number };
   /** Below-lg layout: rows of tile ids ("Project Mobile" frame). */
   mobileRows: MobileTileRef[][];
+  /** Where every photo tile (and the label) leads: the full Projects gallery. */
+  href: string;
 }
 
 const pct = (value: number, of: number) => `${(value / of) * 100}%`;
@@ -40,87 +41,40 @@ const maskStyle = (mask?: string): CSSProperties | undefined =>
   mask ? { maskImage: `url(${mask})`, WebkitMaskImage: `url(${mask})` } : undefined;
 
 /**
- * Projects mosaic. From lg up every tile sits at its exact Figma position
+ * Homepage Projects mosaic, a teaser for the Projects gallery: every photo tile
+ * links to `href`. From lg up each tile sits at its exact Figma position
  * (percentages of the 1592 x 1091 frame, so it scales with the page). Below lg
  * it follows the "Project Mobile" frame: full-width label, then rows that
  * alternate one wide tile and a pair; tiles in a row share one height (each
- * grows by its w/h ratio) so the pre-shaped photos never distort. Each photo
- * tile opens a lightbox (native <dialog>) that steps through the unique photos
- * with arrows, ← / →, or swipe.
+ * grows by its w/h ratio) so the pre-shaped photos never distort.
  */
-export function ProjectsGrid({ title, tiles, frame, label, mobileRows }: ProjectsGridProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  const touchStartX = useRef<number | null>(null);
-  const [active, setActive] = useState<number | null>(null);
+export function ProjectsGrid({ title, tiles, frame, label, mobileRows, href }: ProjectsGridProps) {
+  const byId = new Map(tiles.map((tile) => [tile.id, tile]));
 
-  // Several tiles reuse the same photo; the lightbox shows each photo once.
-  const photos = useMemo(
-    () => [...new Map(tiles.filter((tile) => !tile.placeholder && tile.image).map((tile) => [tile.image, tile])).values()],
-    [tiles],
-  );
-  const photoIndex = (tile: ProjectTile) => photos.findIndex((photo) => photo.image === tile.image);
-  const byId = useMemo(() => new Map(tiles.map((tile) => [tile.id, tile])), [tiles]);
-
-  const count = photos.length;
-  const go = useCallback(
-    (step: number) => setActive((index) => (index === null ? index : (index + step + count) % count)),
-    [count],
-  );
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (active !== null && !dialog.open) dialog.showModal();
-    if (active === null && dialog.open) dialog.close();
-  }, [active]);
-
-  useEffect(() => {
-    if (active === null) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "ArrowRight") go(1);
-      if (event.key === "ArrowLeft") go(-1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [active, go]);
-
-  const onTouchStart = (event: TouchEvent) => {
-    touchStartX.current = event.touches[0].clientX;
-  };
-  const onTouchEnd = (event: TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const delta = event.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(delta) > 40) go(delta < 0 ? 1 : -1);
-    touchStartX.current = null;
-  };
-
-  const current = active === null ? null : photos[active];
-
-  const tileButton = (tile: ProjectTile, mask: string | undefined, sizes: string) => (
-    <button
-      type="button"
-      onClick={() => setActive(photoIndex(tile))}
-      aria-label={`View project photo ${photoIndex(tile) + 1} of ${count}`}
-      aria-haspopup="dialog"
-      className="group block h-full w-full cursor-zoom-in outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream"
+  const tileLink = (tile: ProjectTile, mask: string | undefined, sizes: string) => (
+    <Link
+      href={href}
+      aria-label={`${tile.alt}: see all projects`}
+      className="group block h-full w-full outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream"
     >
       <span className="relative block h-full w-full overflow-hidden [mask-repeat:no-repeat] [mask-size:100%_100%]" style={maskStyle(mask)}>
         <Image
           src={tile.image ?? ""}
-          alt={tile.alt}
+          alt=""
           fill
           sizes={sizes}
           className={`transition-transform duration-500 group-hover:scale-105 ${mask ? "object-cover" : "object-fill"}`}
         />
       </span>
-    </button>
+    </Link>
   );
 
   return (
     <>
       {/* Label: Figma 523 x 134 at its frame position from lg; full width on top below lg. */}
-      <div
-        className="relative z-10 mx-auto mb-3 aspect-[523/134] w-full max-w-[640px] lg:absolute lg:mx-0 lg:max-w-none lg:left-[var(--lx)] lg:top-[var(--ly)] lg:mb-0 lg:w-[var(--lw)]"
+      <Link
+        href={href}
+        className="relative z-10 mx-auto mb-3 block aspect-[523/134] w-full max-w-[640px] outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream lg:absolute lg:left-[var(--lx)] lg:top-[var(--ly)] lg:mx-0 lg:mb-0 lg:w-[var(--lw)] lg:max-w-none"
         style={{
           "--lx": pct(label.x, frame.w),
           "--ly": pct(label.y, frame.h),
@@ -134,7 +88,7 @@ export function ProjectsGrid({ title, tiles, frame, label, mobileRows }: Project
         >
           {title}
         </h2>
-      </div>
+      </Link>
 
       {/* Below lg: wide / pair rows. */}
       <div className="mx-auto flex max-w-[640px] flex-col gap-2.5 lg:hidden">
@@ -146,7 +100,7 @@ export function ProjectsGrid({ title, tiles, frame, label, mobileRows }: Project
               const ratio = ref.ratio ?? tile.w / tile.h;
               return (
                 <li key={ref.id} className="relative min-w-0" style={{ flex: `${ratio} 1 0%`, aspectRatio: ratio }}>
-                  {tileButton(tile, ref.mask ?? tile.mask, row.length > 1 ? "50vw" : "100vw")}
+                  {tileLink(tile, ref.mask ?? tile.mask, row.length > 1 ? "50vw" : "100vw")}
                 </li>
               );
             })}
@@ -175,79 +129,11 @@ export function ProjectsGrid({ title, tiles, frame, label, mobileRows }: Project
                 <span className="block h-full w-full bg-forest [mask-repeat:no-repeat] [mask-size:100%_100%]" style={maskStyle(tile.mask)} />
               )
             ) : (
-              tileButton(tile, tile.mask, "32vw")
+              tileLink(tile, tile.mask, "32vw")
             )}
           </li>
         ))}
       </ul>
-
-      <dialog
-        ref={dialogRef}
-        aria-label="Project photos"
-        onClose={() => setActive(null)}
-        onClick={(event) => {
-          if (event.target === event.currentTarget) setActive(null);
-        }}
-        className="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-forest-dark/90"
-      >
-        {current ? (
-          <div
-            className="relative flex h-full w-full flex-col items-center justify-center gap-3 p-4"
-            onClick={(event) => {
-              if (event.target === event.currentTarget) setActive(null);
-            }}
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-          >
-            {/* Viewer box matches the page column / Projects frame: up to 1592px
-                wide at the frame's 1592 x 1091 ratio, capped to the window height.
-                The photo is fitted inside; close sits in the box's top-right
-                corner and the arrows on its left/right edges. */}
-            <div className="relative aspect-[1592/1091] w-[min(calc(100vw-2rem),1592px,calc((100dvh-8rem)*1592/1091))]">
-              <Image
-                key={current.id}
-                src={current.image ?? ""}
-                alt={current.alt}
-                fill
-                loading="eager"
-                sizes="(min-width: 1592px) 1592px, 100vw"
-                className="object-contain"
-              />
-
-              <button
-                type="button"
-                onClick={() => go(-1)}
-                aria-label="Previous photo"
-                className="absolute left-2 top-1/2 -translate-y-1/2 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream sm:left-4"
-              >
-                <Image src="/images/figma/carousel-arrow-prev.svg" alt="" width={61} height={65} unoptimized className="h-12 w-auto sm:h-[65px]" />
-              </button>
-              <button
-                type="button"
-                onClick={() => go(1)}
-                aria-label="Next photo"
-                className="absolute right-2 top-1/2 -translate-y-1/2 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream sm:right-4"
-              >
-                <Image src="/images/figma/carousel-arrow-next.svg" alt="" width={61} height={65} unoptimized className="h-12 w-auto sm:h-[65px]" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActive(null)}
-                aria-label="Close"
-                className="absolute right-2 top-2 z-10 transition-transform sm:right-4 sm:top-4 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
-              >
-                {/* Exact Figma close button (coral ribbon + ×), 117 x 67. */}
-                <Image src="/images/figma/close-button.svg" alt="" width={117} height={67} unoptimized className="h-auto w-[88px] sm:w-[117px]" />
-              </button>
-            </div>
-
-            <p aria-live="polite" className="text-sm font-semibold text-cream">
-              {(active ?? 0) + 1} / {count}
-            </p>
-          </div>
-        ) : null}
-      </dialog>
     </>
   );
 }
