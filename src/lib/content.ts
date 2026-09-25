@@ -645,4 +645,33 @@ const galleryPhotos: Omit<GalleryProject, "location">[] = [
   { id: "fresh-aisles", category: "grocery", image: `${galleryDir}/grocery-fresh-aisles.webp`, alt: "Grocery store aisles with fresh food signage" },
 ];
 
-export const galleryProjects: GalleryProject[] = galleryPhotos.map((project) => ({ ...project, location: "State, USA" }));
+/**
+ * Card order on "All" follows the Figma grid's colour rhythm — sage, gold /
+ * sage, coral / gold, coral — i.e. the category pattern below, repeated until
+ * every photo is placed (a slot is skipped once its category runs out).
+ * Filtering by category keeps this order within the category.
+ */
+const galleryPattern: ProjectCategoryId[] = ["grocery", "c-store", "grocery", "truck-stops", "c-store", "truck-stops"];
+
+function interleaveByPattern(photos: Omit<GalleryProject, "location">[]) {
+  const queues = new Map(galleryPattern.map((id) => [id, photos.filter((photo) => photo.category === id)]));
+  const ordered: Omit<GalleryProject, "location">[] = [];
+  let placed = true;
+  while (placed) {
+    placed = false;
+    for (const id of galleryPattern) {
+      const next = queues.get(id)?.shift();
+      if (next) {
+        ordered.push(next);
+        placed = true;
+      }
+    }
+  }
+  // Any category missing from the pattern goes at the end rather than being lost.
+  return [...ordered, ...photos.filter((photo) => !galleryPattern.includes(photo.category))];
+}
+
+export const galleryProjects: GalleryProject[] = interleaveByPattern(galleryPhotos).map((project) => ({
+  ...project,
+  location: "State, USA",
+}));
