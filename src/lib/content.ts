@@ -28,7 +28,7 @@ export const homeHero = {
     src: "/images/figma/clients/clients-strip.svg",
     width: 1705,
     height: 50,
-    names: ["TA (TravelCenters of America)", "Prince Market", "Pilot", "Teddy’s Market", "Speedy", "Brew", "Chestnut Market"],
+    names: ["TA (TravelCenters of America)", "Prince Market", "Pilot", "Teddy’s Market", "Brew", "Chestnut Market"],
   },
 };
 
@@ -673,7 +673,7 @@ export const contactPage = {
   heroImage: "/images/figma/card-grocery.webp",
   mascot: "/images/contact/project-mascot.svg",
   intro:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "",
   email: "info@tlines.us",
   visitHeading: ["Building", "C-stores", "Nationwide"],
 };
@@ -923,7 +923,7 @@ export const galleryProjects: GalleryProject[] = interleaveByPattern(galleryPhot
 
 /** About us page ("About us" Figma frame, 1592 wide). */
 const aboutLorem =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+  "";
 
 export const aboutPage = {
   hero: {
@@ -944,8 +944,8 @@ export const aboutPage = {
     title: "Our Mission",
     // Placeholder copy from the Figma frame until the real mission text is written.
     paragraphs: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      "",
+      "",
     ],
     image: "/images/about/mission-store.svg",
     imageAlt: "C-store aisles with snack shelving and drinks coolers",

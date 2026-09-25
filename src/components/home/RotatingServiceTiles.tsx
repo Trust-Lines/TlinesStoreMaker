@@ -39,11 +39,11 @@ function shuffle<T>(list: T[]): T[] {
 /**
  * Every 2s, three random tiles anywhere in the mosaic (never a fixed spot) get
  * a label — "C-store" / "Truck Stops" / "Grocery" — each in its own identity
- * colour (gold / coral / sage-dark). The photo underneath is never swapped or
- * hidden: the colour sits as a translucent layer between the photo and the
- * text, just enough to keep the label readable. Starts empty (matches the
- * server-rendered markup) and only starts picking tiles client-side after
- * mount, so there's no hydration mismatch.
+ * colour (gold / coral / sage-dark). While a tile is showing its label, the
+ * photo underneath is fully hidden behind that flat colour — no translucent
+ * filter, the colour is opaque — and it reappears once the tile is no longer
+ * picked. Starts empty (matches the server-rendered markup) and only starts
+ * picking tiles client-side after mount, so there's no hydration mismatch.
  */
 export function RotatingServiceTiles({
   tiles,
@@ -54,7 +54,7 @@ export function RotatingServiceTiles({
   tiles: ProjectTile[];
   items: ServiceTypeTile[];
   frame: { w: number; h: number };
-  /** Shape to clip the overlay to, keyed by tile id — see ProjectsGrid's TILE_SHAPE_MASKS. */
+  /** Exact chamfer shape per tile id — see ProjectsGrid's TILE_SHAPE_MASKS. */
   shapeMasks: Record<string, string>;
 }) {
   const [active, setActive] = useState<{ index: number; item: ServiceTypeTile }[]>([]);
@@ -100,8 +100,8 @@ export function RotatingServiceTiles({
               }`}
               style={maskStyle(shapeMasks[tile.id])}
             >
-              {/* Colour layer between the photo and the label text, in this store type's own identity colour. */}
-              <span aria-hidden className={`absolute inset-0 opacity-45 ${item.tintClass}`} />
+              {/* Fully opaque — hides the photo underneath entirely, just this store type's identity colour behind the label. */}
+              <span aria-hidden className={`absolute inset-0 ${item.tintClass}`} />
               <span className="absolute inset-0 flex items-center justify-center px-3 text-center font-accent text-[clamp(1rem,2.4vw,1.75rem)] font-bold uppercase tracking-[0.06em] text-cream [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]">
                 {item.label}
               </span>

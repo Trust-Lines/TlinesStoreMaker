@@ -4,26 +4,25 @@ import type { CSSProperties } from "react";
 import { RotatingServiceTiles, type ServiceTypeTile } from "./RotatingServiceTiles";
 
 /**
- * Shape for the rotating overlay, keyed by tile id (independent of `tile.mask`,
- * which most tiles no longer carry now that their photos are pre-shaped
- * exports). Without this the overlay colour would paint a plain rectangle
- * instead of following the tile's actual chamfered outline.
+ * Shape for the rotating overlay, keyed by tile id — the exact per-tile
+ * chamfer exported from Figma (node 336:637x/638x), not the earlier
+ * approximated/reused masks.
  */
 const tileDir = "/images/figma/projects";
 const TILE_SHAPE_MASKS: Record<string, string> = {
-  "placeholder-top-left": `${tileDir}/rectangle-4396-mask.svg`,
-  "coffee-bar": `${tileDir}/rectangle-4403-mask.svg`,
-  "placeholder-top-center": `${tileDir}/rectangle-4406-mask.svg`,
-  "snack-aisle": `${tileDir}/rectangle-4397-mask.svg`,
-  "checkout-lanes": `${tileDir}/rectangle-4400-mask.svg`,
-  "coffee-counter": `${tileDir}/vector-1-mask.svg`,
-  "island-counter": `${tileDir}/vector-mask.svg`,
-  "placeholder-right": `${tileDir}/rectangle-4401-mask.svg`,
-  "uk-market": `${tileDir}/rectangle-4399-mask.svg`,
-  welcome: `${tileDir}/rectangle-4406-mask.svg`,
-  "cafe-seating": `${tileDir}/rectangle-4406-mask.svg`,
-  checkout: `${tileDir}/rectangle-4398-mask.svg`,
-  "on-the-go": `${tileDir}/rectangle-4402-mask.svg`,
+  "placeholder-top-left": `${tileDir}/rectangle-4396-mask-v2.svg`,
+  "coffee-bar": `${tileDir}/rectangle-4403-mask-v2.svg`,
+  "placeholder-top-center": `${tileDir}/rectangle-4405-mask-v2.svg`,
+  "snack-aisle": `${tileDir}/rectangle-4397-mask-v2.svg`,
+  "checkout-lanes": `${tileDir}/rectangle-4400-mask-v2.svg`,
+  "coffee-counter": `${tileDir}/vector-2-mask-v2.svg`,
+  "island-counter": `${tileDir}/vector-1-mask-v2.svg`,
+  "placeholder-right": `${tileDir}/rectangle-4401-mask-v2.svg`,
+  "uk-market": `${tileDir}/rectangle-4399-mask-v2.svg`,
+  welcome: `${tileDir}/rectangle-4404-mask-v2.svg`,
+  "cafe-seating": `${tileDir}/rectangle-4406-mask-v2.svg`,
+  checkout: `${tileDir}/rectangle-4398-mask-v2.svg`,
+  "on-the-go": `${tileDir}/rectangle-4402-mask-v2.svg`,
 };
 
 export interface ProjectTile {
