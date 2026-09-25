@@ -339,17 +339,20 @@ export const grocerySpecialtyCards = [
   },
 ];
 
+/** NACS 2026 banner (Figma "Tlines-NACS-Web-Ad-Fo-store-maker", 1592 x 411). */
 export const boothBanner = {
-  boothLabel: "Booth No.",
-  boothNumber: "N3276",
   exhibitorLine: "Official Exhibitor at",
-  showName: "NACS SHOW 2026",
-  illustration: "/images/figma/booth-room.webp",
-  animatedAd: "/images/upcoming-events-banner.gif",
-  stillAd: "/images/figma/nacs-banner-still.png",
-  adAlt:
-    "T Lines Store Maker, booth N3276, official exhibitor at NACS Show 2026. C-store solutions: claim your free design proposal.",
-  action: { label: "Explore More", href: "/#contact" },
+  showName: "NACS 2026",
+  /** Exact Figma lettering for the two title lines (coral "C"), 395 x 103. */
+  titleArt: "/images/nacs/title.svg",
+  boothLabel: "Booth no.",
+  boothNumber: "N3276",
+  location: "Las Vegas Convention Center",
+  dates: "October 6-9, 2026",
+  /** Looping booth animation (Figma video layer), 1200 x 600, plus its first frame for reduced motion. */
+  boothAnimation: "/images/nacs/booth.gif",
+  boothStill: "/images/nacs/booth-still.webp",
+  boothAlt: "Rendering of the T Lines Store Maker booth: orange and green stand with a bar counter, stools and seating",
 };
 
 export const virtualTours = {
