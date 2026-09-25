@@ -43,7 +43,7 @@ export function HomeHero({ heading, backgroundImage, imageAlt, action, clients }
           </h1>
           <Link
             href={action.href}
-            className="relative isolate mt-6 inline-flex aspect-[338/67] w-[var(--bw)] items-start justify-center pl-[calc(var(--bw)*57/338)] pr-[calc(var(--bw)*59/338)] pt-[calc(var(--bw)*17/338)] text-center font-display text-[calc(var(--bw)*24/338)] [--bw:clamp(220px,21.23vw,338px)] font-bold leading-none text-cream transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream sm:mt-8"
+            className="relative isolate mt-6 inline-flex aspect-[338/67] w-[var(--bw)] items-start justify-center pl-[calc(var(--bw)*57/338)] pr-[calc(var(--bw)*59/338)] pt-[calc(var(--bw)*17/338)] text-center whitespace-nowrap font-display text-[calc(var(--bw)*24/338)] [--bw:clamp(220px,21.23vw,338px)] font-bold leading-none text-cream transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream sm:mt-8"
           >
             {/* Exact Figma button shape (338 x 67). Text: Montserrat 24/24 bold; box inset
                 17 top / 26 bottom / 57 left / 59 right — padding and font derived

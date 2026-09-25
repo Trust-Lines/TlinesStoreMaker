@@ -1,27 +1,20 @@
-import { ServiceCard, type ServiceCardData } from "./ServiceCard";
+import { SpecialtyCard, type SpecialtyCardData } from "./SpecialtyCard";
 
 export interface SpecialtyCardsSectionProps {
-  cards: ServiceCardData[];
+  cards: SpecialtyCardData[];
 }
 
 export function SpecialtyCardsSection({ cards }: SpecialtyCardsSectionProps) {
   return (
-    <section aria-label="Branding and management services" className="bg-cream px-8 py-12 md:py-16 lg:pb-[12.56%] lg:pl-[9.51%] lg:pr-[8.4%] lg:pt-[12.56%]">
-      {/* lg+: Figma spacing — same 151.45px-to-1458px content box as the service
-          cards, two 628 x 682 cards (exact Figma vectors) ~51px apart, 200px below the NACS banner and
-          200px above the Projects frame. */}
-      <ul className="mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-10 md:grid-cols-2 md:gap-[clamp(1.5rem,4.5vw,4.5rem)] lg:max-w-none lg:gap-x-[3.9%]">
+    <section aria-label="Branding and management services" className="bg-cream px-8 py-12 md:py-16 lg:px-[8.766%] lg:py-[9.42%]">
+      {/* lg+: Figma spacing — 139.55px side margins, two 628.455 x 782.425 cards
+          (exact Figma vectors) 57.45px apart, 150px below the NACS banner and
+          150px above the Projects frame. Each ribbon overhangs its card's right
+          edge by ~40px. */}
+      <ul className="mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-10 md:grid-cols-2 md:gap-[clamp(2.5rem,4.5vw,4.5rem)] lg:max-w-none lg:gap-x-[4.376%]">
         {cards.map((card) => (
-          <li key={card.id} id={card.id} className="@container">
-            <ServiceCard
-              card={card}
-              imageAspect="598 / 386"
-              mobileImageAspect="360.65 / 346.83"
-              minHeight="108.6cqw"
-              mobileMinHeight="168.61cqw"
-              ribbonAlign="right"
-              sizes="(min-width: 768px) 45vw, 100vw"
-            />
+          <li key={card.id} id={card.id} className="@container mx-auto w-full max-w-[560px] md:max-w-none">
+            <SpecialtyCard card={card} />
           </li>
         ))}
       </ul>

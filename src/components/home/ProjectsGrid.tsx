@@ -5,9 +5,12 @@ import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, 
 
 export interface ProjectTile {
   id: string;
-  image: string;
-  /** Exact Figma tile outline, applied as a CSS mask. */
-  mask: string;
+  /** Photo; Figma-exported tiles are pre-rendered in their outline (transparent corners). */
+  image?: string;
+  /** Outline applied as a CSS mask (tiles not in the Figma export). */
+  mask?: string;
+  /** Plain forest shape from the design: shown from lg up, not clickable. */
+  placeholder?: boolean;
   alt: string;
   /** Design px inside the Figma frame. */
   x: number;
@@ -16,30 +19,47 @@ export interface ProjectTile {
   h: number;
 }
 
+/** One tile in a mobile row; `mask` + `ratio` reshape it (e.g. into a wide tile). */
+export interface MobileTileRef {
+  id: string;
+  mask?: string;
+  ratio?: number;
+}
+
 export interface ProjectsGridProps {
   title: string;
   tiles: ProjectTile[];
   frame: { w: number; h: number };
   label: { src: string; x: number; y: number; w: number; h: number };
+  /** Below-lg layout: rows of tile ids ("Project Mobile" frame). */
+  mobileRows: MobileTileRef[][];
 }
 
 const pct = (value: number, of: number) => `${(value / of) * 100}%`;
+const maskStyle = (mask?: string): CSSProperties | undefined =>
+  mask ? { maskImage: `url(${mask})`, WebkitMaskImage: `url(${mask})` } : undefined;
 
 /**
  * Projects mosaic. From lg up every tile sits at its exact Figma position
- * (percentages of the 1592 x 1091 frame, so it scales with the page); below
- * lg it falls back to a grid: 2 columns on phones, 3 on tablets, with the wide
- * first tile spanning the row so every row is full. Each tile opens a lightbox (native
- * <dialog>) that steps through the unique photos with arrows, ← / →, or swipe.
+ * (percentages of the 1592 x 1091 frame, so it scales with the page). Below lg
+ * it follows the "Project Mobile" frame: full-width label, then rows that
+ * alternate one wide tile and a pair; tiles in a row share one height (each
+ * grows by its w/h ratio) so the pre-shaped photos never distort. Each photo
+ * tile opens a lightbox (native <dialog>) that steps through the unique photos
+ * with arrows, ← / →, or swipe.
  */
-export function ProjectsGrid({ title, tiles, frame, label }: ProjectsGridProps) {
+export function ProjectsGrid({ title, tiles, frame, label, mobileRows }: ProjectsGridProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const touchStartX = useRef<number | null>(null);
   const [active, setActive] = useState<number | null>(null);
 
   // Several tiles reuse the same photo; the lightbox shows each photo once.
-  const photos = useMemo(() => [...new Map(tiles.map((tile) => [tile.image, tile])).values()], [tiles]);
+  const photos = useMemo(
+    () => [...new Map(tiles.filter((tile) => !tile.placeholder && tile.image).map((tile) => [tile.image, tile])).values()],
+    [tiles],
+  );
   const photoIndex = (tile: ProjectTile) => photos.findIndex((photo) => photo.image === tile.image);
+  const byId = useMemo(() => new Map(tiles.map((tile) => [tile.id, tile])), [tiles]);
 
   const count = photos.length;
   const go = useCallback(
@@ -76,10 +96,31 @@ export function ProjectsGrid({ title, tiles, frame, label }: ProjectsGridProps) 
 
   const current = active === null ? null : photos[active];
 
+  const tileButton = (tile: ProjectTile, mask: string | undefined, sizes: string) => (
+    <button
+      type="button"
+      onClick={() => setActive(photoIndex(tile))}
+      aria-label={`View project photo ${photoIndex(tile) + 1} of ${count}`}
+      aria-haspopup="dialog"
+      className="group block h-full w-full cursor-zoom-in outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream"
+    >
+      <span className="relative block h-full w-full overflow-hidden [mask-repeat:no-repeat] [mask-size:100%_100%]" style={maskStyle(mask)}>
+        <Image
+          src={tile.image ?? ""}
+          alt={tile.alt}
+          fill
+          sizes={sizes}
+          className={`transition-transform duration-500 group-hover:scale-105 ${mask ? "object-cover" : "object-fill"}`}
+        />
+      </span>
+    </button>
+  );
+
   return (
     <>
+      {/* Label: Figma 523 x 134 at its frame position from lg; full width on top below lg. */}
       <div
-        className="relative z-10 mx-auto mb-4 aspect-[544/139] w-[min(80%,360px)] lg:absolute lg:left-[var(--lx)] lg:top-[var(--ly)] lg:mb-0 lg:w-[var(--lw)]"
+        className="relative z-10 mx-auto mb-3 aspect-[523/134] w-full max-w-[640px] lg:absolute lg:mx-0 lg:max-w-none lg:left-[var(--lx)] lg:top-[var(--ly)] lg:mb-0 lg:w-[var(--lw)]"
         style={{
           "--lx": pct(label.x, frame.w),
           "--ly": pct(label.y, frame.h),
@@ -89,17 +130,37 @@ export function ProjectsGrid({ title, tiles, frame, label }: ProjectsGridProps) 
         <Image src={label.src} alt="" fill unoptimized />
         <h2
           id="projects-heading"
-          className="relative flex h-full items-center justify-center font-accent text-[clamp(1.75rem,3.769vw,60px)] font-bold leading-[0.8] tracking-[0.3em] text-cream"
+          className="relative flex h-full items-center justify-center font-accent text-[clamp(2rem,11vw,60px)] font-bold leading-[0.8] tracking-[0.2em] text-cream lg:text-[clamp(1.75rem,3.769vw,60px)] lg:tracking-[0.3em]"
         >
           {title}
         </h2>
       </div>
 
-      <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:absolute lg:inset-0 lg:block">
-        {tiles.map((tile, index) => (
+      {/* Below lg: wide / pair rows. */}
+      <div className="mx-auto flex max-w-[640px] flex-col gap-2.5 lg:hidden">
+        {mobileRows.map((row) => (
+          <ul key={row.map((ref) => ref.id).join("+")} className="flex gap-2.5">
+            {row.map((ref) => {
+              const tile = byId.get(ref.id);
+              if (!tile || tile.placeholder) return null;
+              const ratio = ref.ratio ?? tile.w / tile.h;
+              return (
+                <li key={ref.id} className="relative min-w-0" style={{ flex: `${ratio} 1 0%`, aspectRatio: ratio }}>
+                  {tileButton(tile, ref.mask ?? tile.mask, row.length > 1 ? "50vw" : "100vw")}
+                </li>
+              );
+            })}
+          </ul>
+        ))}
+      </div>
+
+      {/* lg+: every tile at its Figma position. */}
+      <ul className="absolute inset-0 hidden lg:block">
+        {tiles.map((tile) => (
           <li
             key={tile.id}
-            className={`relative lg:absolute lg:left-[var(--x)] lg:top-[var(--y)] lg:h-[var(--h)] lg:w-[var(--w)] lg:aspect-auto ${index === 0 ? "col-span-2 aspect-[510/232] sm:col-span-3" : "aspect-[4/3]"}`}
+            aria-hidden={tile.placeholder || undefined}
+            className="absolute left-[var(--x)] top-[var(--y)] h-[var(--h)] w-[var(--w)]"
             style={{
               "--x": pct(tile.x, frame.w),
               "--y": pct(tile.y, frame.h),
@@ -107,26 +168,15 @@ export function ProjectsGrid({ title, tiles, frame, label }: ProjectsGridProps) 
               "--h": pct(tile.h, frame.h),
             } as CSSProperties}
           >
-            <button
-              type="button"
-              onClick={() => setActive(photoIndex(tile))}
-              aria-label={`View project photo ${photoIndex(tile) + 1} of ${count}`}
-              aria-haspopup="dialog"
-              className="group block h-full w-full cursor-zoom-in outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream"
-            >
-              <span
-                className="relative block h-full w-full overflow-hidden [mask-repeat:no-repeat] [mask-size:100%_100%]"
-                style={{ maskImage: `url(${tile.mask})`, WebkitMaskImage: `url(${tile.mask})` }}
-              >
-                <Image
-                  src={tile.image}
-                  alt={tile.alt}
-                  fill
-                  sizes="(min-width: 1024px) 32vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </span>
-            </button>
+            {tile.placeholder ? (
+              tile.image ? (
+                <Image src={tile.image} alt="" fill sizes="32vw" className="object-fill" />
+              ) : (
+                <span className="block h-full w-full bg-forest [mask-repeat:no-repeat] [mask-size:100%_100%]" style={maskStyle(tile.mask)} />
+              )
+            ) : (
+              tileButton(tile, tile.mask, "32vw")
+            )}
           </li>
         ))}
       </ul>
@@ -156,7 +206,7 @@ export function ProjectsGrid({ title, tiles, frame, label }: ProjectsGridProps) 
             <div className="relative aspect-[1592/1091] w-[min(calc(100vw-2rem),1592px,calc((100dvh-8rem)*1592/1091))]">
               <Image
                 key={current.id}
-                src={current.image}
+                src={current.image ?? ""}
                 alt={current.alt}
                 fill
                 loading="eager"

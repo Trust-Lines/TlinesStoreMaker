@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-// No external fonts are loaded. The site uses the system font stacks defined in
-// globals.css, so it makes zero requests to the internet and loads instantly —
-// even on locked-down corporate networks that block or hang on Google Fonts.
+// Montserrat and Orbitron load from Google Fonts (imported in globals.css). Every
+// font stack there falls back to system fonts, so pages still render if Google
+// Fonts is blocked.
 
 export const metadata: Metadata = {
   title: "StoreMaker — From vanilla box to open date",
@@ -14,6 +14,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="h-full antialiased">
+      <head>
+        {/* Warm up the Google Fonts hosts used by the Montserrat / Orbitron import in globals.css. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body
         className="min-h-full flex flex-col bg-cream text-ink"
         suppressHydrationWarning

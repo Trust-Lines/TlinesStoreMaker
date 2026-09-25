@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -20,8 +20,8 @@
      on locked-down networks that block/hang on Google Fonts. The named fonts
      stay first in each stack so they apply automatically if ever installed or
      self-hosted; otherwise the system fonts (present on every machine) are used.
-     Orbitron is the one exception: it's loaded via Google Fonts above for the
-     site's titles. */
+     Montserrat (subtitles / body copy) and Orbitron (titles) are the exceptions:
+     both load from Google Fonts above. */
   --font-display: "Montserrat", "Segoe UI", system-ui, Arial, sans-serif;
   --font-sans: "Manrope", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
   --font-accent: "Orbitron", "Segoe UI", system-ui, Arial, sans-serif;
@@ -62,6 +62,12 @@ body {
 
 html {
   scroll-behavior: smooth;
+}
+
+/* One Figma px on the 1592px frame, shrinking with narrower viewports
+   (used as calc(var(--u) * N) for design measurements). */
+:root {
+  --u: min(calc(100vw / 1592), 1px);
 }
 
 /* Height of the fixed top bar (ReferenceTopBar). In-page anchors land just
