@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -18,7 +19,9 @@
   /* System font stacks — no external font requests, so the site loads instantly
      on locked-down networks that block/hang on Google Fonts. The named fonts
      stay first in each stack so they apply automatically if ever installed or
-     self-hosted; otherwise the system fonts (present on every machine) are used. */
+     self-hosted; otherwise the system fonts (present on every machine) are used.
+     Orbitron is the one exception: it's loaded via Google Fonts above for the
+     site's titles. */
   --font-display: "Montserrat", "Segoe UI", system-ui, Arial, sans-serif;
   --font-sans: "Manrope", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
   --font-accent: "Orbitron", "Segoe UI", system-ui, Arial, sans-serif;
@@ -117,14 +120,14 @@ li[id] {
   }
 }
 
-/* In the base layer so utility classes (e.g. font-accent on a heading) can
+/* In the base layer so utility classes (e.g. font-display on a heading) can
    override it — unlayered rules would beat every Tailwind utility. */
 @layer base {
   h1,
   h2,
   h3,
   h4 {
-    font-family: var(--font-display), "Segoe UI", sans-serif;
+    font-family: var(--font-accent), "Segoe UI", sans-serif;
   }
 }
 
