@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { RotatingPhoto, type RotatingPhotoImage } from "./RotatingPhoto";
 import { withBold } from "./withBold";
 
 export interface SpecialtyCardData {
@@ -11,6 +12,8 @@ export interface SpecialtyCardData {
   title: string;
   href: string;
   image: string;
+  /** When set (2+ entries), the photo cycles through these every 3s instead of showing `image`. */
+  images?: RotatingPhotoImage[];
   /** CSS object-position for the photo crop. */
   imagePosition?: string;
   /** Bullet copy; wrap a word in **double asterisks** to bold it. */
@@ -51,14 +54,18 @@ export function SpecialtyCard({ card }: { card: SpecialtyCardData }) {
         className={`relative mx-[1.59cqw] mt-[1.59cqw] block aspect-[608.455/438.528] shrink-0 overflow-hidden ${maskClass}`}
         style={{ maskImage: shapes.photo, WebkitMaskImage: shapes.photo } as CSSProperties}
       >
-        <Image
-          src={card.image}
-          alt=""
-          fill
-          sizes="(min-width: 768px) 40vw, 100vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          style={{ objectPosition: card.imagePosition ?? "center" }}
-        />
+        {card.images && card.images.length > 1 ? (
+          <RotatingPhoto images={card.images} imagePosition={card.imagePosition} sizes="(min-width: 768px) 40vw, 100vw" />
+        ) : (
+          <Image
+            src={card.image}
+            alt=""
+            fill
+            sizes="(min-width: 768px) 40vw, 100vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            style={{ objectPosition: card.imagePosition ?? "center" }}
+          />
+        )}
       </span>
 
       <h3

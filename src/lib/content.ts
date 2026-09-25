@@ -193,6 +193,11 @@ export const specialtyCards = [
     title: "Branding",
     href: "/#contact",
     image: "/images/figma/specialty/branding-photo.webp",
+    images: [
+      { src: "/images/figma/specialty/branding-photo-board.png" },
+      { src: "/images/figma/specialty/branding-photo-checkout.png" },
+      { src: "/images/figma/specialty/branding-photo-interior.png", position: "center 75%" },
+    ],
     imagePosition: "center top",
     points: [
       "Brand identity",
@@ -210,6 +215,11 @@ export const specialtyCards = [
     title: "Management",
     href: "/#contact",
     image: "/images/figma/specialty/management-photo.webp",
+    images: [
+      { src: "/images/figma/specialty/management-photo.webp" },
+      { src: "/images/figma/specialty/branding-photo-blueprint.png" },
+      { src: "/images/figma/specialty/branding-photo-team.png" },
+    ],
     points: [
       "Dedicated project manager",
       "Planning and scheduling",
@@ -509,16 +519,9 @@ export const projectsLayout = {
 // C-store page Projects mosaic (Figma "C Store" frame, node 294:4080): same
 // tiles/positions as the homepage, but the three placeholder tiles use this
 // page's own coral-toned Figma exports instead of the homepage's photos.
-const cStorePlaceholderImages: Record<string, string> = {
-  "placeholder-top-left": `${tileV2}/rect-4396-coral.png`,
-  "placeholder-top-center": `${tileV2}/rect-4405-coral.png`,
-  "placeholder-right": `${tileV2}/rect-4401-coral.png`,
-};
-
-export const cStoreProjectTiles = projectTiles.map((tile) => {
-  const image = cStorePlaceholderImages[tile.id];
-  return image ? { ...tile, image } : tile;
-});
+// The three placeholder slots reuse the homepage's own photos directly (no
+// per-page override) — only the other tiles below get this page's own export.
+export const cStoreProjectTiles = projectTiles;
 
 export const cStoreProjectsLayout = {
   ...projectsLayout,
@@ -526,20 +529,17 @@ export const cStoreProjectsLayout = {
 };
 
 // Truck-stops page Projects mosaic (Figma "Truck stops" frame, node 298:4512):
-// same tiles/positions as the homepage, with this page's own photos (11 of the
-// 13 slots have a dedicated Figma export; "coffee-counter" and "island-counter"
-// keep the homepage photo, same as the c-store page).
+// same tiles/positions as the homepage, with this page's own photos. The three
+// placeholder slots reuse the homepage's own photos directly (not overridden
+// here) so they always match the homepage instead of sitting empty.
 const truckStopsTileImages: Record<string, string> = {
-  "placeholder-top-left": `${tileV2}/truck-rect-4396.png`,
   "snack-aisle": `${tileV2}/truck-rect-4397.png`,
   checkout: `${tileV2}/truck-rect-4398.png`,
   "uk-market": `${tileV2}/truck-rect-4399.png`,
   "checkout-lanes": `${tileV2}/truck-rect-4400.png`,
-  "placeholder-right": `${tileV2}/truck-rect-4401.png`,
   "on-the-go": `${tileV2}/truck-rect-4402.png`,
   "coffee-bar": `${tileV2}/truck-rect-4403.png`,
   welcome: `${tileV2}/truck-rect-4404.png`,
-  "placeholder-top-center": `${tileV2}/truck-rect-4405.png`,
   "cafe-seating": `${tileV2}/truck-rect-4406.png`,
 };
 
@@ -556,20 +556,17 @@ export const truckStopsProjectsLayout = {
 };
 
 // Grocery page Projects mosaic (Figma "Grocery" frame, node 298:4944): same
-// tiles/positions as the homepage, with this page's own photos (11 of the 13
-// slots have a dedicated Figma export; "coffee-counter" and "island-counter"
-// keep the homepage photo, same as the other two service pages).
+// tiles/positions as the homepage, with this page's own photos. The three
+// placeholder slots reuse the homepage's own photos directly (not overridden
+// here) so they always match the homepage instead of sitting empty.
 const groceryTileImages: Record<string, string> = {
-  "placeholder-top-left": `${tileV2}/grocery-rect-4396.png`,
   "snack-aisle": `${tileV2}/grocery-rect-4397.png`,
   checkout: `${tileV2}/grocery-rect-4398.png`,
   "uk-market": `${tileV2}/grocery-rect-4399.png`,
   "checkout-lanes": `${tileV2}/grocery-rect-4400.png`,
-  "placeholder-right": `${tileV2}/grocery-rect-4401.png`,
   "on-the-go": `${tileV2}/grocery-rect-4402.png`,
   "coffee-bar": `${tileV2}/grocery-rect-4403.png`,
   welcome: `${tileV2}/grocery-rect-4404.png`,
-  "placeholder-top-center": `${tileV2}/grocery-rect-4405.png`,
   "cafe-seating": `${tileV2}/grocery-rect-4406.png`,
 };
 
@@ -603,8 +600,27 @@ export const contactCTAs = [
 ];
 
 export const footer = {
-  logo,
-  tagline: ["Design.", "Production.", "Installation."],
+  logo: { src: "/images/figma/footer-logo-lockup.png", alt: "T Lines Creativity Group", href: "/#home" },
+  brandPills: [
+    {
+      id: "store-maker",
+      href: "/",
+      bgClass: "bg-forest",
+      logo: { src: "/images/figma/topbar-logo-cream.svg", alt: "T Lines Store Maker", width: 388, height: 95 },
+    },
+    {
+      id: "design-build",
+      href: "/contact",
+      bgClass: "bg-[#334a64]",
+      logo: { src: "/images/figma/footer-brand-designbuild.svg", alt: "T Lines Design & Build", width: 146, height: 41 },
+    },
+    {
+      id: "premium-fitouts",
+      href: "/contact",
+      bgClass: "bg-[#482e4f]",
+      logo: { src: "/images/figma/footer-brand-fitouts.png", alt: "T Lines Premium Store fitouts", width: 157, height: 49 },
+    },
+  ],
   emailAction: { label: "Send us an email", href: "mailto:hello@tlines.com" },
   followLabel: "Follow us on:",
   columns: [

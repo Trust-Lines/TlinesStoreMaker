@@ -7,11 +7,20 @@ export interface FooterLinkColumn {
   links: { id: string; label: string; href: string }[];
 }
 
+export interface FooterBrandPill {
+  id: string;
+  href: string;
+  bgClass: string;
+  logo: { src: string; alt: string; width: number; height: number };
+}
+
 export interface SiteFooterProps {
   logo: { src: string; alt: string; href: string };
   goldMembersHeading?: string;
   /** Uppercase tagline under the logo, one entry per line. */
   tagline?: string[];
+  /** The three T Lines brand pills under the logo (Store Maker / Design & Build / Premium Store fitouts). */
+  brandPills?: FooterBrandPill[];
   emailAction: { label: string; href: string };
   followLabel: string;
   columns: FooterLinkColumn[];
@@ -46,6 +55,7 @@ export function SiteFooter({
   logo,
   goldMembersHeading,
   tagline,
+  brandPills,
   emailAction,
   followLabel,
   columns,
@@ -71,12 +81,8 @@ export function SiteFooter({
         <div className="grid gap-12 lg:grid-cols-[minmax(0,548fr)_minmax(0,766fr)] lg:gap-0">
           {/* Left column: logo, tagline, email, socials */}
           <div className="flex flex-col">
-            <Link href={logo.href} className="flex w-fit items-center gap-2 outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral">
-              <Image src={logo.src} alt="" width={54} height={54} unoptimized className="h-[46px] w-auto lg:h-[min(3.4vw,54px)]" />
-              <span className="flex flex-col gap-1 leading-none">
-                <Image src="/images/figma/header-logo-word2.svg" alt={logo.alt} width={126} height={24} unoptimized className="h-auto w-[126px] lg:w-[min(10.3vw,164px)]" />
-                <Image src="/images/figma/header-logo-word1.svg" alt="" width={126} height={10} unoptimized className="h-auto w-[126px] lg:w-[min(10.3vw,164px)]" />
-              </span>
+            <Link href={logo.href} className="flex w-fit items-center outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral">
+              <Image src={logo.src} alt={logo.alt} width={183} height={110} unoptimized className="h-[64px] w-auto lg:h-[min(6.9vw,110px)]" />
             </Link>
 
             {tagline?.length ? (
@@ -110,6 +116,21 @@ export function SiteFooter({
                   ))}
                 </div>
               </>
+            ) : null}
+
+            {brandPills?.length ? (
+              // Figma: three 323 x 81 stacked pills, ~9px gaps, each its own brand colour.
+              <div className="mt-8 flex flex-col gap-2 lg:mt-[min(2.32vw,37px)]">
+                {brandPills.map((pill) => (
+                  <Link
+                    key={pill.id}
+                    href={pill.href}
+                    className={`flex h-[64px] w-full max-w-[323px] items-center justify-center rounded-[8px] border border-cream px-4 outline-offset-2 transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral lg:h-[min(5.09vw,81px)] lg:w-[min(20.3vw,323px)] ${pill.bgClass}`}
+                  >
+                    <Image src={pill.logo.src} alt={pill.logo.alt} width={pill.logo.width} height={pill.logo.height} unoptimized className="h-auto w-auto max-h-[41px] max-w-[80%] lg:max-h-[min(2.58vw,41px)]" />
+                  </Link>
+                ))}
+              </div>
             ) : null}
 
             {/* "Send us an email" as an outlined field-style link (Figma ~323 x 46). */}
