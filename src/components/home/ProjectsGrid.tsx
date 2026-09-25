@@ -1,6 +1,30 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { RotatingServiceTiles, type ServiceTypeTile } from "./RotatingServiceTiles";
+
+/**
+ * Shape for the rotating overlay, keyed by tile id (independent of `tile.mask`,
+ * which most tiles no longer carry now that their photos are pre-shaped
+ * exports). Without this the overlay colour would paint a plain rectangle
+ * instead of following the tile's actual chamfered outline.
+ */
+const tileDir = "/images/figma/projects";
+const TILE_SHAPE_MASKS: Record<string, string> = {
+  "placeholder-top-left": `${tileDir}/rectangle-4396-mask.svg`,
+  "coffee-bar": `${tileDir}/rectangle-4403-mask.svg`,
+  "placeholder-top-center": `${tileDir}/rectangle-4406-mask.svg`,
+  "snack-aisle": `${tileDir}/rectangle-4397-mask.svg`,
+  "checkout-lanes": `${tileDir}/rectangle-4400-mask.svg`,
+  "coffee-counter": `${tileDir}/vector-1-mask.svg`,
+  "island-counter": `${tileDir}/vector-mask.svg`,
+  "placeholder-right": `${tileDir}/rectangle-4401-mask.svg`,
+  "uk-market": `${tileDir}/rectangle-4399-mask.svg`,
+  welcome: `${tileDir}/rectangle-4406-mask.svg`,
+  "cafe-seating": `${tileDir}/rectangle-4406-mask.svg`,
+  checkout: `${tileDir}/rectangle-4398-mask.svg`,
+  "on-the-go": `${tileDir}/rectangle-4402-mask.svg`,
+};
 
 export interface ProjectTile {
   id: string;
@@ -34,6 +58,8 @@ export interface ProjectsGridProps {
   labelTextClass?: string;
   /** Tailwind bg class for a placeholder tile with no image. Defaults to forest. */
   placeholderClass?: string;
+  /** Store-type labels three random tiles rotate through every 2s. Omit to disable the effect. */
+  rotatingItems?: ServiceTypeTile[];
   /** Below-lg layout: rows of tile ids ("Project Mobile" frame). */
   mobileRows: MobileTileRef[][];
   /** Where every photo tile (and the label) leads: the full Projects gallery. */
@@ -59,6 +85,7 @@ export function ProjectsGrid({
   label,
   labelTextClass = "text-cream",
   placeholderClass = "bg-forest",
+  rotatingItems,
   mobileRows,
   href,
 }: ProjectsGridProps) {
@@ -76,7 +103,7 @@ export function ProjectsGrid({
           alt=""
           fill
           sizes={sizes}
-          className={`transition-transform duration-500 group-hover:scale-105 ${mask ? "object-cover" : "object-fill"}`}
+          className={mask ? "object-cover" : "object-fill"}
         />
       </span>
     </Link>
@@ -146,6 +173,9 @@ export function ProjectsGrid({
             )}
           </li>
         ))}
+        {rotatingItems ? (
+          <RotatingServiceTiles tiles={tiles} items={rotatingItems} frame={frame} shapeMasks={TILE_SHAPE_MASKS} />
+        ) : null}
       </ul>
     </>
   );

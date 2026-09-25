@@ -15,6 +15,7 @@ import {
   getStarted,
   homeHero,
   members,
+  serviceTypeTiles,
   truckStopsProcessCards,
   truckStopsProjectsLayout,
   truckStopsProjectTiles,
@@ -47,6 +48,7 @@ export default function TruckStopsPage() {
           labelTextClass="text-cream"
           placeholderClass="bg-sage-dark"
           tourBgClass="bg-sage-dark"
+          rotatingItems={serviceTypeTiles}
           tiles={truckStopsProjectTiles}
           layout={truckStopsProjectsLayout}
           tours={virtualTours}

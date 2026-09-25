@@ -17,6 +17,7 @@ import {
   projectTiles,
   projectsLayout,
   serviceCards,
+  serviceTypeTiles,
   specialtyCards,
   virtualTours,
 } from "@/lib/content";
@@ -34,7 +35,13 @@ export default function StoreMakerPage() {
         <ServiceCardsSection cards={serviceCards} />
         <BoothBanner {...boothBanner} />
         <SpecialtyCardsSection cards={specialtyCards} />
-        <ProjectsGallery title={featuredProjects.title} tiles={projectTiles} layout={projectsLayout} tours={virtualTours} />
+        <ProjectsGallery
+          title={featuredProjects.title}
+          rotatingItems={serviceTypeTiles}
+          tiles={projectTiles}
+          layout={projectsLayout}
+          tours={virtualTours}
+        />
         <MembersStrip {...members} />
         <GetStartedSection {...getStarted} />
       </main>

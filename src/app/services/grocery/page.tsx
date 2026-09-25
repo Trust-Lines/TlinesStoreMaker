@@ -19,6 +19,7 @@ import {
   grocerySpecialtyCards,
   homeHero,
   members,
+  serviceTypeTiles,
   virtualTours,
 } from "@/lib/content";
 
@@ -46,6 +47,7 @@ export default function GroceryPage() {
           labelTextClass="text-cream"
           placeholderClass="bg-sage"
           tourBgClass="bg-sage"
+          rotatingItems={serviceTypeTiles}
           tiles={groceryProjectTiles}
           layout={groceryProjectsLayout}
           tours={virtualTours}

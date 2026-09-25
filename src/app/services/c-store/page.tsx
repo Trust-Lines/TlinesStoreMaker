@@ -19,6 +19,7 @@ import {
   getStarted,
   homeHero,
   members,
+  serviceTypeTiles,
   virtualTours,
 } from "@/lib/content";
 
@@ -46,6 +47,7 @@ export default function CStorePage() {
           labelTextClass="text-gold"
           placeholderClass="bg-coral"
           tourBgClass="bg-coral"
+          rotatingItems={serviceTypeTiles}
           tiles={cStoreProjectTiles}
           layout={cStoreProjectsLayout}
           tours={virtualTours}

@@ -438,13 +438,12 @@ const tileDir = "/images/figma/projects";
 const tileV2 = `${tileDir}/v2`;
 
 /**
- * Projects mosaic from the Figma "Projects" frame (1592 x 1091), laid out on a
- * 30px outer margin with ~11px gutters. x / y / w / h are design px in that frame.
- * - Tiles from the Figma export (nodes 183:87xx/88xx) are pre-rendered in their
- *   exact outline (transparent corners), so they need no `mask`.
- * - `placeholder` tiles are the plain forest shapes in the design (not clickable).
- * - Tiles with a `mask` weren't in the export: an older photo in a borrowed
- *   outline until the real tile is supplied.
+ * Projects mosaic from the Figma "Projects" frame (1592 x 1091, node 183:8802),
+ * laid out on a 30px outer margin with ~11px gutters. x / y / w / h are design
+ * px in that frame. Every tile below is a direct Figma export (nodes
+ * 183:87xx/88xx): pre-rendered in its exact chamfered outline with real alpha
+ * transparency baked in, so none of them need a CSS `mask` — the shape comes
+ * from the PNG itself.
  */
 export const projectTiles: {
   id: string;
@@ -457,20 +456,32 @@ export const projectTiles: {
   h: number;
   alt: string;
 }[] = [
-  { id: "placeholder-top-left", image: `${tileV2}/rect-4396.webp`, placeholder: true, x: 30, y: 30, w: 490, h: 223 },
-  { id: "coffee-bar", image: `${tileV2}/rect-4403.webp`, x: 532, y: 30, w: 260, h: 275 },
-  { id: "placeholder-top-center", mask: `${tileDir}/rectangle-4406-mask.svg`, placeholder: true, x: 803, y: 30, w: 253, h: 278 },
-  { id: "snack-aisle", image: `${tileV2}/rect-4397.webp`, x: 1066, y: 30, w: 264, h: 223 },
-  { id: "checkout-lanes", image: `${tileV2}/rect-4400.webp`, x: 1342, y: 30, w: 217, h: 223 },
+  { id: "placeholder-top-left", image: `${tileV2}/home-rect-4396.png`, placeholder: true, x: 30, y: 30, w: 490, h: 223 },
+  { id: "coffee-bar", image: `${tileV2}/home-rect-4403.png`, x: 532, y: 30, w: 260, h: 275 },
+  { id: "placeholder-top-center", image: `${tileV2}/home-rect-4405.png`, placeholder: true, x: 803, y: 30, w: 253, h: 278 },
+  { id: "snack-aisle", image: `${tileV2}/home-rect-4397.png`, x: 1066, y: 30, w: 264, h: 223 },
+  { id: "checkout-lanes", image: `${tileV2}/home-rect-4400.png`, x: 1342, y: 30, w: 217, h: 223 },
   { id: "coffee-counter", image: `${tileV2}/vector-1-3.webp`, x: 30, y: 263, w: 243, h: 241 },
   { id: "island-counter", image: `${tileV2}/vector-3.webp`, x: 285, y: 263, w: 236, h: 241 },
-  { id: "placeholder-right", image: `${tileV2}/rect-4401.webp`, placeholder: true, x: 1066, y: 263, w: 491, h: 241 },
-  { id: "uk-market", image: `${tileV2}/rect-4399.webp`, x: 30, y: 516, w: 489, h: 223 },
-  { id: "welcome", image: "/images/figma/project-grid-02.webp", mask: `${tileDir}/rectangle-4403-mask.svg`, x: 532, y: 449, w: 260, h: 300 },
-  { id: "cafe-seating", image: `${tileV2}/rect-4406.webp`, x: 803, y: 449, w: 250, h: 303 },
-  { id: "checkout", image: `${tileDir}/rectangle-4398.webp`, mask: `${tileDir}/rectangle-4398-mask.svg`, x: 1066, y: 516, w: 265, h: 223 },
-  { id: "on-the-go", image: `${tileV2}/rect-4402.webp`, x: 1342, y: 516, w: 218, h: 223 },
+  { id: "placeholder-right", image: `${tileV2}/home-rect-4401.png`, placeholder: true, x: 1066, y: 263, w: 491, h: 241 },
+  { id: "uk-market", image: `${tileV2}/home-rect-4399.png`, x: 30, y: 516, w: 489, h: 223 },
+  { id: "welcome", image: `${tileV2}/home-rect-4404.png`, x: 532, y: 449, w: 260, h: 300 },
+  { id: "cafe-seating", image: `${tileV2}/home-rect-4406.png`, x: 803, y: 449, w: 250, h: 303 },
+  { id: "checkout", image: `${tileV2}/home-rect-4398.png`, x: 1066, y: 516, w: 265, h: 223 },
+  { id: "on-the-go", image: `${tileV2}/home-rect-4402.png`, x: 1342, y: 516, w: 218, h: 223 },
 ].map((tile) => ({ ...tile, alt: "Completed T Lines retail project" }));
+
+/**
+ * Every 2s, three random Projects-mosaic tiles get one of these labels laid
+ * over their existing photo (never swapped) — see RotatingServiceTiles. Each
+ * store type keeps its own identity colour as the scrim behind its label,
+ * regardless of which page the mosaic is on.
+ */
+export const serviceTypeTiles = [
+  { id: "c-store", label: "C-Store", href: "/services/c-store", tintClass: "bg-gold" },
+  { id: "truck-stops", label: "Truck Stops", href: "/services/truck-stops", tintClass: "bg-coral" },
+  { id: "grocery", label: "Grocery", href: "/services/grocery", tintClass: "bg-sage-dark" },
+];
 
 export const projectsLayout = {
   frame: { w: 1592, h: 1091 },
@@ -495,17 +506,19 @@ export const projectsLayout = {
   ] as { id: string; mask?: string; ratio?: number }[][],
 };
 
-// C-store page Projects mosaic (Figma "C Store" frame): same tiles/positions
-// as the homepage, but the two baked-color placeholder tiles are coral instead
-// of forest (the CSS-only placeholder and the label/tour bands are recolored
-// via props on the c-store page instead of new assets).
-export const cStoreProjectTiles = projectTiles.map((tile) =>
-  tile.id === "placeholder-top-left"
-    ? { ...tile, image: `${tileV2}/rect-4396-coral.png` }
-    : tile.id === "placeholder-right"
-      ? { ...tile, image: `${tileV2}/rect-4401-coral.png` }
-      : tile,
-);
+// C-store page Projects mosaic (Figma "C Store" frame, node 294:4080): same
+// tiles/positions as the homepage, but the three placeholder tiles use this
+// page's own coral-toned Figma exports instead of the homepage's photos.
+const cStorePlaceholderImages: Record<string, string> = {
+  "placeholder-top-left": `${tileV2}/rect-4396-coral.png`,
+  "placeholder-top-center": `${tileV2}/rect-4405-coral.png`,
+  "placeholder-right": `${tileV2}/rect-4401-coral.png`,
+};
+
+export const cStoreProjectTiles = projectTiles.map((tile) => {
+  const image = cStorePlaceholderImages[tile.id];
+  return image ? { ...tile, image } : tile;
+});
 
 export const cStoreProjectsLayout = {
   ...projectsLayout,

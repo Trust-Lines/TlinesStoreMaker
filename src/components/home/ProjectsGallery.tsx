@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { ProjectsGrid, type MobileTileRef, type ProjectTile } from "./ProjectsGrid";
+import type { ServiceTypeTile } from "./RotatingServiceTiles";
 
 type Box = { x: number; y: number; w: number; h: number };
 
@@ -15,6 +16,8 @@ export interface ProjectsGalleryProps {
   placeholderClass?: string;
   /** Tailwind bg class for the tour tab + frame. Defaults to forest. */
   tourBgClass?: string;
+  /** Store-type labels three random mosaic tiles rotate through every 2s. */
+  rotatingItems?: ServiceTypeTile[];
   tiles: ProjectTile[];
   layout: {
     frame: { w: number; h: number };
@@ -44,6 +47,7 @@ export function ProjectsGallery({
   labelTextClass,
   placeholderClass,
   tourBgClass = "bg-forest",
+  rotatingItems,
   tiles,
   layout,
   tours,
@@ -63,6 +67,7 @@ export function ProjectsGallery({
           label={layout.label}
           labelTextClass={labelTextClass}
           placeholderClass={placeholderClass}
+          rotatingItems={rotatingItems}
           mobileRows={layout.mobileRows}
           href="/projects"
         />
@@ -96,7 +101,7 @@ export function ProjectsGallery({
                         alt=""
                         fill
                         sizes="(min-width: 1024px) 16vw, 62vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="object-cover"
                       />
                       <Image
                         src="/images/figma/project-badge-icon-b.svg"
