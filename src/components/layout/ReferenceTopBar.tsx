@@ -25,7 +25,7 @@ const tones = {
     fill: "#F7C56B",
     ink: "text-forest",
     focus: "focus-visible:outline-forest",
-    logo: { src: "/images/figma/topbar-logo.svg", width: 311, height: 85, className: "w-[150px] sm:w-[210px] lg:mt-0.5 lg:w-[min(19.5vw,311px)]" },
+    logo: { src: "/images/figma/topbar-logo.svg", width: 311, height: 85, className: "w-[150px] sm:w-[210px] lg:w-[min(17.68vw,281.6px)]" },
     menuIcon: "/images/figma/menu-icon.svg",
   },
   // Cream logo (Frame 427319109, 388 x 95) carries ~8px of padding, so it sits
@@ -34,14 +34,14 @@ const tones = {
     fill: "#DB7358",
     ink: "text-cream",
     focus: "focus-visible:outline-cream",
-    logo: { src: "/images/figma/topbar-logo-cream.svg", width: 388, height: 95, className: "max-w-none w-[170px] sm:-ml-3 sm:w-[240px] lg:-mt-2 lg:-ml-[min(2.33vw,37px)] lg:w-[min(24.37vw,388px)]" },
+    logo: { src: "/images/figma/topbar-logo-cream.svg", width: 388, height: 95, className: "max-w-none w-[170px] sm:-ml-3 sm:w-[240px] lg:-ml-[min(2.33vw,37px)] lg:w-[min(24.37vw,388px)]" },
     menuIcon: "/images/figma/menu-icon-cream.svg",
   },
   sage: {
-    fill: "#939878",
+    fill: "#557256",
     ink: "text-cream",
     focus: "focus-visible:outline-cream",
-    logo: { src: "/images/figma/topbar-logo-cream.svg", width: 388, height: 95, className: "max-w-none w-[170px] sm:-ml-3 sm:w-[240px] lg:-mt-2 lg:-ml-[min(2.33vw,37px)] lg:w-[min(24.37vw,388px)]" },
+    logo: { src: "/images/figma/topbar-logo-cream.svg", width: 388, height: 95, className: "max-w-none w-[170px] sm:-ml-3 sm:w-[240px] lg:-ml-[min(2.33vw,37px)] lg:w-[min(24.37vw,388px)]" },
     menuIcon: "/images/figma/menu-icon-cream.svg",
   },
 } as const;
@@ -66,18 +66,19 @@ export function ReferenceTopBar({ tone = "gold" }: ReferenceTopBarProps) {
   // 1592px column as the page. Height matches --header-h in globals.css.
   return (
     <>
-    <header className={`fixed left-1/2 top-0 z-50 h-[88px] w-full max-w-[1592px] -translate-x-1/2 ${theme.ink} sm:h-[120px] lg:h-[min(9.58vw,153px)]`}>
-      {/* Exact Figma top-bar vector (1534 x 147). Rotation/flip from the
-          layer transform are already baked into the path. Stretched to the
-          viewport width; non-scaling stroke keeps the 3px cream outline crisp. */}
+    <header className={`fixed left-1/2 top-0 z-50 h-[88px] w-full max-w-[1592px] -translate-x-1/2 ${theme.ink} sm:h-[120px] lg:h-[min(7.76vw,123.6px)]`}>
+      {/* Figma node 406:17451 (Property 1=Default): a single flatter chamfered
+          bar (cut corner bottom-right), 1484.889 x 115.228, replacing the
+          previous zigzag-ended shape. Stretched to the header's own box;
+          non-scaling stroke keeps the 3px cream outline crisp. */}
       <svg
         aria-hidden="true"
-        viewBox="0 0 1534 147"
+        viewBox="0 0 1493.17 121.228"
         preserveAspectRatio="none"
         className="pointer-events-none absolute inset-0 h-full w-full"
       >
         <path
-          d="M1.54345 -90.6031L2.28351 -65.5838L2.51575 -65.2302C11.0037 -52.2672 22.7184 -28.1483 30.4417 -13.6818L30.4408 -13.6808C56.8835 36.0513 82.7224 85.6616 112.662 133.378C117.276 140.732 125.496 144.976 134.149 144.635L1426.5 93.7102L1426.59 93.7065L1426.68 93.6911C1433.02 92.6547 1440.76 89.2658 1448.27 85.5962C1455.88 81.8736 1463.24 77.8734 1469.14 75.3546C1481.26 70.1797 1493.21 63.7491 1504.73 57.7408C1505.92 57.1197 1507.18 56.1892 1508.26 55.1225C1509.33 54.0662 1510.32 52.7851 1510.84 51.4314L1510.84 51.4195L1510.85 51.4077C1514.91 40.3217 1516.88 27.4941 1519.11 16.1986L1519.11 16.1976L1528.95 -32.9984L1528.95 -32.9993C1529.21 -34.2885 1530.19 -38.94 1531.04 -43.5024C1531.47 -45.7861 1531.87 -48.072 1532.13 -49.9269C1532.25 -50.8525 1532.35 -51.6917 1532.4 -52.3794C1532.44 -52.995 1532.46 -53.6978 1532.33 -54.2201C1530.5 -61.5677 1525.83 -69.8616 1520.76 -77.8238C1515.62 -85.9111 1510.14 -93.5534 1506.3 -100.033L1506.3 -100.034C1502.41 -106.583 1495.92 -110.531 1488.07 -110.647C1453.4 -111.16 1418.04 -109.236 1383.52 -109.02L1383.52 -109.02C1288.43 -108.357 1193.34 -107.116 1098.27 -105.296L289.342 -95.1066L289.338 -95.1065L117.794 -92.5509L117.79 -92.5508L70.5609 -91.6931L70.5609 -91.6941C67.7001 -91.6508 63.1523 -91.4998 58.6473 -91.4677C54.1127 -91.4353 49.8932 -91.5295 47.7508 -91.9348L47.5907 -91.9652L1.54345 -90.6031Z"
+          d="M4.85102 1.50001L1489.74 1.50196H1491.46L1491.23 3.20411L1489.74 3.00196L1491.23 3.20509C1491.23 3.20589 1491.23 3.20747 1491.23 3.20899C1491.22 3.21203 1491.22 3.21682 1491.22 3.22266C1491.22 3.23439 1491.22 3.25182 1491.22 3.27442C1491.21 3.32007 1491.2 3.3876 1491.19 3.47559C1491.16 3.65182 1491.13 3.91062 1491.08 4.24122C1490.99 4.90236 1490.85 5.8517 1490.68 7.00684C1490.33 9.3166 1489.84 12.453 1489.27 15.7539C1488.7 19.0516 1488.04 22.53 1487.35 25.5186C1486.67 28.4481 1485.93 31.0831 1485.15 32.5732C1484.57 33.7029 1483.73 34.6861 1482.71 35.4502L1423.3 80.0127C1421.91 81.0499 1420.25 81.6405 1418.52 81.7061L1418.51 81.707H1418.51L74.2817 119.723L74.2807 119.722C72.4861 119.786 70.7169 119.282 69.227 118.279C68.2817 117.643 67.2423 116.618 66.145 115.354C65.0318 114.07 63.7948 112.465 62.4614 110.597C59.794 106.86 56.6892 102.008 53.3315 96.4512C46.6137 85.3345 38.837 71.3165 31.4604 57.5791C24.0819 43.8381 17.0949 30.3614 11.9526 20.3213C9.38124 15.3009 7.27089 11.1387 5.80317 8.23145C5.06933 6.77788 4.49576 5.6381 4.10591 4.86134C3.91098 4.47295 3.76198 4.17522 3.66157 3.97462C3.61137 3.87432 3.57282 3.79811 3.54731 3.74708C3.53464 3.72172 3.52541 3.70232 3.51899 3.68946C3.51578 3.68304 3.51281 3.67807 3.51118 3.67481C3.51044 3.67333 3.50961 3.67167 3.50923 3.67091C3.51044 3.66931 3.55635 3.64642 4.85102 3.00001L3.50923 3.66993L2.42524 1.50001H4.85102Z"
           fill={theme.fill}
           stroke="#FFF4E0"
           strokeWidth="3"
@@ -85,13 +86,18 @@ export function ReferenceTopBar({ tone = "gold" }: ReferenceTopBarProps) {
         />
       </svg>
 
-      {/* Phones: side padding clears the bar's slanted ends (~6% left at the logo,
-          ~7% right at the menu icon), so neither pokes out of the shape.
-          lg+: Figma placement on the 1592 frame — logo 143px in / 24px down,
-          "Get in touch" 97px from the menu bars, 51px menu icon (Group 382)
-          101.3px from the right edge, centred ~44px down. */}
-      <div className="relative mx-auto flex h-[72px] w-full items-center justify-between pl-[calc(6.5%+14px)] pr-[calc(7%+6px)] sm:h-[92px] sm:px-[9.5%] lg:h-auto lg:items-start lg:pl-[9%] lg:pr-[6.363%] lg:pt-[22px]">
-        <Link href="/#home" className={`flex items-center gap-2 outline-offset-4 focus-visible:outline focus-visible:outline-2 ${theme.focus}`}>
+      {/* Phones: side padding clears the bar's chamfered corner, so neither
+          the logo nor the menu icon pokes out of the shape.
+          lg+: Figma placement (node 406:17451, 1484.889 x 115.228 frame) —
+          logo box left 5.85% / top 15.62% / height 62.26% of the bar; the
+          "Get in touch" + menu group starts at left 74.14%, ends 5.93% from
+          the right edge, top 12.59%, with a 97px gap (6.53% of the bar's
+          width) between the text and the 51px menu icon. */}
+      <div className="relative mx-auto flex h-[72px] w-full items-center justify-between pl-[calc(6.5%+14px)] pr-[calc(7%+6px)] sm:h-[92px] sm:px-[9.5%] lg:h-auto lg:items-start lg:pl-[min(5.851vw,93.15px)] lg:pr-[min(5.926vw,94.34px)]">
+        <Link
+          href="/#home"
+          className={`flex items-center gap-2 outline-offset-4 focus-visible:outline focus-visible:outline-2 ${theme.focus} lg:mt-[min(1.212vw,19.31px)]`}
+        >
           <Image
             src={theme.logo.src}
             alt="T Lines Store Maker"
@@ -103,7 +109,7 @@ export function ReferenceTopBar({ tone = "gold" }: ReferenceTopBarProps) {
           />
         </Link>
 
-        <div className="flex items-center gap-4 sm:gap-8 lg:-mt-[min(0.22vw,3.5px)] lg:gap-[min(5.69vw,90.6px)]">
+        <div className="flex items-center gap-4 sm:gap-8 lg:mt-[min(0.977vw,15.56px)] lg:gap-[min(6.533vw,104px)]">
           <Link
             href="/contact"
             className={`hidden text-center font-display text-sm font-bold hover:opacity-70 focus-visible:outline focus-visible:outline-2 ${theme.focus} sm:block lg:text-[min(1.445vw,23px)] lg:leading-[1.0435]`}
