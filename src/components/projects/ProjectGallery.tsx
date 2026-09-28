@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import type { GalleryProject, ProjectCategoryId } from "@/lib/content";
-import { PhotoLightbox } from "./PhotoLightbox";
-
-type Tone = "gold" | "coral" | "sage";
+import { cardTone, toneOfCategory, type Tone } from "./projectTone";
 
 export interface ProjectGalleryProps {
   projects: GalleryProject[];
@@ -22,26 +21,19 @@ const pillTone: Record<Tone | "all", { pill: string; badge: string }> = {
   sage: { pill: "border border-cream bg-sage-dark text-cream", badge: "bg-cream text-sage-dark" },
 };
 
-/** Card frame colour + location ribbon (Figma 320 x 64 vectors, cream 5px outline baked in). */
-const cardTone: Record<Tone, { frame: string; label: string; text: string }> = {
-  gold: { frame: "border-gold", label: "/images/projects-gallery/label-gold.svg", text: "text-sage-dark" },
-  coral: { frame: "border-coral", label: "/images/projects-gallery/label-coral.svg", text: "text-cream" },
-  sage: { frame: "border-sage-dark", label: "/images/projects-gallery/label-sage.svg", text: "text-cream" },
-};
-
 /**
  * Projects gallery (Figma "Projects" frame, 1592 wide): category pills 46px
  * under the hero over a divider, then a 2-column grid of 637 x 407 photo cards
  * (139px / 134px side margins, 45px column gap), each framed in its category
  * colour with a "STATE, USA" ribbon hanging off its bottom-left corner.
- * Clicking a card opens the photo viewer over the filtered set. 120px of cream
- * separates the grid from the next section. (No pager: that lives on the Blog.)
+ * Clicking a card opens that project's own page (Figma node 261:7803). 120px
+ * of cream separates the grid from the next section. (No pager: that lives on
+ * the Blog.)
  */
 export function ProjectGallery({ projects, categories }: ProjectGalleryProps) {
   const [filter, setFilter] = useState<Filter>("all");
-  const [open, setOpen] = useState<number | null>(null);
 
-  const toneOf = (id: ProjectCategoryId) => categories.find((category) => category.id === id)?.tone ?? "sage";
+  const toneOf = (id: ProjectCategoryId) => toneOfCategory(id, categories);
   const labelOf = (id: ProjectCategoryId) => categories.find((category) => category.id === id)?.label ?? id;
   const visible = filter === "all" ? projects : projects.filter((project) => project.category === filter);
 
@@ -88,15 +80,13 @@ export function ProjectGallery({ projects, categories }: ProjectGalleryProps) {
           {`Showing ${visible.length} ${filter === "all" ? "" : `${labelOf(filter)} `}projects`}
         </p>
         <ul className="mx-auto grid max-w-[560px] gap-x-6 gap-y-14 sm:max-w-none sm:grid-cols-2 lg:gap-x-[calc(var(--u)*45)] lg:gap-y-[calc(var(--u)*90)]">
-          {visible.map((project, index) => {
+          {visible.map((project) => {
             const tone = cardTone[toneOf(project.category)];
             return (
               <li key={project.id} className="@container">
-                <button
-                  type="button"
-                  onClick={() => setOpen(index)}
-                  aria-haspopup="dialog"
-                  aria-label={`${project.alt}, ${project.location}: view photo`}
+                <Link
+                  href={`/projects/${project.id}`}
+                  aria-label={`${project.alt}, ${project.location}: view project`}
                   className="group relative block w-full text-left outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
                 >
                   <span className={`relative block aspect-[637/407] overflow-hidden rounded-[16px] border-2 ${tone.frame}`}>
@@ -115,18 +105,12 @@ export function ProjectGallery({ projects, categories }: ProjectGalleryProps) {
                       {project.location}
                     </span>
                   </span>
-                </button>
+                </Link>
               </li>
             );
           })}
         </ul>
       </div>
-
-      <PhotoLightbox
-        photos={visible.map((project) => ({ id: project.id, image: project.image, alt: `${project.alt} (${project.location})` }))}
-        index={open}
-        onChange={setOpen}
-      />
     </>
   );
 }

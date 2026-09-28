@@ -920,6 +920,28 @@ export const galleryProjects: GalleryProject[] = interleaveByPattern(galleryPhot
   location: "State, USA",
 }));
 
+/**
+ * Project detail page (Figma "Projects" frame, node 261:7803) — a template:
+ * every gallery photo already has a real image/category/location, but there's
+ * no project-detail backend yet, so the heading/type/date/body copy here are
+ * placeholders (matching the Figma mock's own "Lorem ipsum" / "September
+ * 2026" placeholders) until that's wired up. `id` doubles as the route slug.
+ */
+export const projectDetailHeading: Record<ProjectCategoryId, string> = {
+  "c-store": "C-store project",
+  "truck-stops": "Truck stop project",
+  grocery: "Grocery project",
+};
+
+export const projectDetailType: Record<ProjectCategoryId, string> = {
+  "c-store": "C Store Remodel",
+  "truck-stops": "Truck Stop Remodel",
+  grocery: "Grocery Remodel",
+};
+
+export const projectDetailLorem =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
 /** About us page ("About us" Figma frame, 1592 wide). */
 const aboutLorem =
   "";
