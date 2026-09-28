@@ -11,7 +11,7 @@ export interface ContactHeroProps {
 
 /**
  * Project-enquiry hero from the new Contact frame. On the 1592px canvas the
- * store photo is 959px tall, the mascot sits at x=197/y=455, and the 680x1031
+ * store photo is 959px tall, the 698x750 mascot group sits at x=131/y=300, and the 680x1031
  * form overlaps the photo and cream panel at x=800/y=245.
  */
 export function ContactHero({ heading, image, mascot, intro, email }: ContactHeroProps) {
@@ -42,7 +42,7 @@ export function ContactHero({ heading, image, mascot, intro, email }: ContactHer
           ))}
         </h1>
 
-        <div className="relative z-10 mx-auto mt-8 aspect-[593/564] w-[min(86vw,460px)] lg:absolute lg:left-[calc(var(--u)*197)] lg:top-[calc(var(--u)*455)] lg:mt-0 lg:w-[calc(var(--u)*593)]">
+        <div className="relative z-10 mx-auto mt-8 aspect-[698/750] w-[min(100vw,540px)] lg:absolute lg:left-[calc(var(--u)*131)] lg:top-[calc(var(--u)*300)] lg:mt-0 lg:w-[calc(var(--u)*698)]">
           <Image src={mascot} alt="T Lines project specialist holding store plans" fill priority unoptimized className="object-contain" />
         </div>
 

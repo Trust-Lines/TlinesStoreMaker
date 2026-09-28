@@ -21,23 +21,6 @@ const detailIcons = {
   email: "/images/contact/icon-email.svg",
 };
 
-const mapDots = [
-  [8, 48], [11, 57], [14, 42], [16, 64], [18, 52], [20, 71], [23, 45], [25, 60], [27, 50], [29, 69],
-  [32, 57], [35, 73], [37, 48], [39, 64], [42, 54], [45, 72], [48, 59], [51, 45], [54, 67], [57, 52],
-  [60, 73], [63, 58], [66, 43], [68, 64], [71, 51], [73, 70], [76, 56], [79, 43], [82, 62], [85, 50],
-  [88, 40], [91, 58], [34, 38], [44, 40], [55, 36], [65, 34], [74, 37], [84, 32],
-] as const;
-
-function LocationPin({ featured = false }: { featured?: boolean }) {
-  return (
-    <svg viewBox="0 0 70 88" aria-hidden className="h-full w-full overflow-visible drop-shadow-sm">
-      <path d="M35 2C16.8 2 2 16.8 2 35c0 24.5 33 50 33 50s33-25.5 33-50C68 16.8 53.2 2 35 2Z" fill="#DB7358" stroke="#FFF4E1" strokeWidth="4" />
-      <circle cx="35" cy="35" r={featured ? 20 : 17} fill="#FFF4E1" />
-      <path d="M24 25h22v24H24zM20 22h30M28 18h14" fill="none" stroke="#DB7358" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 /** Green headquarters band from the new Contact page. */
 export function HeadquartersSection({ heading, offices }: HeadquartersSectionProps) {
   const office = offices[0];
@@ -81,22 +64,16 @@ export function HeadquartersSection({ heading, offices }: HeadquartersSectionPro
         </dl>
       </div>
 
-      <div className="mt-16 lg:absolute lg:left-[calc(var(--u)*681)] lg:top-[calc(var(--u)*131)] lg:mt-0 lg:w-[calc(var(--u)*760)]">
-        <h3 className="text-center font-accent text-[clamp(2rem,8vw,3.25rem)] font-medium uppercase leading-[1.08] lg:text-[calc(var(--u)*54)]">
-          <span className="block">{heading[0]}</span>
-          <span className="block text-gold">{heading[1]}</span>
-          <span className="block">{heading[2]}</span>
-        </h3>
+      <span aria-hidden className="hidden lg:absolute lg:left-[calc(var(--u)*556)] lg:top-[calc(var(--u)*287)] lg:block lg:h-[calc(var(--u)*423)] lg:w-px lg:bg-cream/25" />
 
-        <div className="relative mt-10 aspect-[943/598] w-full lg:mt-[calc(var(--u)*73)]">
-          <Image src="/images/contact/us-map.svg" alt="Map of the United States showing T Lines locations" fill unoptimized className="object-contain opacity-45" />
-          {mapDots.map(([left, top], index) => (
-            <span key={index} aria-hidden className="absolute h-1.5 w-1.5 rounded-full bg-gold/65 lg:h-[calc(var(--u)*10)] lg:w-[calc(var(--u)*10)]" style={{ left: `${left}%`, top: `${top}%` }} />
-          ))}
-          <span className="absolute left-[19%] top-[58%] h-10 w-8 -translate-x-1/2 -translate-y-full lg:h-[calc(var(--u)*61)] lg:w-[calc(var(--u)*48)]"><LocationPin /></span>
-          <span className="absolute left-[67%] top-[64%] h-16 w-12 -translate-x-1/2 -translate-y-full lg:h-[calc(var(--u)*96)] lg:w-[calc(var(--u)*72)]"><LocationPin featured /></span>
-          <span className="absolute left-[86%] top-[39%] h-10 w-8 -translate-x-1/2 -translate-y-full lg:h-[calc(var(--u)*61)] lg:w-[calc(var(--u)*48)]"><LocationPin /></span>
-        </div>
+      <h3 className="mt-16 text-center font-accent text-[clamp(2rem,8vw,3.25rem)] font-medium uppercase leading-[1.08] lg:absolute lg:left-[calc(var(--u)*755)] lg:top-[calc(var(--u)*137)] lg:mt-0 lg:text-left lg:text-[calc(var(--u)*54)] lg:leading-[1.13]">
+        <span className="block">{heading[0]}</span>
+        <span className="block text-gold lg:pl-[calc(var(--u)*239)]">{heading[1]}</span>
+        <span className="block">{heading[2]}</span>
+      </h3>
+
+      <div className="relative mt-10 aspect-[784/429] w-full lg:absolute lg:left-[calc(var(--u)*683)] lg:top-[calc(var(--u)*397)] lg:mt-0 lg:w-[calc(var(--u)*728)]">
+        <Image src="/images/contact/us-map-locations.png" alt="Map of the United States showing T Lines locations" fill unoptimized className="object-contain" />
       </div>
     </section>
   );

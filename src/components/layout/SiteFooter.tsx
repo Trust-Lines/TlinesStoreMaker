@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { NewsletterForm } from "./NewsletterForm";
 
 export interface FooterLinkColumn {
   id: string;
@@ -16,59 +17,50 @@ export interface FooterBrandPill {
 
 export interface SiteFooterProps {
   logo: { src: string; alt: string; href: string };
-  goldMembersHeading?: string;
-  /** Uppercase tagline under the logo, one entry per line. */
-  tagline?: string[];
-  /** The three T Lines brand pills under the logo (Store Maker / Design & Build / Premium Store fitouts). */
-  brandPills?: FooterBrandPill[];
-  emailAction: { label: string; href: string };
+  /** The three T Lines brand pills beside the logo (Store Maker / Premium Store fitouts / Design & Build). */
+  brandPills: FooterBrandPill[];
+  /** Heading lines; the last word of the last line is set in bold. */
+  newsletter: { heading: string[]; placeholder: string; email: string };
   followLabel: string;
   columns: FooterLinkColumn[];
+  locations: { label: string; href: string }[];
   callUsHeading: string;
   phoneNumbers: string[];
   copyright: string;
 }
 
-const memberMarks = [
-  { label: "NACS", className: "text-[#1684a5]" },
-  { label: "NATSO", className: "text-[#30425b]" },
-  { label: "M·PACT", className: "text-[#175a83]" },
-  { label: "nga", className: "text-[#e1483f]" },
-];
-
-const locations = [
-  "Atalanta, Georgia (GA)",
-  "Phoenix, Arizona (AZ)",
-  "Milford, Connecticut (CT)",
-];
-
 const socials = ["Instagram", "YouTube", "LinkedIn"];
 
+const labelClass = "font-display text-[14px] uppercase text-cream/65 lg:text-[calc(var(--u)*16)]";
+const linkClass =
+  "inline-flex min-h-11 items-center font-display text-[16px] font-semibold leading-none hover:text-coral focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral lg:min-h-0 lg:text-[calc(var(--u)*20)]";
+
 /**
- * Footer matching the Figma frame (1592 x 636, #2E4437). From lg up:
- * left column at 139.5px (logo, tagline, email box, socials); link columns at
- * 688 / 872 / 1095 / 1271; Locations at 688 and Call us at 1101; copyright
- * repeated bottom-left and bottom-right, ending at 1454. Values are % of the
- * frame so the layout scales with the page. Below lg it stacks.
+ * Footer matching the Figma frame (1592 x 722, #2E4437). From lg up, on the
+ * --u scale: logo at x=138/y=62 with the three 323 x 81 brand pills in a row
+ * from x=444; newsletter block at y=248; link columns at 679 / 902 / 1146 /
+ * 1312 from y=267; socials at y=503; Locations at 892 and Call us at 1291 from
+ * y=516; copyright repeated bottom-left and bottom-right. Below lg it stacks.
  */
 export function SiteFooter({
   logo,
-  goldMembersHeading,
-  tagline,
   brandPills,
-  emailAction,
+  newsletter,
   followLabel,
   columns,
+  locations,
   callUsHeading,
   phoneNumbers,
   copyright,
 }: SiteFooterProps) {
+  const lastLine = newsletter.heading.at(-1) ?? "";
+  const boldAt = lastLine.lastIndexOf(" ") + 1;
+
   return (
-    <footer id="footer-navigation" className="relative isolate mt-auto bg-forest text-cream lg:min-h-[636px]">
+    <footer id="footer-navigation" className="relative isolate mt-auto overflow-hidden bg-forest text-cream">
       {/* Decorative outlines (Figma "Subtract" vectors, #395240), clipped to the footer:
-          top group hangs from the top edge at x=813 (531.9 wide, 247.07 from the right);
-          bottom group rises from the bottom edge at x=155 (519 x 218, top at y=421). */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          top group hangs from the top edge at x=813; bottom group rises from the bottom edge at x=155. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-[51.07%] top-0 aspect-[495/232] w-[33.41%]">
           <Image src="/images/figma/footer-outline-top.svg" alt="" fill unoptimized className="h-full w-full" />
         </div>
@@ -77,135 +69,105 @@ export function SiteFooter({
         </div>
       </div>
 
-      <div className="mx-auto flex w-full max-w-[1592px] flex-col px-6 pb-8 pt-12 sm:px-8 sm:pt-14 lg:min-h-[636px] lg:pb-[2.2%] lg:pl-[8.76%] lg:pr-[8.67%] lg:pt-[6.03%]">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,548fr)_minmax(0,766fr)] lg:gap-0">
-          {/* Left column: logo, tagline, email, socials */}
-          <div className="flex flex-col">
-            <Link href={logo.href} className="flex w-fit items-center outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral">
-              <Image src={logo.src} alt={logo.alt} width={183} height={110} unoptimized className="h-[64px] w-auto lg:h-[min(6.9vw,110px)]" />
-            </Link>
+      <div className="relative mx-auto flex w-full max-w-[1592px] flex-col gap-10 px-6 pb-8 pt-12 sm:px-8 sm:pt-14 lg:block lg:h-[calc(var(--u)*722)] lg:p-0">
+        <div className="flex flex-col gap-6 lg:contents">
+          <Link
+            href={logo.href}
+            className="flex w-fit items-center outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral lg:absolute lg:left-[calc(var(--u)*138)] lg:top-[calc(var(--u)*62)]"
+          >
+            <Image src={logo.src} alt={logo.alt} width={183} height={110} unoptimized className="h-[64px] w-auto lg:h-[calc(var(--u)*110)]" />
+          </Link>
 
-            {tagline?.length ? (
-              // Figma: 322 x 122 box, text centered vertically; Montserrat 32/32, semibold.
-              <p className="mt-8 flex flex-col justify-center font-display text-[clamp(1.5rem,2.01vw,32px)] font-semibold uppercase leading-none text-cream lg:mt-[min(2.32vw,37px)] lg:h-[min(7.66vw,122px)] lg:w-[min(20.23vw,322px)]">
-                {tagline.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </p>
-            ) : null}
-
-            {goldMembersHeading ? (
-              <>
-                <p className="mt-5 font-display text-[clamp(24px,2.2vw,30px)] font-medium leading-none">{goldMembersHeading}</p>
-                <div className="mt-4 grid max-w-[298px] grid-cols-4 gap-1 sm:flex sm:gap-[6px]">
-                  {memberMarks.map((mark, index) => (
-                    <div
-                      key={mark.label}
-                      className="flex aspect-square w-full max-w-[70px] shrink-0 items-center justify-center bg-cream text-center"
-                      style={{
-                        clipPath:
-                          index % 2 === 0
-                            ? "polygon(14% 0,88% 3%,100% 16%,98% 86%,84% 100%,12% 95%,0 82%,1% 14%)"
-                            : "polygon(12% 3%,88% 0,100% 14%,99% 84%,86% 96%,13% 100%,0 85%,1% 16%)",
-                      }}
-                    >
-                      <span className={`font-display text-[16px] font-extrabold leading-none ${mark.className}`}>{mark.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </>
-            ) : null}
-
-            {brandPills?.length ? (
-              // Figma: three 323 x 81 stacked pills, ~9px gaps, each its own brand colour.
-              <div className="mt-8 flex flex-col gap-2 lg:mt-[min(2.32vw,37px)]">
-                {brandPills.map((pill) => (
-                  <Link
-                    key={pill.id}
-                    href={pill.href}
-                    className={`flex h-[64px] w-full max-w-[323px] items-center justify-center rounded-[8px] border border-cream px-4 outline-offset-2 transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral lg:h-[min(5.09vw,81px)] lg:w-[min(20.3vw,323px)] ${pill.bgClass}`}
-                  >
-                    <Image src={pill.logo.src} alt={pill.logo.alt} width={pill.logo.width} height={pill.logo.height} unoptimized className="h-auto w-auto max-h-[41px] max-w-[80%] lg:max-h-[min(2.58vw,41px)]" />
-                  </Link>
-                ))}
-              </div>
-            ) : null}
-
-            {/* "Send us an email" as an outlined field-style link (Figma ~323 x 46). */}
-            <Link
-              href={emailAction.href}
-              className="mt-8 flex h-[46px] w-full max-w-[323px] items-center justify-between rounded-[4px] border border-cream px-4 text-[14px] font-medium transition-colors hover:bg-cream/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral lg:mt-[min(1.7vw,27px)] lg:w-[min(20.3vw,323px)]"
-            >
-              {emailAction.label}
-              <span aria-hidden>→</span>
-            </Link>
-
-            <p className="mt-6 text-[16px] font-medium lg:mt-[min(1.5vw,24px)]">{followLabel}</p>
-            <div className="mt-3 flex items-center gap-[8px]">
-              {socials.map((label, index) => (
-                <Link
-                  key={label}
-                  href="/contact"
-                  aria-label={label}
-                  className="rounded-[6px] outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral"
-                >
-                  <Image src={`/images/figma/social-icon-${index + 1}.svg`} alt="" width={49} height={49} unoptimized className="h-[44px] w-[44px] lg:h-[min(3vw,48px)] lg:w-[min(3vw,48px)]" />
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Right column: link columns, then locations + call us */}
-          <div className="flex flex-col gap-10 lg:gap-[min(4.65vw,74px)] lg:pt-2">
-            <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 lg:grid-cols-[184fr_223fr_176fr_183fr] lg:gap-0">
-              {columns.map((column) => (
-                <div key={column.id}>
-                  <p className="text-[14px] uppercase text-cream/65">{column.heading}</p>
-                  <ul className="mt-2 flex flex-col lg:mt-4 lg:gap-[14px]">
-                    {column.links.map((link) => (
-                      <li key={link.id}>
-                        <Link href={link.href} className="inline-flex min-h-11 items-center text-[16px] font-semibold leading-none hover:text-coral lg:min-h-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral lg:text-[min(1.13vw,18px)]">
-                          {link.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-4 lg:grid-cols-[413fr_353fr] lg:gap-0">
-              <div className="sm:col-span-2 lg:col-span-1">
-                <p className="text-[14px] uppercase text-cream/65">Locations</p>
-                <ul className="mt-2 flex flex-col lg:mt-4 lg:gap-[12px]">
-                  {locations.map((location) => (
-                    <li key={location}>
-                      <a href="/contact" className="inline-flex min-h-11 items-center gap-1 text-[16px] font-semibold underline underline-offset-2 hover:text-coral lg:min-h-0 lg:text-[min(1.13vw,18px)]">
-                        {location} <span aria-hidden>↗</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p className="text-[14px] uppercase text-cream/65">{callUsHeading}</p>
-                <ul className="mt-2 flex flex-col lg:mt-4 lg:gap-[12px]">
-                  {phoneNumbers.map((number, index) => (
-                    <li key={`${number}-${index}`}>
-                      <a href={`tel:${number.replace(/[^\d+]/g, "")}`} className="inline-flex min-h-11 items-center whitespace-nowrap text-[16px] font-semibold tracking-wide hover:text-coral lg:min-h-0 lg:text-[min(1.13vw,18px)]">
-                        {number}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+          <div className="flex flex-col gap-2 sm:flex-row lg:absolute lg:left-[calc(var(--u)*444)] lg:top-[calc(var(--u)*70)] lg:gap-[calc(var(--u)*18)]">
+            {brandPills.map((pill) => (
+              <Link
+                key={pill.id}
+                href={pill.href}
+                className={`flex h-[64px] w-full max-w-[323px] items-center justify-center rounded-[8px] border border-cream px-4 outline-offset-2 transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral lg:h-[calc(var(--u)*81)] lg:w-[calc(var(--u)*323)] lg:max-w-none ${pill.bgClass}`}
+              >
+                <Image src={pill.logo.src} alt={pill.logo.alt} width={pill.logo.width} height={pill.logo.height} unoptimized className="h-auto max-h-[41px] w-auto max-w-[80%] lg:max-h-[calc(var(--u)*41)]" />
+              </Link>
+            ))}
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-start gap-2 text-[13px] text-muted-green sm:flex-row sm:items-center sm:justify-between lg:mt-auto lg:text-[min(0.94vw,15px)]">
+        <div className="flex flex-col gap-6 lg:absolute lg:left-[calc(var(--u)*138)] lg:top-[calc(var(--u)*248)] lg:gap-[calc(var(--u)*38)]">
+          <p className="font-display text-[28px] leading-[1.3] lg:text-[calc(var(--u)*36)]">
+            {newsletter.heading.slice(0, -1).map((line) => (
+              <span key={line} className="block">{line}</span>
+            ))}
+            <span className="block">
+              {lastLine.slice(0, boldAt)}
+              <strong className="font-bold">{lastLine.slice(boldAt)}</strong>
+            </span>
+          </p>
+          <NewsletterForm placeholder={newsletter.placeholder} email={newsletter.email} />
+        </div>
+
+        <nav
+          aria-label="Footer"
+          className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 lg:absolute lg:left-[calc(var(--u)*679)] lg:top-[calc(var(--u)*267)] lg:grid-cols-[calc(var(--u)*223)_calc(var(--u)*244)_calc(var(--u)*166)_auto] lg:gap-0"
+        >
+          {columns.map((column) => (
+            <div key={column.id}>
+              <p className={labelClass}>{column.heading}</p>
+              <ul className="mt-2 flex flex-col lg:mt-[calc(var(--u)*22)] lg:gap-[calc(var(--u)*17)]">
+                {column.links.map((link) => (
+                  <li key={link.id}>
+                    <Link href={link.href} className={linkClass}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+
+        <div className="lg:absolute lg:left-[calc(var(--u)*138)] lg:top-[calc(var(--u)*503)]">
+          <p className={labelClass}>{followLabel}</p>
+          <div className="mt-3 flex items-center gap-[10px] lg:mt-[calc(var(--u)*18)] lg:gap-[calc(var(--u)*10)]">
+            {socials.map((label, index) => (
+              <Link
+                key={label}
+                href="/contact"
+                aria-label={label}
+                className="rounded-[6px] outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral"
+              >
+                <Image src={`/images/figma/social-icon-${index + 1}.svg`} alt="" width={49} height={49} unoptimized className="h-[44px] w-[44px] lg:h-[calc(var(--u)*49)] lg:w-[calc(var(--u)*49)]" />
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:contents">
+          <div className="lg:absolute lg:left-[calc(var(--u)*892)] lg:top-[calc(var(--u)*516)]">
+            <p className={labelClass}>Locations</p>
+            <ul className="mt-2 flex flex-col lg:mt-[calc(var(--u)*22)] lg:gap-[calc(var(--u)*12)]">
+              {locations.map((location) => (
+                <li key={location.label}>
+                  <Link href={location.href} className={`${linkClass} gap-1 underline underline-offset-2`}>
+                    {location.label} <span aria-hidden>↗</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="lg:absolute lg:left-[calc(var(--u)*1291)] lg:top-[calc(var(--u)*516)]">
+            <p className={labelClass}>{callUsHeading}</p>
+            <ul className="mt-2 flex flex-col lg:mt-[calc(var(--u)*22)] lg:gap-[calc(var(--u)*12)]">
+              {phoneNumbers.map((number, index) => (
+                <li key={`${number}-${index}`}>
+                  <a href={`tel:${number.replace(/[^\d+]/g, "")}`} className={`${linkClass} whitespace-nowrap tracking-wide`}>
+                    {number}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-start gap-2 font-display text-[13px] text-muted-green sm:flex-row sm:items-center sm:justify-between lg:absolute lg:left-[calc(var(--u)*138)] lg:right-[calc(var(--u)*146)] lg:top-[calc(var(--u)*686)] lg:text-[calc(var(--u)*15)]">
           <p>{copyright}</p>
           <p aria-hidden className="hidden sm:block">
             {copyright}
