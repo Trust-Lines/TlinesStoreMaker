@@ -20,7 +20,7 @@ const fields = [
 const labelClass =
   "font-display text-[13px] font-semibold text-forest after:ml-0.5 after:text-coral after:content-['*'] lg:text-[calc(var(--u)*17)]";
 const inputClass =
-  "mt-1.5 h-8 w-full border-0 border-b border-[#d6d8d4] bg-transparent px-0 text-[13px] text-forest placeholder:text-[#c8ceca] focus:border-forest focus:outline-none focus-visible:ring-0 lg:mt-[calc(var(--u)*5)] lg:h-[calc(var(--u)*42)] lg:text-[calc(var(--u)*15)]";
+  "mt-1.5 h-8 w-full border-0 border-b border-[#d6d8d4] bg-transparent px-0 text-[13px] text-forest placeholder:text-[#c8ceca] focus:border-forest focus:outline-none focus-visible:ring-0 lg:mt-[calc(var(--u)*5)] lg:h-[calc(var(--u)*46)] lg:text-[calc(var(--u)*15)]";
 
 /** New-project form on the supplied 680x1031 shaped card. */
 export function ContactForm({ email }: ContactFormProps) {
@@ -47,11 +47,11 @@ export function ContactForm({ email }: ContactFormProps) {
     <form
       onSubmit={handleSubmit}
       aria-label="Project enquiry form"
-      className="relative isolate flex min-h-[760px] flex-col px-[8%] pb-[6%] pt-[8%] drop-shadow-[0_18px_24px_rgba(31,47,38,0.18)] lg:aspect-[680/1031] lg:min-h-0 lg:px-[calc(var(--u)*53)] lg:pb-[calc(var(--u)*44)] lg:pt-[calc(var(--u)*50)]"
+      className="relative isolate flex min-h-[760px] flex-col px-[8%] pb-[6%] pt-[8%] drop-shadow-[0_18px_24px_rgba(31,47,38,0.18)] lg:aspect-[680/1031] lg:min-h-0 lg:pb-[calc(var(--u)*44)] lg:pl-[calc(var(--u)*60)] lg:pr-[calc(var(--u)*56)] lg:pt-[calc(var(--u)*53)]"
     >
       <Image src="/images/contact/project-form-card.svg" alt="" fill unoptimized className="pointer-events-none -z-10" />
 
-      <div className="flex flex-col gap-3 lg:gap-[calc(var(--u)*15)]">
+      <div className="flex flex-col gap-4 lg:gap-[calc(var(--u)*37)]">
         {fields.map((field) => (
           <label key={field.name} className="block">
             <span className={labelClass}>{field.label}</span>
@@ -61,7 +61,7 @@ export function ContactForm({ email }: ContactFormProps) {
 
         <fieldset>
           <legend className={labelClass}>Store Condition</legend>
-          <div className="mt-2 flex gap-8 text-[12px] text-forest lg:gap-[calc(var(--u)*34)] lg:text-[calc(var(--u)*14)]">
+          <div className="mt-2 flex gap-8 text-[12px] text-forest lg:mt-[calc(var(--u)*14)] lg:gap-[calc(var(--u)*80)] lg:text-[calc(var(--u)*14)]">
             <label className="flex items-center gap-2">
               <input type="radio" name="condition" value="New Store" defaultChecked className="accent-forest" />
               New Store
@@ -84,15 +84,15 @@ export function ContactForm({ email }: ContactFormProps) {
           </select>
         </label>
 
-        <label className="mt-1 flex items-start gap-3 text-[11px] leading-snug text-forest lg:mt-[calc(var(--u)*6)] lg:text-[calc(var(--u)*12)]">
-          <input type="checkbox" name="privacy" required className="mt-0.5 h-4 w-4 shrink-0 accent-forest" />
+        <label className="mt-2 flex items-center gap-2.5 text-[11px] leading-snug text-forest lg:mt-[calc(var(--u)*12)] lg:gap-[calc(var(--u)*14)] lg:text-[calc(var(--u)*13)]">
+          <input type="checkbox" name="privacy" required className="h-4 w-4 shrink-0 accent-forest lg:h-[calc(var(--u)*24)] lg:w-[calc(var(--u)*24)]" />
           <span>
             I agree to the T Lines <Link href="/contact#privacy-policy" className="font-semibold underline underline-offset-2">Privacy Policy</Link>
           </span>
         </label>
       </div>
 
-      <div className="mt-auto">
+      <div className="mt-auto pt-6 lg:pt-[calc(var(--u)*24)]">
         <button
           type="submit"
           className="relative isolate flex aspect-[562/87] w-full items-center justify-center font-display text-[14px] font-bold text-cream transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-forest lg:text-[calc(var(--u)*18)]"
