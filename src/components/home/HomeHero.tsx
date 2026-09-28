@@ -4,6 +4,8 @@ import Link from "next/link";
 export interface HomeHeroProps {
   heading: string;
   backgroundImage: string;
+  /** Autoplaying, looping background video; when set, it replaces `backgroundImage` (which still renders as the poster frame until the video is ready). */
+  backgroundVideo?: string;
   imageAlt: string;
   action: { label: string; href: string };
   /** Client logo strip exported from Figma, plus the client names for screen readers. */
@@ -27,18 +29,41 @@ export interface HomeHeroProps {
  * a tall fixed-ish height so the copy never collides with the header; from sm
  * up it follows the Figma frame ratio (1592 x 923).
  */
-export function HomeHero({ heading, backgroundImage, imageAlt, action, clients, stripBgClass = "bg-sage-dark", badge }: HomeHeroProps) {
+export function HomeHero({
+  heading,
+  backgroundImage,
+  backgroundVideo,
+  imageAlt,
+  action,
+  clients,
+  stripBgClass = "bg-sage-dark",
+  badge,
+}: HomeHeroProps) {
   return (
     <section id="home" aria-labelledby="home-hero-heading" className="relative isolate bg-forest">
       <div className="relative h-[min(100svh,640px)] min-h-[480px] w-full sm:aspect-[1592/923] sm:h-auto sm:min-h-0">
-        <Image
-          src={backgroundImage}
-          alt={imageAlt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-[62%_center] sm:object-center"
-        />
+        {backgroundVideo ? (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster={backgroundImage}
+            aria-label={imageAlt}
+            className="absolute inset-0 size-full object-cover object-[62%_center] sm:object-center"
+          >
+            <source src={backgroundVideo} type="video/mp4" />
+          </video>
+        ) : (
+          <Image
+            src={backgroundImage}
+            alt={imageAlt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[62%_center] sm:object-center"
+          />
+        )}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(31,47,38,.85)_0%,rgba(31,47,38,.35)_45%,rgba(31,47,38,.15)_100%)] sm:bg-[linear-gradient(100deg,rgba(31,47,38,.7)_0%,rgba(31,47,38,.35)_35%,rgba(31,47,38,0)_60%)]"
