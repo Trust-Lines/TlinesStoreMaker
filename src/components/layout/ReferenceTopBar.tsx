@@ -28,20 +28,21 @@ const tones = {
     logo: { src: "/images/figma/topbar-logo.svg", width: 311, height: 85, className: "w-[150px] sm:w-[210px] lg:w-[min(17.68vw,281.6px)]" },
     menuIcon: "/images/figma/menu-icon.svg",
   },
-  // Cream logo (Frame 427319109, 388 x 95) carries ~8px of padding, so it sits
-  // 106px in on the 1592 frame instead of 143.
+  // Same logo asset/box as the gold (homepage) bar — only the fill colour
+  // changes (a cream-recoloured duplicate of topbar-logo.svg), so the logo
+  // is the exact same size everywhere.
   coral: {
     fill: "#DB7358",
     ink: "text-cream",
     focus: "focus-visible:outline-cream",
-    logo: { src: "/images/figma/topbar-logo-cream.svg", width: 388, height: 95, className: "max-w-none w-[170px] sm:-ml-3 sm:w-[240px] lg:-ml-[min(2.33vw,37px)] lg:w-[min(24.37vw,388px)]" },
+    logo: { src: "/images/figma/topbar-logo-cream-v2.svg", width: 311, height: 85, className: "w-[150px] sm:w-[210px] lg:w-[min(17.68vw,281.6px)]" },
     menuIcon: "/images/figma/menu-icon-cream.svg",
   },
   sage: {
     fill: "#557256",
     ink: "text-cream",
     focus: "focus-visible:outline-cream",
-    logo: { src: "/images/figma/topbar-logo-cream.svg", width: 388, height: 95, className: "max-w-none w-[170px] sm:-ml-3 sm:w-[240px] lg:-ml-[min(2.33vw,37px)] lg:w-[min(24.37vw,388px)]" },
+    logo: { src: "/images/figma/topbar-logo-cream-v2.svg", width: 311, height: 85, className: "w-[150px] sm:w-[210px] lg:w-[min(17.68vw,281.6px)]" },
     menuIcon: "/images/figma/menu-icon-cream.svg",
   },
 } as const;
