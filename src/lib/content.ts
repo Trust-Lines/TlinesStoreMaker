@@ -498,9 +498,9 @@ export const projectsLayout = {
   /** Forest label (Figma vector 523 x 134) over the middle of the mosaic. */
   label: { src: `${tileV2}/projects-label.svg`, x: 533, y: 310, w: 523, h: 134 },
   /** "Come take a live 360 tour!" tab sitting on the tour frame. */
-  tourTab: { x: 533, y: 818, w: 528, h: 58 },
+  tourTab: { x: 533, y: 821, w: 528, h: 55 },
   /** Forest frame holding five tour tiles, 15px padding and gaps. */
-  tourFrame: { x: 138, y: 876, w: 1314, h: 179, pad: 15, gap: 15 },
+  tourFrame: { x: 143, y: 876, w: 1278, h: 179, pad: 15, gap: 15 },
   /**
    * Below lg ("Project Mobile" frame): rows alternating one wide tile and a
    * pair, placeholders left out. Tiles in a row share one height (each grows by

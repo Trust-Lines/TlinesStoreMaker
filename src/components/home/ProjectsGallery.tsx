@@ -80,9 +80,9 @@ export function ProjectsGallery({
             "--ty": pct(tab.y, frame.h),
           } as CSSProperties}
         >
-          {/* Tab: centred on the frame, chamfered top corners. */}
+          {/* Tab: centred on the frame, shaped by the Figma tab vector (528 x 55) as a mask. */}
           <p
-            className={`mx-auto flex w-fit items-center justify-center px-8 pb-2 pt-3 text-center font-display text-[clamp(1rem,1.63vw,26px)] font-bold leading-none text-cream [clip-path:polygon(14px_0,calc(100%-14px)_0,100%_14px,100%_100%,0_100%,0_14px)] lg:h-[calc(var(--u)*58)] lg:w-[calc(var(--u)*528)] lg:px-0 lg:py-0 lg:pt-[calc(var(--u)*4)] ${tourBgClass}`}
+            className={`mx-auto flex w-fit items-center justify-center px-8 pb-2 pt-3 text-center font-display text-[clamp(1rem,1.63vw,26px)] font-bold leading-none text-cream [mask:url(/images/figma/tour-tab.svg)_center/100%_100%_no-repeat] lg:h-[calc(var(--u)*55)] lg:w-[calc(var(--u)*528)] lg:px-0 lg:py-0 lg:pt-[calc(var(--u)*4)] ${tourBgClass}`}
           >
             {tours.heading}
           </p>
