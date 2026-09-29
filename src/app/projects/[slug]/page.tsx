@@ -26,7 +26,7 @@ import {
 // Until that content exists, only the hero photo carousel is shown; the rest
 // of the template below stays in place (flip this to true) so the full page
 // is ready the moment real per-project data is wired up.
-const SHOW_PLACEHOLDER_CONTENT = false;
+const SHOW_PLACEHOLDER_CONTENT = true;
 
 export function generateStaticParams() {
   return galleryProjects.map((project) => ({ slug: project.id }));

@@ -366,11 +366,19 @@ export const boothBanner = {
 
 export const virtualTours = {
   heading: "Come take a live 360 tour!",
-  tours: Array.from({ length: 5 }, (_, index) => ({
-    id: `tour-${index + 1}`,
-    title: `360 tour ${index + 1}`,
-    image: "/images/figma/project-grid-03.webp",
-    href: "/work",
+  /** `matterportId` is the `m=` value of the Matterport show URL; opened in an on-site modal. */
+  /** Titles come from each Matterport page; images are their thumbnails, saved in /images/tours. */
+  tours: [
+    { matterportId: "h2hLiZUABXB", title: "P 7 - 2228 SR-155" },
+    { matterportId: "38rg3wpJVge", title: "Prince Market" },
+    { matterportId: "nGJobHHLxJK", title: "UK Truck Stop" },
+    { matterportId: "iMa2bmKavzR", title: "6264 Melton Rd" },
+    { matterportId: "BUWrenRLLHk", title: "3010 Ball Ground Hwy" },
+  ].map(({ matterportId, title }) => ({
+    id: matterportId,
+    title,
+    image: `/images/tours/${matterportId}.jpg`,
+    matterportId,
   })),
 };
 

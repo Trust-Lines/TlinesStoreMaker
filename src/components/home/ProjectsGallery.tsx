@@ -1,8 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
 import type { CSSProperties } from "react";
 import { ProjectsGrid, type MobileTileRef, type ProjectTile } from "./ProjectsGrid";
 import type { ServiceTypeTile } from "./RotatingServiceTiles";
+import { TourTiles, type TourTile } from "./TourTiles";
 
 type Box = { x: number; y: number; w: number; h: number };
 
@@ -28,7 +27,7 @@ export interface ProjectsGalleryProps {
   };
   tours: {
     heading: string;
-    tours: { id: string; title: string; image: string; href: string }[];
+    tours: TourTile[];
   };
 }
 
@@ -88,35 +87,7 @@ export function ProjectsGallery({
           </p>
 
           <div className={`-mx-4 rounded-[10px] p-3 sm:-mx-6 lg:mx-0 lg:h-[calc(var(--u)*179)] lg:rounded-[calc(var(--u)*14)] lg:p-[calc(var(--u)*15)] ${tourBgClass}`}>
-            <ul className="flex snap-x snap-mandatory gap-3 overflow-x-auto [scrollbar-width:none] lg:h-full lg:gap-[calc(var(--u)*15)] lg:overflow-visible">
-              {tours.tours.map((tour) => (
-                <li key={tour.id} className="w-[62%] shrink-0 snap-start sm:w-[36%] lg:h-full lg:w-auto lg:flex-1">
-                  <Link
-                    href={tour.href}
-                    className="group block h-full rounded-[8px] outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream"
-                  >
-                    <span className="relative block aspect-[245/149] overflow-hidden rounded-[8px] bg-cream lg:aspect-auto lg:h-full lg:rounded-[calc(var(--u)*10)]">
-                      <Image
-                        src={tour.image}
-                        alt=""
-                        fill
-                        sizes="(min-width: 1024px) 16vw, 62vw"
-                        className="object-cover"
-                      />
-                      <Image
-                        src="/images/figma/project-badge-icon-b.svg"
-                        alt=""
-                        width={72}
-                        height={72}
-                        unoptimized
-                        className="absolute left-1/2 top-1/2 w-[22%] max-w-[44px] -translate-x-1/2 -translate-y-1/2"
-                      />
-                    </span>
-                    <span className="sr-only">{tour.title}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <TourTiles tours={tours.tours} />
           </div>
         </div>
       </div>
