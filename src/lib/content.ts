@@ -25,9 +25,9 @@ export const homeHero = {
   imageAlt: "T Lines mascot planning a store layout at a drafting table",
   action: startProjectAction,
   clients: {
-    src: "/images/figma/clients/clients-strip.svg",
-    width: 1705,
-    height: 50,
+    src: "/images/figma/clients/clients-strip-long.svg",
+    width: 4097,
+    height: 102,
     names: ["TA (TravelCenters of America)", "Prince Market", "Pilot", "Teddy’s Market", "Brew", "Chestnut Market"],
   },
 };

@@ -103,13 +103,13 @@ export function HomeHero({
         </div>
       </div>
 
-      {/* Client logos: the Figma strip (Frame 427319102, 1705 x 50 of cream
+      {/* Client logos: the Figma strip (Frame 427319137, 4097 x 102 of cream
           logos) on the #547255 bar (Rectangle 4412, 80px tall). Logos are 142px
           apart with no end margins, so each copy gets one 142px gap after it to
           keep the loop seamless. Sized via --strip-h so it scales per breakpoint. */}
       <p className="sr-only">Clients: {clients.names.join(", ")}</p>
       <div aria-hidden className={`brand-marquee overflow-hidden ${stripBgClass}`}>
-        <div className="brand-marquee-track flex h-[var(--strip-h)] w-max items-center [--strip-h:44px] sm:[--strip-h:56px] lg:[--strip-h:80px]">
+        <div className="brand-marquee-track flex h-[var(--strip-h)] w-max items-center [--strip-h:44px] sm:[--strip-h:56px] lg:[--strip-h:80px]" style={{ animationDuration: "90s" }}>
           {[0, 1].map((copy) => (
             <Image
               key={copy}
@@ -118,7 +118,7 @@ export function HomeHero({
               width={clients.width}
               height={clients.height}
               unoptimized
-              className="h-[calc(var(--strip-h)*50/80)] w-auto max-w-none shrink-0 mr-[calc(var(--strip-h)*50/80*142/50)]"
+              className="h-[var(--strip-h)] w-auto max-w-none shrink-0 mr-[calc(var(--strip-h)*35/102)]"
             />
           ))}
         </div>
