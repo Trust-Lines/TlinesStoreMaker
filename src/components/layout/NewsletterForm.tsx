@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { FormEvent } from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { submitLead } from "@/lib/leads";
 
 export interface NewsletterFormProps {
@@ -13,13 +13,18 @@ export interface NewsletterFormProps {
 export function NewsletterForm({ placeholder }: NewsletterFormProps) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [message, setMessage] = useState("");
+  // State updates are async, so a fast double click or Enter could slip a second request in; the ref blocks it at once.
+  const sending = useRef(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (sending.current) return;
+    sending.current = true;
     const form = event.currentTarget;
     const data = new FormData(form);
     setStatus("sending");
     const result = await submitLead({ kind: "newsletter", email: String(data.get("email") ?? "").trim() }, String(data.get("website") ?? ""));
+    sending.current = false;
     if (result.ok) {
       form.reset();
       setStatus("sent");
