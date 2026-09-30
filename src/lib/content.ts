@@ -729,12 +729,14 @@ export const headquarters: {
     },
   ];
 
-/** Blog & News page ("Blog" Figma frame). */
+/**
+ * Blog & News page header. Edited from the ERP (web_settings key "blog_page");
+ * these values only show until a row is saved there.
+ */
 export const blogPage = {
   eyebrow: "Tlines Journal",
   heading: "Blog & News",
-  description:
-    "Explore our crafted journals detailing raw ingredients, botanical sourcing, sustainable glass design, and modern beverage heritage.",
+  description: "",
   heroImage: "/images/figma/card-grocery.webp",
   pageSize: 6,
 };
@@ -756,98 +758,8 @@ export interface BlogPost {
   date: string; // ISO yyyy-mm-dd
   author: string;
   image: string;
+  imageAlt: string;
 }
-
-// Placeholder posts from the Figma frame (copy and authors as designed; photos
-// borrowed from the project gallery) until real articles are written.
-const designPosts: BlogPost[] = [
-  {
-    slug: "art-of-slow-fermentation-in-craft-soda",
-    title: "The Art of Slow Fermentation in Craft Soda",
-    excerpt:
-      "How extending fermentation cycles allows natural botanicals to develop deeper, more complex flavor profiles without artificial additives.",
-    category: "tips-and-tricks",
-    date: "2026-03-12",
-    author: "Elena Rostova",
-    image: "/images/figma/projects/rectangle-4400.webp",
-  },
-  {
-    slug: "reviving-ancient-herbal-recipes",
-    title: "Reviving Ancient Herbal Recipes for Modern Palates",
-    excerpt:
-      "Exploring the 19th-century wellness elixirs that are inspiring today’s premium functional beverage revolution.",
-    category: "industry-news",
-    date: "2026-03-05",
-    author: "Marcus Vance",
-    image: "/images/figma/projects/rectangle-4403.webp",
-  },
-  {
-    slug: "designing-sustainable-glass-packaging",
-    title: "Behind the Label: Designing Sustainable Glass Packaging",
-    excerpt:
-      "A deep dive into our new lightweight, infinitely recyclable glass bottles and the zero-emission kiln project.",
-    category: "company-updates",
-    date: "2026-03-01",
-    author: "Sara Takahashi",
-    image: "/images/figma/projects/rectangle-4397.webp",
-  },
-  {
-    slug: "soil-health-controls-botanical-quality",
-    title: "Earthy Notes: Why Soil Health Controls Botanical Quality",
-    excerpt:
-      "Partnering with regenerative organic farms across the valley to source resilient elderberry and wild ginger.",
-    category: "success-stories",
-    date: "2026-02-24",
-    author: "Elena Rostova",
-    image: "/images/figma/projects/rectangle-4406.webp",
-  },
-  {
-    slug: "non-alcoholic-aperitifs-for-spring",
-    title: "Perfect Pairing: Non-Alcoholic Aperitifs for Spring",
-    excerpt:
-      "Deconstruct the bitter-sweet harmony of roots and citrus peels to elevate your seasonal hosting menu.",
-    category: "tips-and-tricks",
-    date: "2026-02-18",
-    author: "Julian Mercer",
-    image: "/images/figma/card-grocery.webp",
-  },
-  {
-    slug: "spring-aperitif-hosting-menu",
-    title: "Perfect Pairing: Non-Alcoholic Aperitifs for Spring",
-    excerpt:
-      "Deconstruct the bitter-sweet harmony of roots and citrus peels to elevate your seasonal hosting menu.",
-    category: "industry-news",
-    date: "2026-02-10",
-    author: "Julian Mercer",
-    image: "/images/figma/projects/rectangle-4401.webp",
-  },
-];
-
-// PLACEHOLDER FILL — remove once real articles exist. The Figma Blog frame shows
-// three pages (6 cards each), so the six design posts are repeated with other
-// photos and earlier weekly dates to fill pages 2 and 3.
-const fillerPhotos = [
-  "/images/figma/project-grid-08.webp",
-  "/images/projects-gallery/cstore-uk-market.webp",
-  "/images/figma/home-service/cstore-photo.webp",
-  "/images/projects-gallery/truck-pizza-seating.webp",
-  "/images/figma/project-grid-01.webp",
-  "/images/projects-gallery/cstore-drinks-bar.webp",
-  "/images/figma/card-truck-stops.webp",
-  "/images/projects-gallery/grocery-fresh-aisles.webp",
-  "/images/figma/projects/rectangle-4398.webp",
-  "/images/projects-gallery/truck-drink-station.webp",
-  "/images/figma/project-grid-02.webp",
-  "/images/projects-gallery/cstore-checkout-lanes.webp",
-];
-
-const fillerPosts: BlogPost[] = fillerPhotos.map((image, index) => {
-  const source = designPosts[index % designPosts.length];
-  const date = new Date(Date.UTC(2026, 1, 3) - index * 7 * 24 * 60 * 60 * 1000); // weekly, back from 3 Feb 2026
-  return { ...source, slug: `${source.slug}-${index + 2}`, image, date: date.toISOString().slice(0, 10) };
-});
-
-export const blogPosts: BlogPost[] = [...designPosts, ...fillerPosts];
 
 /** Projects gallery page ("Projects" Figma frame): journal-style hero, category filter, framed photo cards. */
 /**

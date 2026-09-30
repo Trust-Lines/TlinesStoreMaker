@@ -84,8 +84,17 @@ async function fetchErpProjects(): Promise<ProjectDetail[]> {
   }
 }
 
+/** List view: cards only, without photos and bodies (this goes to a client component). */
 export async function getGalleryProjects(): Promise<GalleryProject[]> {
-  return fetchErpProjects();
+  const projects = await fetchErpProjects();
+  return projects.map((project) => ({
+    id: project.id,
+    title: project.title,
+    category: project.category,
+    location: project.location,
+    image: project.image,
+    alt: project.alt,
+  }));
 }
 
 export async function getProject(slug: string): Promise<ProjectDetail | null> {

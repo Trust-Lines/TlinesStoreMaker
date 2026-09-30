@@ -12,5 +12,7 @@ export async function POST(request: Request) {
   }
   revalidatePath("/projects");
   revalidatePath("/projects/[slug]", "page");
+  revalidatePath("/blog");
+  revalidatePath("/blog/[slug]", "page");
   return Response.json({ ok: true });
 }

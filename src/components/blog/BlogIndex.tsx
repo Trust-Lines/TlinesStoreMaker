@@ -72,6 +72,7 @@ export function BlogIndex({ posts, categories, pageSize }: BlogIndexProps) {
         <p className="sr-only" aria-live="polite">
           {`Showing ${visible.length} of ${filtered.length} posts`}
         </p>
+        {filtered.length === 0 && <p className="text-center text-forest/70">No posts to show yet.</p>}
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-[calc(var(--u)*51)] lg:gap-y-[calc(var(--u)*36)]">
           {visible.map((post, index) => (
             <li key={post.slug}>

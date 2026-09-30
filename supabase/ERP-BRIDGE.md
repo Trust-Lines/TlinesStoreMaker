@@ -3,11 +3,12 @@
 The website only **reads**. The ERP marketing screens **write** to Supabase.
 
 ## Setup
-1. Apply the migrations in order (both are idempotent):
+1. Apply the migrations in order (all idempotent):
    - `supabase/migrations/118_web_projects.sql`
    - `supabase/migrations/119_web_settings.sql`
+   - `supabase/migrations/120_web_blog.sql`
    Copy them into the ERP repo's `supabase/migrations/` (same numbers) and run `supabase db push`,
-   or paste 118 then 119 into the Supabase SQL editor.
+   or paste 118, 119, 120 in order into the Supabase SQL editor.
    `web_can_edit()` allows `marketing_manager`, `general_manager`, `ops_manager` (ERP migration 084);
    `marketing_pr` cannot write.
 2. Website env (Vercel + `.env.local`):
@@ -58,3 +59,24 @@ Migration 119 creates it (public read: only hero text and ImageKit URLs, no secr
 `{ "eyebrow", "heading", "description", "hero_image_url" (ImageKit), "hero_image_alt" }`
 Empty description hides the paragraph; empty image falls back to the built-in photo.
 Same table will hold the home hero video later (`key = 'home_hero'`).
+
+## Blog & News
+Migration 120 creates `web_posts` and `web_post_sections`; the page header is `web_settings` key `blog_page`
+(same JSON shape as `projects_page`). `/news` redirects to `/blog`.
+
+`web_posts` — one row per post
+| column | example |
+|---|---|
+| title | `Five ways to plan a c-store remodel` |
+| slug | `plan-a-c-store-remodel` (unique, lowercase, dashes) |
+| excerpt | short summary: card text and article intro |
+| category | `industry-news` | `tips-and-tricks` | `success-stories` | `company-updates` |
+| author | `Jane Doe` |
+| cover_image_url | ImageKit URL: card image and article hero |
+| published_at | date shown; a future date hides the post until then |
+| is_published | `true` to show on the site |
+
+`web_post_sections` — article body, any number, ordered by `sort_order`:
+`post_id, heading, body, image_url, image_alt, sort_order` (all optional except the ordering; body is plain text, line breaks kept).
+Posts are listed newest `published_at` first. Adding a category means changing the check constraint in 120
+and `blogCategories` in `src/lib/content.ts`.
