@@ -12,7 +12,6 @@ const menuItems = [
   { label: "Grocery", href: "/services/grocery", sub: true },
   { label: "Branding", href: "/#branding", sub: true },
   { label: "Management", href: "/#management", sub: true },
-  { label: "Work", href: "/#projects" },
   { label: "Projects", href: "/projects" },
   { label: "News", href: "/news" },
   { label: "About us", href: "/about" },
