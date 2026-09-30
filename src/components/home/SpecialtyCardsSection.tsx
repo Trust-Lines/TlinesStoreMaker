@@ -1,10 +1,15 @@
 import { SpecialtyCard, type SpecialtyCardData } from "./SpecialtyCard";
+import { SpecialtyShowcase } from "./SpecialtyShowcase";
 
 export interface SpecialtyCardsSectionProps {
   cards: SpecialtyCardData[];
 }
 
 export function SpecialtyCardsSection({ cards }: SpecialtyCardsSectionProps) {
+  if (cards.length === 2 && cards.every((card) => card.showcase)) {
+    return <SpecialtyShowcase cards={cards} />;
+  }
+
   return (
     <section aria-label="Branding and management services" className="bg-cream px-8 py-12 md:py-16 lg:px-[8.766%] lg:py-[9.42%]">
       {/* lg+: Figma spacing — 139.55px side margins, two 628.455 x 782.425 cards

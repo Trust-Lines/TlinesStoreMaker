@@ -6,6 +6,10 @@ import { withBold } from "./withBold";
 
 export interface SpecialtyCardData {
   id: string;
+  /** Homepage-only asymmetrical showcase layout. */
+  showcase?: boolean;
+  /** Intro copy used by the homepage showcase layout. */
+  description?: string;
   /** Small first ribbon line (Orbitron 28/37 regular), e.g. "Project". */
   eyebrow: string;
   /** Large second ribbon line (Orbitron 38/37 bold). */

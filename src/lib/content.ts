@@ -188,8 +188,10 @@ export const groceryProcessCards = [
 export const specialtyCards = [
   {
     id: "branding",
-    eyebrow: "Project",
+    showcase: true,
+    eyebrow: "",
     title: "Branding",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     href: "/#contact",
     image: "/images/figma/specialty/branding-photo.webp",
     images: [
@@ -210,8 +212,10 @@ export const specialtyCards = [
   },
   {
     id: "management",
-    eyebrow: "Project",
-    title: "Management",
+    showcase: true,
+    eyebrow: "",
+    title: "Project Management",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     href: "/#contact",
     image: "/images/figma/specialty/management-photo.webp",
     images: [
@@ -385,7 +389,17 @@ export const virtualTours = {
 export const members = {
   heading: "Members at",
   strip: "/images/figma/homepage-members-strip-forest.png",
-  alt: "NATSO, M-PACT, The NGA Show, and NACS",
+  alt: "NACS, NATSO, The NGA Show, M-PACT, HRA, NYACS, AASOA, and VAASOA",
+  logos: [
+    { src: "/images/figma/members/member-01-nacs.svg", width: 1807, height: 786 },
+    { src: "/images/figma/members/member-02-natso.svg", width: 1900, height: 505 },
+    { src: "/images/figma/members/member-03-nga.svg", width: 1919, height: 692 },
+    { src: "/images/figma/members/member-04-mpact.svg", width: 1054, height: 992 },
+    { src: "/images/figma/members/member-05-hra.svg", width: 1074, height: 1019 },
+    { src: "/images/figma/members/member-06-nyacs.svg", width: 2080, height: 717 },
+    { src: "/images/figma/members/member-07-aasoa.svg", width: 1760, height: 786 },
+    { src: "/images/figma/members/member-08-vaasoa.svg", width: 2012, height: 505 },
+  ],
 };
 
 /** "Let's Get Started" band (Figma 298:5425, 1592 x 301). */
