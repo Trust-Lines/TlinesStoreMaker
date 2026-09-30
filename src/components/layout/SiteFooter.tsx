@@ -29,7 +29,11 @@ export interface SiteFooterProps {
   copyright: string;
 }
 
-const socials = ["Instagram", "YouTube", "LinkedIn"];
+const socials = [
+  { label: "Instagram", href: "https://www.instagram.com/tlines.storemaker" },
+  { label: "YouTube", href: "https://www.youtube.com/@Tlinesusa" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/tlines-store-maker/" },
+];
 
 const labelClass = "font-display text-[14px] uppercase text-cream/65 lg:text-[calc(var(--u)*16)]";
 const linkClass =
@@ -127,15 +131,17 @@ export function SiteFooter({
         <div className="lg:absolute lg:left-[calc(var(--u)*138)] lg:top-[calc(var(--u)*503)]">
           <p className={labelClass}>{followLabel}</p>
           <div className="mt-3 flex items-center gap-[10px] lg:mt-[calc(var(--u)*18)] lg:gap-[calc(var(--u)*10)]">
-            {socials.map((label, index) => (
-              <Link
+            {socials.map(({ label, href }, index) => (
+              <a
                 key={label}
-                href="/contact"
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={label}
                 className="rounded-[6px] outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral"
               >
                 <Image src={`/images/figma/social-icon-${index + 1}.svg`} alt="" width={49} height={49} unoptimized className="h-[44px] w-[44px] lg:h-[calc(var(--u)*49)] lg:w-[calc(var(--u)*49)]" />
-              </Link>
+              </a>
             ))}
           </div>
         </div>
