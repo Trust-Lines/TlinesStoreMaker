@@ -19,6 +19,18 @@ export const hero = {
   primaryAction: startProjectAction,
 };
 
+/**
+ * Homepage headline, timed to public/videos/hero.mp4 (20.3 s): design desk 0-2.5 s,
+ * workshop 2.6-6.3 s, delivery and install 6.4-15 s, finished store from 15 s.
+ * The switches sit on the video's whip-pan cuts so the text change is masked by the motion.
+ */
+export const homeHeroPhrases = [
+  { at: 0, text: "Design around your vision" },
+  { at: 2.55, text: "Produce everything your store needs." },
+  { at: 6.35, text: "Bring it all together." },
+  { at: 15, text: "One team. One complete solution." },
+];
+
 export const homeHero = {
   heading: "Planning your store",
   backgroundImage: "/images/figma/hero-photo.png",

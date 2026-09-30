@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { RotatingHeroHeading, type HeroPhrase } from "./RotatingHeroHeading";
 
 export interface HomeHeroProps {
   heading: string;
+  /** Headline phrases timed to the scenes of `backgroundVideo`; replaces the static `heading` when set. */
+  phrases?: HeroPhrase[];
   backgroundImage: string;
   /** Autoplaying, looping background video; when set, it replaces `backgroundImage` (which still renders as the poster frame until the video is ready). */
   backgroundVideo?: string;
@@ -31,6 +34,7 @@ export interface HomeHeroProps {
  */
 export function HomeHero({
   heading,
+  phrases,
   backgroundImage,
   backgroundVideo,
   imageAlt,
@@ -44,6 +48,7 @@ export function HomeHero({
       <div className="relative h-[min(100svh,640px)] min-h-[480px] w-full sm:aspect-[1592/923] sm:h-auto sm:min-h-0">
         {backgroundVideo ? (
           <video
+            id="home-hero-video"
             autoPlay
             loop
             muted
@@ -87,7 +92,7 @@ export function HomeHero({
               id="home-hero-heading"
               className="max-w-[10.5ch] font-display text-[clamp(2.5rem,5.4vw,5.25rem)] font-semibold uppercase leading-[1.02] tracking-[-0.02em] text-cream lg:w-[min(29.12vw,463.6px)] lg:max-w-none lg:text-[min(3.769vw,60px)] lg:leading-[0.9667] lg:tracking-normal"
             >
-              {heading}
+              {phrases && backgroundVideo ? <RotatingHeroHeading phrases={phrases} videoId="home-hero-video" /> : heading}
             </h1>
           )}
           <Link

@@ -13,6 +13,7 @@ import {
   footer,
   getStarted,
   homeHero,
+  homeHeroPhrases,
   members,
   projectTiles,
   projectsLayout,
@@ -31,7 +32,7 @@ export default function StoreMakerPage() {
       {/* Cream gap above the footer: ~48px at the 1592 frame (3.08%). */}
       <main className="relative bg-cream pb-[3.08%]">
         <ReferenceTopBar />
-        <HomeHero {...homeHero} backgroundVideo="/videos/hero.mp4" />
+        <HomeHero {...homeHero} phrases={homeHeroPhrases} backgroundVideo="/videos/hero.mp4" />
         <ServiceCardsSection cards={serviceCards} />
         <BoothBanner {...boothBanner} />
         <SpecialtyCardsSection cards={specialtyCards} />
