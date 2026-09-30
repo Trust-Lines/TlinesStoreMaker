@@ -662,7 +662,6 @@ export const footer = {
       id: "about",
       heading: "About us",
       links: [
-        { id: "our-story", label: "Our Story", href: "/about#our-story" },
         { id: "our-mission", label: "Our Mission", href: "/about#our-mission" },
         { id: "our-goal", label: "Our Goal", href: "/about#our-mission" },
       ],
