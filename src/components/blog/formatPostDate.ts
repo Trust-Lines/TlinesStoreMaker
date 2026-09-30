@@ -7,3 +7,13 @@ export function formatPostDate(isoDate: string) {
     timeZone: "UTC",
   });
 }
+
+/** "2026-03-12" -> "03/12/2026" (the "Blog info" card), pinned to UTC like formatPostDate. */
+export function formatPostDateShort(isoDate: string) {
+  return new Date(`${isoDate}T00:00:00Z`).toLocaleDateString("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
