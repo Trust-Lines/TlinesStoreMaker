@@ -8,6 +8,8 @@ export interface SectionLabelProps {
    * "flush": 492 x 96 ribbon flush with the page's left edge (Figma Vector 21), text 150px in.
    */
   variant: "tab" | "flush";
+  /** "right" mirrors the flush ribbon so it sits against the right edge. */
+  align?: "left" | "right";
   /** Tailwind bg class (shape colour) and text class. */
   fill: string;
   textColor: string;
@@ -20,7 +22,7 @@ const shapes = {
 };
 
 /** About-page section label: Figma ribbon shape + Montserrat 44/48 bold title. */
-export function SectionLabel({ id, text, variant, fill, textColor, className = "" }: SectionLabelProps) {
+export function SectionLabel({ id, text, variant, align = "left", fill, textColor, className = "" }: SectionLabelProps) {
   const tab = variant === "tab";
   return (
     <h2
@@ -29,12 +31,14 @@ export function SectionLabel({ id, text, variant, fill, textColor, className = "
         tab
           ? // Figma text box inside the 426 x 98 tab: 92 left / 90.32 right / 25 top & bottom.
             "mx-auto aspect-[426/98] w-[min(80%,300px)] justify-center whitespace-nowrap sm:w-[340px] lg:w-[calc(var(--u)*426)] lg:pl-[calc(var(--u)*92)] lg:pr-[calc(var(--u)*90.32)]"
-          : "aspect-[492/96] w-[min(88%,340px)] pl-[24%] sm:w-[380px] lg:w-[calc(var(--u)*492)] lg:pl-[calc(var(--u)*150)]"
+          : align === "right"
+            ? "ml-auto aspect-[492/96] w-[min(88%,340px)] pl-[12%] sm:w-[380px] lg:w-[calc(var(--u)*492)] lg:pl-[calc(var(--u)*65)]"
+            : "aspect-[492/96] w-[min(88%,340px)] pl-[24%] sm:w-[380px] lg:w-[calc(var(--u)*492)] lg:pl-[calc(var(--u)*150)]"
       } ${className}`}
     >
       <span
         aria-hidden
-        className={`absolute inset-0 -z-10 ${fill} [mask-repeat:no-repeat] [mask-size:100%_100%]`}
+        className={`absolute inset-0 -z-10 ${fill} [mask-repeat:no-repeat] [mask-size:100%_100%] ${align === "right" && !tab ? "-scale-x-100" : ""}`}
         style={{ maskImage: shapes[variant], WebkitMaskImage: shapes[variant] } as CSSProperties}
       />
       {text}

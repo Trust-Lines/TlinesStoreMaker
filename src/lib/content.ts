@@ -978,6 +978,23 @@ export const aboutPage = {
     image: "/images/about/mission-store.svg",
     imageAlt: "C-store aisles with snack shelving and drinks coolers",
   },
+  exhibitors: {
+    title: "Official Exhibitors",
+    // Figma "Frame 427319140" (1285 x 267): two rows of four coral logos, exported as one SVG.
+    logos: { src: "/images/about/exhibitors/exhibitors-logos.svg", width: 1285, height: 267, alt: "Official exhibitors: NACS, NATSO, M-PACT, The NGA Show 2026, HRA, NYACS, AASOA, VAASOA" },
+  },
+  vision: {
+    title: "Our Vision",
+    // Copy still to be written; mirrors the Our Mission layout.
+    paragraphs: ["", ""],
+    image: "/images/about/mission-store.svg",
+    imageAlt: "C-store aisles with snack shelving and drinks coolers",
+  },
+  partners: {
+    title: "Our Partners",
+    // Figma "Frame 427319141" (1252 x 734): 5-column grid of sage partner logos, exported as one SVG.
+    logos: { src: "/images/about/partners/partners-logos.svg", width: 1252, height: 734, alt: "Our partners: Grand’s, Max’s, Adam’s, Rams, LiveOak, Mogos, Your Choice, Travel Center, SNK, Prince Market, On the Go Market, V-Go, United Market, Eagle Nest, University Korner, Bonfare, Refresh Travel Plaza, TA, Pilot, Chestnut Market, Teddy’s Market, Brew" },
+  },
   members: {
     title: "Members at",
     logos: [

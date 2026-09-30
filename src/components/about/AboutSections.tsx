@@ -166,3 +166,71 @@ export function AboutTrustedBy({
     </section>
   );
 }
+
+/**
+ * Official Exhibitors (cream, Figma 1592 x 783): wide coral tab (527 x 98) 123px
+ * down, then the 1285 x 267 two-row coral logo grid 62px under it (163px side margins).
+ */
+export function AboutExhibitors({ title, logos }: { title: string; logos: { src: string; width: number; height: number; alt: string } }) {
+  return (
+    <section aria-labelledby="official-exhibitors" className="bg-cream px-6 pb-16 pt-14 sm:px-10 lg:px-0 lg:pb-[calc(var(--u)*234)] lg:pt-[calc(var(--u)*123)]">
+      <h2
+        id="official-exhibitors"
+        className="relative isolate mx-auto flex aspect-[527/98] w-[min(90%,340px)] items-center justify-center whitespace-nowrap font-display text-[clamp(1.4rem,2.76vw,44px)] font-bold leading-[1.09] text-cream sm:w-[400px] lg:w-[calc(var(--u)*527)]"
+      >
+        <Image src="/images/about/label-tab-wide.svg" alt="" fill unoptimized className="-z-10" />
+        {title}
+      </h2>
+      <Image
+        src={logos.src}
+        alt={logos.alt}
+        width={logos.width}
+        height={logos.height}
+        unoptimized
+        className="mx-auto mt-10 h-auto w-full max-w-[640px] lg:mt-[calc(var(--u)*62)] lg:w-[calc(var(--u)*1285)] lg:max-w-none"
+      />
+    </section>
+  );
+}
+
+/** Our Vision: the Our Mission section mirrored — photo on the left, copy and the flush-right label on the right. */
+export function AboutVision({ title, paragraphs, image, imageAlt }: { title: string; paragraphs: string[]; image: string; imageAlt: string }) {
+  return (
+    <section aria-labelledby="our-vision" className="relative bg-forest pb-14 pt-12 text-cream lg:aspect-[1592/835] lg:p-0">
+      <SectionLabel
+        id="our-vision"
+        text={title}
+        variant="flush"
+        align="right"
+        fill="bg-cream"
+        textColor="text-forest"
+        className="lg:absolute lg:right-0 lg:top-[20.96%]"
+      />
+      <div className="mt-6 space-y-5 px-6 text-[16px] leading-relaxed text-cream/90 sm:px-10 lg:absolute lg:left-[53.52%] lg:top-[38.92%] lg:mt-0 lg:w-[36.43%] lg:space-y-[calc(var(--u)*22)] lg:px-0 lg:text-[max(15px,calc(var(--u)*19))] lg:leading-[1.6]">
+        {paragraphs.map((paragraph, index) => (
+          <p key={index}>{paragraph}</p>
+        ))}
+      </div>
+      <div className="relative mx-6 mt-8 aspect-[701/567] overflow-hidden sm:mx-10 lg:absolute lg:left-[8.86%] lg:top-[19.16%] lg:mx-0 lg:mt-0 lg:w-[44.03%]">
+        <Image src={image} alt={imageAlt} fill sizes="(min-width: 1024px) 701px, 100vw" className="object-contain" />
+      </div>
+    </section>
+  );
+}
+
+/** Our Partners (gold, Figma 1592 x 1161): coral tab 102px down, then the 1252 x 734 sage logo grid 64px under it. */
+export function AboutPartners({ title, logos }: { title: string; logos: { src: string; width: number; height: number; alt: string } }) {
+  return (
+    <section aria-labelledby="our-partners" className="bg-gold px-6 pb-16 pt-14 sm:px-10 lg:px-0 lg:pb-[calc(var(--u)*163)] lg:pt-[calc(var(--u)*102)]">
+      <SectionLabel id="our-partners" text={title} variant="tab" fill="bg-coral" textColor="text-gold" />
+      <Image
+        src={logos.src}
+        alt={logos.alt}
+        width={logos.width}
+        height={logos.height}
+        unoptimized
+        className="mx-auto mt-10 h-auto w-full max-w-[640px] lg:mt-[calc(var(--u)*64)] lg:w-[calc(var(--u)*1252)] lg:max-w-none"
+      />
+    </section>
+  );
+}
