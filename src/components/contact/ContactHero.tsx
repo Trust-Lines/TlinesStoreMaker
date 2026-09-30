@@ -6,7 +6,6 @@ export interface ContactHeroProps {
   image: string;
   mascot: string;
   intro: string;
-  email: string;
 }
 
 /**
@@ -14,7 +13,7 @@ export interface ContactHeroProps {
  * store photo is 959px tall, the 698x750 mascot group sits at x=131/y=300, and the 680x1031
  * form overlaps the photo and cream panel at x=800/y=245.
  */
-export function ContactHero({ heading, image, mascot, intro, email }: ContactHeroProps) {
+export function ContactHero({ heading, image, mascot, intro }: ContactHeroProps) {
   return (
     <section aria-labelledby="contact-heading" className="relative isolate overflow-hidden bg-cream">
       <div className="absolute inset-x-0 top-0 h-[500px] bg-forest sm:h-[650px] lg:h-[calc(var(--u)*959)]">
@@ -51,7 +50,7 @@ export function ContactHero({ heading, image, mascot, intro, email }: ContactHer
         </p>
 
         <div className="relative z-20 mx-auto mt-10 w-full max-w-[560px] lg:absolute lg:left-[calc(var(--u)*800)] lg:top-[calc(var(--u)*245)] lg:mt-0 lg:w-[calc(var(--u)*680)] lg:max-w-none">
-          <ContactForm email={email} />
+          <ContactForm />
         </div>
       </div>
     </section>

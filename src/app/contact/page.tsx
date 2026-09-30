@@ -17,7 +17,6 @@ export default function ContactPage() {
           image={contactPage.heroImage}
           mascot={contactPage.mascot}
           intro={contactPage.intro}
-          email={contactPage.email}
         />
         <HeadquartersSection heading={contactPage.visitHeading} offices={headquarters} />
       </main>

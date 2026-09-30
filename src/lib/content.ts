@@ -628,7 +628,7 @@ export const footer = {
       logo: { src: "/images/figma/footer-brand-designbuild.svg", alt: "T Lines Design & Build", width: 146, height: 41 },
     },
   ],
-  newsletter: { heading: ["Subscribe to", "our Newsletter."], placeholder: "Submit your email", email: "hello@tlines.com" },
+  newsletter: { heading: ["Subscribe to", "our Newsletter."], placeholder: "Submit your email" },
   followLabel: "Follow us on",
   columns: [
     {

@@ -1,6 +1,6 @@
-# ERP ↔ website bridge (Projects)
+# ERP <-> website bridge
 
-The website only **reads**. The ERP marketing screens **write** to Supabase.
+Content (projects, blog, page headers): the website only **reads**, the ERP marketing screens **write** to Supabase. Contact form and newsletter go the other way, browser to ERP endpoint (last section).
 
 ## Setup
 1. Apply the migrations in order (all idempotent):
@@ -80,3 +80,46 @@ Migration 120 creates `web_posts` and `web_post_sections`; the page header is `w
 `post_id, heading, body, image_url, image_alt, sort_order` (all optional except the ordering; body is plain text, line breaks kept).
 Posts are listed newest `published_at` first. Adding a category means changing the check constraint in 120
 and `blogCategories` in `src/lib/content.ts`.
+
+## Contact form and newsletter (website -> ERP)
+The website posts these straight from the visitor browser to the ERP public endpoint. It does not go through
+the website server (the ERP rate limits by visitor IP), and nothing here touches Supabase or service-role keys.
+
+Website env (Vercel + `.env.local`): `NEXT_PUBLIC_WEB_LEADS_URL` = full endpoint URL, e.g.
+`https://<ERP-ADDRESS>/api/public/web-leads`. Code: `src/lib/leads.ts`, `ContactForm.tsx`, `NewsletterForm.tsx`.
+Because the request is cross-origin, the ERP must answer CORS for the website origin(s) (incl. the OPTIONS
+preflight for `Content-Type: application/json`) and for Vercel preview URLs if those are used for testing.
+
+`POST` `Content-Type: application/json`, no auth.
+
+Contact body:
+```json
+{
+  "kind": "contact",
+  "name": "Jane Doe", "phone": "+1 555 123 4567", "email": "jane@example.com",
+  "company": "Acme Fuel", "storeLocation": "123 Main St, Milford, CT",
+  "storeCondition": "New Store",          // "New Store" | "Remodeling"
+  "storeType": "C-store",                 // "C-store" | "Truck Stop" | "Grocery" | "Other"
+  "consentAccepted": true,
+  "consentTextVersion": "2026-09",
+  "honeypot": "",                         // hidden input; bots fill it
+  "sourcePage": "/contact",
+  "utm": { "utm_source": "google" }       // only sent when utm_* params are in the URL
+}
+```
+Newsletter body: `kind: "newsletter"`, `email`, `consentAccepted: true`, `honeypot`, plus `consentTextVersion`,
+`sourcePage` and `utm` (the same optional extras as above; the ERP must accept or ignore them).
+
+Responses handled by the site:
+| code | site behaviour |
+|---|---|
+| 201 `{ ok: true }` | success message, form cleared |
+| 400 `{ error, errorCode }` | shows `error` in the form |
+| 413 | generic error |
+| 429 `rate_limited` | "Too many attempts. Please try again in a little while." |
+| 500 / network error | "Something went wrong. Please try again." (no mailto fallback; user can retry) |
+
+Consent: the contact form has the required privacy-policy checkbox. The footer newsletter has no checkbox, it shows
+"By subscribing you agree to our Privacy Policy" under the field and sends `consentAccepted: true` on submit.
+`consentTextVersion` (`CONSENT_TEXT_VERSION` in `src/lib/leads.ts`) must be bumped when the policy wording changes.
+The contact form has no message/notes field; if one is added it is sent as `message`.

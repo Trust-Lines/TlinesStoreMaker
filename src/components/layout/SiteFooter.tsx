@@ -20,7 +20,7 @@ export interface SiteFooterProps {
   /** The three T Lines brand pills beside the logo (Store Maker / Premium Store fitouts / Design & Build). */
   brandPills: FooterBrandPill[];
   /** Heading lines; the last word of the last line is set in bold. */
-  newsletter: { heading: string[]; placeholder: string; email: string };
+  newsletter: { heading: string[]; placeholder: string };
   followLabel: string;
   columns: FooterLinkColumn[];
   locations: { label: string; href: string }[];
@@ -105,7 +105,7 @@ export function SiteFooter({
               <strong className="font-bold">{lastLine.slice(boldAt)}</strong>
             </span>
           </p>
-          <NewsletterForm placeholder={newsletter.placeholder} email={newsletter.email} />
+          <NewsletterForm placeholder={newsletter.placeholder} />
         </div>
 
         <nav

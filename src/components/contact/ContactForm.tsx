@@ -4,10 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { FormEvent } from "react";
 import { useState } from "react";
-
-export interface ContactFormProps {
-  email: string;
-}
+import { submitLead } from "@/lib/leads";
 
 const fields = [
   { name: "name", label: "Full Name", type: "text", autoComplete: "name", placeholder: "Your first and last names.." },
@@ -22,25 +19,38 @@ const labelClass =
 const inputClass =
   "mt-1.5 h-8 w-full border-0 border-b border-[#d6d8d4] bg-transparent px-0 text-[13px] text-forest placeholder:text-[#c8ceca] focus:border-forest focus:outline-none focus-visible:ring-0 lg:mt-[calc(var(--u)*5)] lg:h-[calc(var(--u)*46)] lg:text-[calc(var(--u)*15)]";
 
-/** New-project form on the supplied 680x1031 shaped card. */
-export function ContactForm({ email }: ContactFormProps) {
-  const [sent, setSent] = useState(false);
+/** New-project form on the supplied 680x1031 shaped card. Posts to the ERP (see src/lib/leads.ts). */
+export function ContactForm() {
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [message, setMessage] = useState("");
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const data = new FormData(form);
     const value = (key: string) => String(data.get(key) ?? "").trim();
-    const body = [
-      `Name: ${value("name")}`,
-      `Phone: ${value("phone")}`,
-      `Email: ${value("email")}`,
-      `Company: ${value("company")}`,
-      `Store location: ${value("location")}`,
-      `Store condition: ${value("condition")}`,
-      `Store type: ${value("storeType")}`,
-    ].join("\n");
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(`Project enquiry from ${value("name")}`)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    setStatus("sending");
+    const result = await submitLead(
+      {
+        kind: "contact",
+        name: value("name"),
+        phone: value("phone"),
+        email: value("email"),
+        company: value("company"),
+        storeLocation: value("location"),
+        storeCondition: value("condition"),
+        storeType: value("storeType"),
+      },
+      value("website"),
+    );
+    if (result.ok) {
+      form.reset();
+      setStatus("sent");
+      setMessage("Thank you! We received your project details and will be in touch soon.");
+    } else {
+      setStatus("error");
+      setMessage(result.message);
+    }
   }
 
   return (
@@ -95,13 +105,13 @@ export function ContactForm({ email }: ContactFormProps) {
       <div className="mt-auto pt-6 lg:pt-[calc(var(--u)*24)]">
         <button
           type="submit"
-          className="relative isolate flex aspect-[562/87] w-full items-center justify-center font-display text-[14px] font-bold text-cream transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-forest lg:text-[calc(var(--u)*18)]"
+          className="relative isolate flex aspect-[562/87] w-full items-center justify-center font-display text-[14px] font-bold text-cream transition-opacity hover:opacity-90 disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-forest lg:text-[calc(var(--u)*18)]"
         >
           <Image src="/images/contact/project-submit-button.svg" alt="" fill unoptimized className="pointer-events-none -z-10" />
           Send Project Details
         </button>
-        <p role="status" className="mt-1 text-center text-[11px] text-forest empty:hidden">
-          {sent ? "Your mail app should open with the project details ready to send." : ""}
+        <p role="status" className={`mt-1 text-center text-[11px] empty:hidden ${status === "error" ? "text-coral-dark" : "text-forest"}`}>
+          {status === "sent" || status === "error" ? message : ""}
         </p>
       </div>
     </form>
