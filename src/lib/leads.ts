@@ -35,7 +35,10 @@ function utmParams() {
 
 /** Sends one lead. `honeypot` is the value of the hidden trap input (bots fill it). */
 export async function submitLead(payload: LeadPayload, honeypot: string): Promise<LeadResult> {
-  if (!endpoint) return { ok: false, message: genericError };
+  if (!endpoint) {
+    console.error("Lead form: NEXT_PUBLIC_WEB_LEADS_URL is not set (restart the dev server after adding it to .env.local).");
+    return { ok: false, message: genericError };
+  }
 
   const utm = utmParams();
   const body = {
@@ -59,8 +62,11 @@ export async function submitLead(payload: LeadPayload, honeypot: string): Promis
       const data = (await response.json().catch(() => null)) as { error?: string } | null;
       return { ok: false, message: data?.error || "Please check the form and try again." };
     }
+    console.error(`Lead form: the ERP endpoint answered ${response.status}.`);
     return { ok: false, message: genericError };
-  } catch {
+  } catch (error) {
+    // Usually CORS (the ERP must allow this origin) or the endpoint being unreachable.
+    console.error("Lead form: request to the ERP endpoint failed.", error);
     return { ok: false, message: genericError };
   }
 }
