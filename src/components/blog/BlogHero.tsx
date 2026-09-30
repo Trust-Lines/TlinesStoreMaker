@@ -36,9 +36,11 @@ export function BlogHero({ eyebrow, heading, description, image, headingId = "bl
           >
             {heading}
           </h1>
-          <p className="mt-4 max-w-[46ch] text-[15px] leading-relaxed text-cream/80 lg:mt-[calc(var(--u)*18)] lg:max-w-none lg:text-[max(14px,calc(var(--u)*20))]">
-            {description}
-          </p>
+          {description && (
+            <p className="mt-4 max-w-[46ch] text-[15px] leading-relaxed text-cream/80 lg:mt-[calc(var(--u)*18)] lg:max-w-none lg:text-[max(14px,calc(var(--u)*20))]">
+              {description}
+            </p>
+          )}
         </div>
       </div>
     </section>

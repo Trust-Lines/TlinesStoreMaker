@@ -850,10 +850,14 @@ const fillerPosts: BlogPost[] = fillerPhotos.map((image, index) => {
 export const blogPosts: BlogPost[] = [...designPosts, ...fillerPosts];
 
 /** Projects gallery page ("Projects" Figma frame): journal-style hero, category filter, framed photo cards. */
+/**
+ * Projects page header. Edited from the ERP (web_settings key "projects_page");
+ * these values only show until a row is saved there.
+ */
 export const projectsPage = {
   eyebrow: "Tlines Gallery",
   heading: "Projects",
-  description: blogPage.description,
+  description: "",
   heroImage: "/images/figma/card-grocery.webp",
 };
 
@@ -869,85 +873,19 @@ export type ProjectCategoryId = (typeof projectCategories)[number]["id"];
 export interface GalleryProject {
   id: string;
   category: ProjectCategoryId;
-  /** Location label on the card; the design shows "STATE, USA" as a placeholder. */
+  /** Location label on the card, e.g. "Milford, CT, USA". */
   location: string;
   image: string;
   alt: string;
+  title: string;
 }
 
-const galleryDir = "/images/projects-gallery";
-
-// Photos from the project library, grouped by store type as best judged from
-// the images. Locations are the design's placeholder until real ones are supplied.
-const galleryPhotos: Omit<GalleryProject, "location">[] = [
-  { id: "speedy", category: "c-store", image: "/images/figma/project-grid-08.webp", alt: "Speedy c-store snack aisles" },
-  { id: "island-counter", category: "c-store", image: "/images/figma/home-service/cstore-photo.webp", alt: "C-store island counter with wood panelling" },
-  { id: "uk-market", category: "c-store", image: `${galleryDir}/cstore-uk-market.webp`, alt: "UK c-store checkout and coolers" },
-  { id: "cashier", category: "c-store", image: "/images/figma/projects/rectangle-4398.webp", alt: "C-store cashier counter" },
-  { id: "checkout-lanes", category: "c-store", image: `${galleryDir}/cstore-checkout-lanes.webp`, alt: "C-store checkout counter and shelving" },
-  { id: "drinks-bar", category: "c-store", image: `${galleryDir}/cstore-drinks-bar.webp`, alt: "C-store fountain drinks bar" },
-  { id: "dining-area", category: "truck-stops", image: "/images/figma/card-truck-stops.webp", alt: "Truck stop dining area" },
-  { id: "food-court", category: "truck-stops", image: "/images/figma/project-grid-02.webp", alt: "Truck stop food court entrance" },
-  { id: "pizza-seating", category: "truck-stops", image: `${galleryDir}/truck-pizza-seating.webp`, alt: "Truck stop pizza counter and seating" },
-  { id: "drink-station", category: "truck-stops", image: `${galleryDir}/truck-drink-station.webp`, alt: "Truck stop frozen drink station" },
-  { id: "pretzel-counter", category: "truck-stops", image: "/images/figma/projects/rectangle-4400.webp", alt: "Truck stop pretzel counter" },
-  { id: "prince-market", category: "grocery", image: "/images/figma/project-grid-01.webp", alt: "Prince Market grocery aisles and checkout" },
-  { id: "produce-tree", category: "grocery", image: "/images/figma/card-grocery.webp", alt: "Grocery produce area with a feature tree" },
-  { id: "fresh-aisles", category: "grocery", image: `${galleryDir}/grocery-fresh-aisles.webp`, alt: "Grocery store aisles with fresh food signage" },
-];
-
-/**
- * Card order on "All" follows the Figma grid's colour rhythm — sage, gold /
- * sage, coral / gold, coral — i.e. the category pattern below, repeated until
- * every photo is placed (a slot is skipped once its category runs out).
- * Filtering by category keeps this order within the category.
- */
-const galleryPattern: ProjectCategoryId[] = ["grocery", "c-store", "grocery", "truck-stops", "c-store", "truck-stops"];
-
-function interleaveByPattern(photos: Omit<GalleryProject, "location">[]) {
-  const queues = new Map(galleryPattern.map((id) => [id, photos.filter((photo) => photo.category === id)]));
-  const ordered: Omit<GalleryProject, "location">[] = [];
-  let placed = true;
-  while (placed) {
-    placed = false;
-    for (const id of galleryPattern) {
-      const next = queues.get(id)?.shift();
-      if (next) {
-        ordered.push(next);
-        placed = true;
-      }
-    }
-  }
-  // Any category missing from the pattern goes at the end rather than being lost.
-  return [...ordered, ...photos.filter((photo) => !galleryPattern.includes(photo.category))];
-}
-
-export const galleryProjects: GalleryProject[] = interleaveByPattern(galleryPhotos).map((project) => ({
-  ...project,
-  location: "State, USA",
-}));
-
-/**
- * Project detail page (Figma "Projects" frame, node 261:7803) — a template:
- * every gallery photo already has a real image/category/location, but there's
- * no project-detail backend yet, so the heading/type/date/body copy here are
- * placeholders (matching the Figma mock's own "Lorem ipsum" / "September
- * 2026" placeholders) until that's wired up. `id` doubles as the route slug.
- */
-export const projectDetailHeading: Record<ProjectCategoryId, string> = {
-  "c-store": "C-store project",
-  "truck-stops": "Truck stop project",
-  grocery: "Grocery project",
-};
-
+/** Fallback for the project page "Type" when the ERP leaves it empty. */
 export const projectDetailType: Record<ProjectCategoryId, string> = {
   "c-store": "C Store Remodel",
   "truck-stops": "Truck Stop Remodel",
   grocery: "Grocery Remodel",
 };
-
-export const projectDetailLorem =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 /** About us page ("About us" Figma frame, 1592 wide). */
 const aboutLorem =

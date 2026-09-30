@@ -79,6 +79,7 @@ export function ProjectGallery({ projects, categories }: ProjectGalleryProps) {
         <p className="sr-only" aria-live="polite">
           {`Showing ${visible.length} ${filter === "all" ? "" : `${labelOf(filter)} `}projects`}
         </p>
+        {visible.length === 0 && <p className="text-center text-forest/70">No projects to show yet.</p>}
         <ul className="mx-auto grid max-w-[560px] gap-x-6 gap-y-14 sm:max-w-none sm:grid-cols-2 lg:gap-x-[calc(var(--u)*45)] lg:gap-y-[calc(var(--u)*90)]">
           {visible.map((project) => {
             const tone = cardTone[toneOf(project.category)];
