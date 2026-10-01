@@ -10,6 +10,7 @@ const assetRoot = "/images/figma/specialty/showcase";
 /** How long each photo stays in front before the next one comes forward. */
 const SLIDE_INTERVAL_MS = 3000;
 const mobileRoot = "/images/figma/specialty/mobile";
+const desktopRoot = "/images/figma/specialty/desktop";
 const brandingSlides = [
   `${assetRoot}/branding-deck-3.svg`,
   `${assetRoot}/branding-deck-1.svg`,
@@ -215,12 +216,130 @@ function MobileSpecialtyCard({
   );
 }
 
+/** Design px -> % of the card's own width / height (cards are 692 px tall). */
+const cardPct = (value: number, of: number) => `${(value / of) * 100}%`;
+const CARD_H = 692;
+
 /**
- * Asymmetrical Branding / Project Management composition (Figma frame, 1592 wide):
- * Branding card 485 x 833 at x=101, Project Management card 883.5 x 833 at x=607 (21px gap,
- * 101.5px right margin); 105px below the NACS banner, 144px above Projects. In both, the photo stack starts 194px below the
- * card top and ends 28px above its bottom; the Branding stack is inset 20px left /
- * 18px right (447 wide), the Project Management stack is 847 wide, centred.
+ * The strip of bullet points that runs across a desktop card (Figma 685:11222 / 685:11235):
+ * 43px tall, 24px Montserrat Medium, 50px between points, 20px side padding. The list is
+ * doubled and slid by half its width (the site's .brand-marquee), so it loops without a
+ * jump; hovering pauses it and reduced-motion visitors get it still.
+ */
+function PointsMarquee({ points, bgClass, duration }: { points: string[]; bgClass: string; duration: string }) {
+  return (
+    <div
+      className={`brand-marquee absolute inset-x-0 overflow-hidden font-display font-medium text-cream ${bgClass}`}
+      style={{ top: cardPct(148, CARD_H), height: cardPct(43, CARD_H), fontSize: "calc(var(--u) * 24)" }}
+    >
+      <ul aria-label="What is included" className="brand-marquee-track flex h-full w-max items-center" style={{ animationDuration: duration }}>
+        {[0, 1].map((copy) =>
+          points.map((point) => (
+            <li
+              key={`${copy}-${point}`}
+              aria-hidden={copy === 1 || undefined}
+              className="flex shrink-0 items-center whitespace-nowrap pl-[calc(var(--u)*36)] pr-[calc(var(--u)*50)] leading-[1.21] before:mr-[calc(var(--u)*14)] before:size-[calc(var(--u)*6)] before:shrink-0 before:rounded-full before:bg-cream before:content-['']"
+            >
+              {point.replace(/\*\*/g, "")}
+            </li>
+          )),
+        )}
+      </ul>
+    </div>
+  );
+}
+
+/**
+ * Photos that take turns in the same frame, crossfading every 3 s. A single photo just
+ * sits there; visitors who prefer reduced motion get the first one still. Every photo is
+ * rendered up front so the fade never waits for a download.
+ */
+function PhotoCrossfade({ photos, sizes }: { photos: { src: string; alt: string }[]; sizes: string }) {
+  const [index, setIndex] = useState(0);
+  const reduceMotion = useReducedMotion() ?? false;
+  const count = photos.length;
+
+  useEffect(() => {
+    if (reduceMotion || count < 2) return;
+    const timer = setInterval(() => setIndex((current) => (current + 1) % count), SLIDE_INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, [reduceMotion, count]);
+
+  return (
+    <>
+      {photos.map((photo, i) => (
+        <Image
+          key={photo.src}
+          src={photo.src}
+          alt={i === index ? photo.alt : ""}
+          aria-hidden={i !== index}
+          fill
+          sizes={sizes}
+          priority={i === 0}
+          className={`object-fill transition-opacity duration-700 motion-reduce:transition-none ${i === index ? "opacity-100" : "opacity-0"}`}
+        />
+      ))}
+    </>
+  );
+}
+
+interface DesktopCardProps {
+  card: SpecialtyCardData;
+  /** Design width of the card in px (height is always 692). */
+  width: number;
+  cardSrc: string;
+  ribbon: { src: string; x: number; w: number };
+  /** "PROJECT / HEADING" text box, design px. */
+  textBox: { x: number; w: number };
+  stripClass: string;
+  stripDuration: string;
+  /** One or more photos (design px box); several rotate every 3 s. */
+  photo: { photos: { src: string; alt: string }[]; x: number; w: number };
+}
+
+/**
+ * Desktop Branding / Project Management card (Figma frame 685:11257, 692px tall): coral
+ * ribbon with "PROJECT" over the name, the running points strip 148px down, and a
+ * 453px-tall photo frame from 214px down (several photos take turns in it). Everything is placed in % of the card, which is itself
+ * sized in --u, so the card scales as one piece.
+ */
+function DesktopSpecialtyCard({ card, width, cardSrc, ribbon, textBox, stripClass, stripDuration, photo }: DesktopCardProps) {
+  const heading = card.title.replace(/^project\s+/i, "");
+  return (
+    <article
+      id={card.id}
+      className="relative shrink-0 text-cream"
+      style={{ width: `calc(var(--u) * ${width})`, aspectRatio: `${width} / ${CARD_H}` }}
+    >
+      <Image src={cardSrc} alt="" fill unoptimized className="pointer-events-none" />
+
+      <span aria-hidden className="absolute top-0" style={{ left: cardPct(ribbon.x, width), width: cardPct(ribbon.w, width), height: cardPct(116.931, CARD_H) }}>
+        <Image src={ribbon.src} alt="" fill unoptimized />
+      </span>
+      <h2
+        className="absolute z-10 flex flex-col items-center justify-center text-center font-accent uppercase"
+        style={{ left: cardPct(textBox.x, width), width: cardPct(textBox.w, width), top: cardPct(15, CARD_H), height: cardPct(87, CARD_H) }}
+      >
+        <Link href={card.href} className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream">
+          <span className="block font-normal leading-[40px]" style={{ fontSize: "calc(var(--u) * 24)", lineHeight: "calc(var(--u) * 40)" }}>Project</span>
+          <span className="block font-bold" style={{ fontSize: "calc(var(--u) * 36)", lineHeight: "calc(var(--u) * 40)" }}>{heading}</span>
+        </Link>
+      </h2>
+
+      <PointsMarquee points={card.points} bgClass={stripClass} duration={stripDuration} />
+
+      <span className="absolute" style={{ left: cardPct(photo.x, width), width: cardPct(photo.w, width), top: cardPct(214, CARD_H), height: cardPct(453, CARD_H) }}>
+        <PhotoCrossfade photos={photo.photos} sizes="(min-width: 1024px) 60vw, 100vw" />
+      </span>
+    </article>
+  );
+}
+
+/**
+ * Branding / Project Management section. From lg up it is the Figma frame 685:11257:
+ * Project Management (485 x 692) on the left, Branding (885.5 x 692) on the right, 20px
+ * apart (1390.5 wide, centred), each with its running points strip. Below lg it is the two
+ * landscape phone cards (Figma nodes 657:7167 / 657:7170).
  */
 export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
   const branding = cards.find((card) => card.id === "branding") ?? cards[0];
@@ -248,53 +367,35 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
         />
       </div>
 
-      <div className="mx-auto hidden max-w-[1391px] items-start lg:grid lg:w-[calc(var(--u)*1390.5)] lg:grid-cols-[calc(var(--u)*485)_calc(var(--u)*885.5)] lg:gap-[calc(var(--u)*20)] lg:overflow-visible lg:pb-0">
-        <article id={branding.id} className="relative z-10 aspect-[485/833] w-[88vw] max-w-[485px] shrink-0 snap-center rounded-[10px] bg-forest text-cream lg:w-[calc(var(--u)*485)]">
-          <Image src={`${assetRoot}/branding-ribbon.svg`} alt="" width={362} height={77} unoptimized className="absolute left-1/2 top-0 h-auto w-[74.64%] -translate-x-1/2" />
-          <h2 className="relative z-10 flex aspect-[362/77] w-[74.64%] items-center justify-center text-center font-accent text-[clamp(18px,5.5vw,36px)] font-bold lg:absolute lg:left-1/2 lg:top-[1.45%] lg:aspect-auto lg:h-[6.67%] lg:w-[66.39%] lg:-translate-x-1/2 uppercase leading-[1.333] lg:text-[calc(var(--u)*36)]">
-            <Link href={branding.href} className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream">{branding.title}</Link>
-          </h2>
-          <p className="relative z-10 mt-4 w-[83.51%] text-center font-display text-[clamp(14px,3.6vw,22px)] lg:absolute lg:left-1/2 lg:top-[12.1%] lg:mt-0 lg:-translate-x-1/2 font-medium leading-[1.318] lg:text-[calc(var(--u)*22)] lg:leading-[calc(var(--u)*29)]">
-            {branding.description}
-          </p>
-
-          {/* Photo stack: 194 from the top, 28 from the bottom, 20 left, 18 right (447 x 611). */}
-          <PhotoDeck
-            slides={brandingSlides}
-            className="relative mt-5 aspect-[447/611] w-[92.16%] lg:absolute lg:bottom-[3.36%] lg:left-[4.12%] lg:mt-0 lg:aspect-auto lg:h-[73.35%]"
-            slideClassName="absolute bottom-[1%] left-[1.4%] right-[1.4%] top-[16%] overflow-hidden rounded-[10px] border-2 border-cream"
-            scales={[1, 0.94, 0.87]}
-            renderSlide={(src, depth) => (
-              <>
-                <Image src={src} alt="" fill unoptimized className="object-cover" />
-                <SlideTint root="branding" depth={depth} />
-              </>
-            )}
-          />
-        </article>
-
-        <article id={management.id} className="relative isolate flex w-full max-w-[560px] flex-col items-center rounded-[10px] bg-[#547255] pb-[5.8%] text-cream lg:block lg:aspect-[883.5/833] lg:w-[calc(var(--u)*883.5)] lg:max-w-none lg:rounded-none lg:bg-transparent lg:pb-0">
-          <Image src={`${assetRoot}/management-card.svg`} alt="" fill unoptimized className="-z-10 hidden lg:block" />
-          <Image src={`${assetRoot}/management-ribbon.svg`} alt="" width={602} height={77} unoptimized className="absolute left-1/2 top-0 h-auto w-[68.14%] -translate-x-1/2" />
-          <h2 className="relative z-10 flex aspect-[602/77] w-[68.14%] items-center justify-center whitespace-nowrap px-2 text-center font-accent text-[clamp(12px,3.6vw,36px)] font-bold lg:absolute lg:left-1/2 lg:top-[1.45%] lg:aspect-auto lg:h-[6.72%] lg:w-[79.68%] lg:-translate-x-1/2 lg:px-0 uppercase leading-[1.333] lg:text-[calc(var(--u)*36)]">
-            <Link href={management.href} className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream">{management.title}</Link>
-          </h2>
-          <p className="relative z-10 mt-4 w-[83.51%] text-center font-display text-[clamp(14px,3.6vw,22px)] lg:absolute lg:left-1/2 lg:top-[12.1%] lg:mt-0 lg:w-[79.68%] lg:-translate-x-1/2 font-medium leading-[1.318] lg:text-[calc(var(--u)*22)] lg:leading-[calc(var(--u)*29)]">
-            {management.description}
-          </p>
-          <PhotoDeck
-            slides={managementSlides}
-            className="relative mt-5 aspect-[847/611] w-[92.16%] lg:absolute lg:bottom-[3.36%] lg:left-1/2 lg:mt-0 lg:w-[95.87%] lg:-translate-x-1/2"
-            slideClassName="absolute bottom-[1%] left-[0.6%] right-[0.6%] top-[16%] overflow-hidden rounded-[10px] border-2 border-cream"
-            scales={[1, 0.97, 0.91]}
-            renderSlide={(src, depth) => (
-              <>
-                <Image src={src} alt="" fill unoptimized className="object-cover" />
-                <SlideTint root="management" depth={depth} />
-              </>
-            )}
-          />
-        </article>
+      <div className="mx-auto hidden items-start justify-center gap-[calc(var(--u)*20)] lg:flex">
+        <DesktopSpecialtyCard
+          card={management}
+          width={485}
+          cardSrc={`${desktopRoot}/management-card.svg`}
+          ribbon={{ src: `${desktopRoot}/management-ribbon.svg`, x: 64.5, w: 362 }}
+          textBox={{ x: 86, w: 314 }}
+          stripClass="bg-sage-dark"
+          stripDuration="32s"
+          photo={{ photos: [{ src: `${desktopRoot}/management-photo.webp`, alt: "Blueprints laid over shelving in a finished store" }], x: 20, w: 447 }}
+        />
+        <DesktopSpecialtyCard
+          card={branding}
+          width={885.5}
+          cardSrc={`${desktopRoot}/branding-card.svg`}
+          ribbon={{ src: `${desktopRoot}/branding-ribbon.svg`, x: 242, w: 402 }}
+          textBox={{ x: 286, w: 314 }}
+          stripClass="bg-[#2e4539]"
+          stripDuration="28s"
+          photo={{
+            photos: [
+              { src: `${desktopRoot}/branding-photo-prince.webp`, alt: "Prince Market storefront and its brand board" },
+              { src: `${desktopRoot}/branding-photo-speedy.webp`, alt: "Speedy c-store sign and its brand board" },
+              { src: `${desktopRoot}/branding-photo-cafe.webp`, alt: "T Lines Café kiosk and its brand board" },
+            ],
+            x: 19,
+            w: 847,
+          }}
+        />
       </div>
     </section>
   );
