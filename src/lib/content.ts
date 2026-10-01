@@ -865,7 +865,7 @@ export const aboutPage = {
     title: "Our Vision",
     // Copy still to be written; mirrors the Our Mission layout.
     paragraphs: ["", ""],
-    image: "/images/about/mission-store.svg",
+    image: "/images/about/vision-store.svg",
     imageAlt: "C-store aisles with snack shelving and drinks coolers",
   },
   partners: {
