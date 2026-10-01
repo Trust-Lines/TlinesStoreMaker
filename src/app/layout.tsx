@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Montserrat, Orbitron } from "next/font/google";
 import "./globals.css";
 
@@ -47,13 +48,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`h-full antialiased ${montserrat.variable} ${orbitron.variable}`}
       suppressHydrationWarning
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: fitHeroScript }} />
-      </head>
       <body
         className="min-h-full flex flex-col bg-cream text-ink"
         suppressHydrationWarning
       >
+        {/* beforeInteractive: runs before the first paint, so the page never flashes at full size. */}
+        <Script id="fit-hero-zoom" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: fitHeroScript }} />
         {children}
       </body>
     </html>

@@ -22,6 +22,8 @@ const managementSlides = [
   `${assetRoot}/management-deck-3.svg`,
   `${assetRoot}/management-deck-1.svg`,
   "/images/figma/specialty/management-photo.webp",
+  `${desktopRoot}/management-photo-2.webp`,
+  `${desktopRoot}/management-photo-3.webp`,
 ];
 
 /**
@@ -376,7 +378,15 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
           textBox={{ x: 86, w: 314 }}
           stripClass="bg-sage-dark"
           stripDuration="32s"
-          photo={{ photos: [{ src: `${desktopRoot}/management-photo.webp`, alt: "Blueprints laid over shelving in a finished store" }], x: 20, w: 447 }}
+          photo={{
+            photos: [
+              { src: `${desktopRoot}/management-photo.webp`, alt: "Blueprints laid over shelving in a finished store" },
+              { src: `${desktopRoot}/management-photo-2.webp`, alt: "Project managers and a client walking a store build-out" },
+              { src: `${desktopRoot}/management-photo-3.webp`, alt: "Team members coordinating in the warehouse" },
+            ],
+            x: 20,
+            w: 447,
+          }}
         />
         <DesktopSpecialtyCard
           card={branding}
