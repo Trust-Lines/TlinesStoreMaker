@@ -12,10 +12,12 @@ const brandingSlides = [
   `${assetRoot}/branding-deck-1.svg`,
   `${assetRoot}/branding-deck-2.svg`,
 ];
+// management-deck-2.svg is a pixel-identical copy of management-deck-1.svg (the team photo), so the third slide
+// is the original management interior photo instead.
 const managementSlides = [
   `${assetRoot}/management-deck-3.svg`,
   `${assetRoot}/management-deck-1.svg`,
-  `${assetRoot}/management-deck-2.svg`,
+  "/images/figma/specialty/management-photo.webp",
 ];
 
 /**
@@ -104,19 +106,18 @@ interface PhotoDeckProps {
   /** Scale of the front / behind / furthest card (narrower the further back). */
   scales: readonly number[];
   renderSlide: (src: string, depth: number) => ReactNode;
-  frame: string;
   /** ▼ art (the Figma → tile, rotated), button width (% of the stack) and label. */
   next: { src: string; className: string; label: string };
 }
 
 /**
  * Click-driven vertical depth stack (no scroll). Every card is absolute inside one
- * `perspective: 1000px` viewport clipped to the cream frame, so the peeking cards and
+ * `perspective: 1000px` viewport clipped to the stack, so the peeking cards and
  * the ▼ exit stay inside it. A single ▼ button sits centred inside the front photo,
  * just above its bottom edge, and cycles the deck forward.
  * Owns its own state so stepping one deck never re-renders (and replays) the other.
  */
-function PhotoDeck({ slides, className, slideClassName, scales, renderSlide, frame, next }: PhotoDeckProps) {
+function PhotoDeck({ slides, className, slideClassName, scales, renderSlide, next }: PhotoDeckProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<Direction>(0);
   const reduceMotion = useReducedMotion() ?? false;
@@ -148,7 +149,6 @@ function PhotoDeck({ slides, className, slideClassName, scales, renderSlide, fra
           );
         })}
       </div>
-      <Image src={frame} alt="" fill unoptimized className="pointer-events-none z-10" />
       {/* Front photo ends 1% above the stack bottom; the button sits ~12px above that. */}
       <button
         type="button"
@@ -191,7 +191,6 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
             className="absolute bottom-[3.36%] left-[4.12%] h-[73.35%] w-[92.16%]"
             slideClassName="absolute bottom-[1%] left-[1.4%] right-[1.4%] top-[16%] overflow-hidden rounded-[10px] border-2 border-cream"
             scales={[1, 0.94, 0.87]}
-            frame={`${assetRoot}/branding-frame.svg`}
             next={{ src: `${assetRoot}/branding-arrow-next.svg`, className: "w-[14.3%]", label: "branding project" }}
             renderSlide={(src, depth) => (
               <>
@@ -216,7 +215,6 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
             className="absolute bottom-[3.36%] left-1/2 aspect-[847/611] w-[95.6%] -translate-x-1/2"
             slideClassName="absolute bottom-[1%] left-[0.6%] right-[0.6%] top-[16%] overflow-hidden rounded-[10px] border-2 border-cream"
             scales={[1, 0.97, 0.91]}
-            frame={`${assetRoot}/management-frame.svg`}
             next={{ src: `${assetRoot}/arrow-next.svg`, className: "w-[7.56%]", label: "project management image" }}
             renderSlide={(src, depth) => (
               <>

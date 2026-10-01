@@ -10,8 +10,6 @@ const menuItems = [
   { label: "C-store", href: "/services/c-store", sub: true },
   { label: "Truck stops", href: "/services/truck-stops", sub: true },
   { label: "Grocery", href: "/services/grocery", sub: true },
-  { label: "Branding", href: "/#branding", sub: true },
-  { label: "Management", href: "/#management", sub: true },
   { label: "Projects", href: "/projects" },
   { label: "News", href: "/news" },
   { label: "About us", href: "/about" },
