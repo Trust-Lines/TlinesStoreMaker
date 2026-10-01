@@ -67,12 +67,12 @@ export function ReferenceTopBar({ tone = "gold" }: ReferenceTopBarProps) {
     <header className={`fixed left-1/2 top-[env(safe-area-inset-top)] z-50 h-[88px] w-full max-w-[1592px] -translate-x-1/2 ${theme.ink} sm:h-[120px] lg:h-[min(7.76vw,123.6px)]`}>
       {/* Phones: the bar's fill continues above it (Figma node 621:7788 is the same shape,
           drawn taller and tucked behind the top edge). It fills the strip under the iPhone
-          status bar / notch so the site has no empty band there, and its last 4px overlap the
-          bar's cream top outline so no line shows between the two. Zero-height strip + 4px on
+          status bar / notch so the site has no empty band there, and it sits above the bar's svg and
+          overlaps its cream top outline by 5px so no line shows between the two. Zero-height strip + 4px on
           phones without a notch. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-[calc(100%-4px)] h-[calc(env(safe-area-inset-top)+4px)] sm:hidden"
+        className="pointer-events-none absolute inset-x-0 bottom-[calc(100%-5px)] z-[1] h-[calc(env(safe-area-inset-top)+5px)] sm:hidden"
         style={{ backgroundColor: theme.fill }}
       />
 
