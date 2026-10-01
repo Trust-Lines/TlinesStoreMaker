@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { ReferenceTopBar } from "@/components/layout/ReferenceTopBar";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { BoothBanner } from "@/components/home/BoothBanner";
@@ -28,6 +28,8 @@ import {
 // in place of the store-type picker, a coral/sage-dark colourway with cream
 // text throughout the branding and projects sections, and this page's own
 // photos.
+
+export const viewport: Viewport = { viewportFit: "cover", themeColor: "#DB7358" };
 
 export const metadata: Metadata = {
   title: "Truck stops — StoreMaker",

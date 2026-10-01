@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="76.5591" height="76.5591" viewBox="0 0 76.5591 76.5591" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="shelves">
+<mask id="mask0_0_7" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="77" height="77">
+<rect id="Bounding box" width="76.5591" height="76.5591" fill="#FFF4E0"/>
+</mask>
+<g mask="url(#mask0_0_7)">
+<path id="shelves_2" d="M9.57031 73.3706V3.19141H15.9502V9.57133H60.6097V3.19141H66.9897V73.3706H60.6097V66.9907H15.9502V73.3706H9.57031ZM15.9502 35.091H22.3302V22.3312H41.47V35.091H60.6097V15.9513H15.9502V35.091ZM15.9502 60.6108H35.09V47.8509H54.2298V60.6108H60.6097V41.471H15.9502V60.6108ZM28.7101 35.091H35.09V28.7111H28.7101V35.091ZM41.47 60.6108H47.8499V54.2308H41.47V60.6108Z" fill="#FFF4E0"/>
+</g>
+</g>
+</svg>

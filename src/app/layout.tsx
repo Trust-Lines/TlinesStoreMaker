@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Montserrat, Orbitron } from "next/font/google";
 import "./globals.css";
 
@@ -16,6 +16,13 @@ const orbitron = Orbitron({
   variable: "--font-orbitron",
   display: "swap",
 });
+
+// viewport-fit=cover lets the page run under the iPhone notch / status bar (the top bar
+// fills that strip, see ReferenceTopBar); theme-color tints the browser chrome to match.
+export const viewport: Viewport = {
+  viewportFit: "cover",
+  themeColor: "#F7C56B",
+};
 
 export const metadata: Metadata = {
   title: "StoreMaker — From vanilla box to open date",

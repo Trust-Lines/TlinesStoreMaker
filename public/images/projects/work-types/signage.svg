@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="76.5591" height="76.5591" viewBox="0 0 76.5591 76.5591" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="signpost">
+<mask id="mask0_0_14" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="77" height="77">
+<rect id="Bounding box" width="76.5591" height="76.5591" fill="#FFF4E0"/>
+</mask>
+<g mask="url(#mask0_0_14)">
+<path id="signpost_2" d="M35.09 70.1801V57.4203H19.1402L9.57031 47.8504L19.1402 38.2805H35.09V31.9006H12.7603V12.7608H35.09V6.38086H41.47V12.7608H57.4198L66.9897 22.3307L57.4198 31.9006H41.47V38.2805H63.7997V57.4203H41.47V70.1801H35.09ZM19.1402 25.5206H54.7881L57.978 22.3307L54.7881 19.1407H19.1402V25.5206ZM21.7719 51.0404H57.4198V44.6604H21.7719L18.582 47.8504L21.7719 51.0404Z" fill="#FFF4E0"/>
+</g>
+</g>
+</svg>

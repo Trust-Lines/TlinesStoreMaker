@@ -536,19 +536,6 @@ export const projectsLayout = {
   tourTab: { x: 533, y: 821, w: 528, h: 55 },
   /** Forest frame holding five tour tiles, 15px padding and gaps. */
   tourFrame: { x: 143, y: 876, w: 1278, h: 179, pad: 15, gap: 15 },
-  /**
-   * Below lg ("Project Mobile" frame): rows alternating one wide tile and a
-   * pair, placeholders left out. Tiles in a row share one height (each grows by
-   * its w/h ratio). `mask` + `ratio` reshape a masked tile into a wide one.
-   */
-  mobileRows: [
-    [{ id: "uk-market" }],
-    [{ id: "coffee-counter" }, { id: "island-counter" }],
-    [{ id: "checkout", mask: `${tileDir}/rectangle-4399-mask.svg`, ratio: 489 / 223 }],
-    [{ id: "coffee-bar" }, { id: "cafe-seating" }],
-    [{ id: "welcome", mask: `${tileDir}/rectangle-4396-mask.svg`, ratio: 489 / 223 }],
-    [{ id: "snack-aisle" }, { id: "checkout-lanes" }, { id: "on-the-go" }],
-  ] as { id: string; mask?: string; ratio?: number }[][],
 };
 
 // C-store page Projects mosaic (Figma "C Store" frame, node 294:4080): same
@@ -818,7 +805,32 @@ export interface GalleryProject {
   image: string;
   alt: string;
   title: string;
+  /** Ids of the kinds of work done on the project (see `WorkType`). */
+  workTypes: string[];
 }
+
+/**
+ * Kinds of work a project can include (Figma node 650:10316): the tile panel on the
+ * Projects page filters by these, and each project lists the ones it covered.
+ * The ERP owns the real list (table web_work_types, see supabase/ERP-BRIDGE.md);
+ * these six are the defaults shown until it supplies its own.
+ */
+export interface WorkType {
+  id: string;
+  label: string;
+  /** Cream icon on a transparent background (SVG or PNG). */
+  icon: string;
+}
+
+const workTypeIcons = "/images/projects/work-types";
+export const projectWorkTypes: WorkType[] = [
+  { id: "ceiling-fixtures", label: "Ceiling fixtures", icon: `${workTypeIcons}/ceiling-fixtures.svg` },
+  { id: "shelving", label: "Shelving", icon: `${workTypeIcons}/shelving.svg` },
+  { id: "mill-work", label: "Mill-work", icon: `${workTypeIcons}/mill-work.svg` },
+  { id: "branding", label: "Branding", icon: `${workTypeIcons}/branding.svg` },
+  { id: "signage", label: "Signage", icon: `${workTypeIcons}/signage.svg` },
+  { id: "furniture", label: "Furniture", icon: `${workTypeIcons}/furniture.svg` },
+];
 
 /** Fallback for the project page "Type" when the ERP leaves it empty. */
 export const projectDetailType: Record<ProjectCategoryId, string> = {

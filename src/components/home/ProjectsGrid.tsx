@@ -41,13 +41,6 @@ export interface ProjectTile {
   h: number;
 }
 
-/** One tile in a mobile row; `mask` + `ratio` reshape it (e.g. into a wide tile). */
-export interface MobileTileRef {
-  id: string;
-  mask?: string;
-  ratio?: number;
-}
-
 export interface ProjectsGridProps {
   title: string;
   tiles: ProjectTile[];
@@ -59,8 +52,6 @@ export interface ProjectsGridProps {
   placeholderClass?: string;
   /** Store-type labels three random tiles rotate through every 2s. Omit to disable the effect. */
   rotatingItems?: ServiceTypeTile[];
-  /** Below-lg layout: rows of tile ids ("Project Mobile" frame). */
-  mobileRows: MobileTileRef[][];
   /** Where every photo tile (and the label) leads: the full Projects gallery. */
   href: string;
 }
@@ -73,9 +64,8 @@ const maskStyle = (mask?: string): CSSProperties | undefined =>
  * Homepage Projects mosaic, a teaser for the Projects gallery: every photo tile
  * links to `href`. From lg up each tile sits at its exact Figma position
  * (percentages of the 1592 x 1091 frame, so it scales with the page). Below lg
- * it follows the "Project Mobile" frame: full-width label, then rows that
- * alternate one wide tile and a pair; tiles in a row share one height (each
- * grows by its w/h ratio) so the pre-shaped photos never distort.
+ * it is the "Projects" mobile card (Figma node 621:7790, 402 x 581): one
+ * pre-shaped photo, the label band, another photo, all one link to `href`.
  */
 export function ProjectsGrid({
   title,
@@ -85,10 +75,8 @@ export function ProjectsGrid({
   labelTextClass = "text-cream",
   placeholderClass = "bg-forest",
   rotatingItems,
-  mobileRows,
   href,
 }: ProjectsGridProps) {
-  const byId = new Map(tiles.map((tile) => [tile.id, tile]));
 
   const tileLink = (tile: ProjectTile, mask: string | undefined, sizes: string) => (
     <Link
@@ -110,10 +98,10 @@ export function ProjectsGrid({
 
   return (
     <>
-      {/* Label: Figma 523 x 134 at its frame position from lg; full width on top below lg. */}
+      {/* Label: Figma 523 x 134 at its frame position (lg+ only; the mobile card has its own). */}
       <Link
         href={href}
-        className="relative z-10 mx-auto mb-3 block aspect-[523/134] w-full max-w-[640px] outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream lg:absolute lg:left-[var(--lx)] lg:top-[var(--ly)] lg:mx-0 lg:mb-0 lg:w-[var(--lw)] lg:max-w-none"
+        className="relative z-10 hidden aspect-[523/134] w-full outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream lg:absolute lg:left-[var(--lx)] lg:top-[var(--ly)] lg:block lg:w-[var(--lw)]"
         style={{
           "--lx": pct(label.x, frame.w),
           "--ly": pct(label.y, frame.h),
@@ -129,23 +117,26 @@ export function ProjectsGrid({
         </h2>
       </Link>
 
-      {/* Below lg: wide / pair rows. */}
-      <div className="mx-auto flex max-w-[640px] flex-col gap-2.5 lg:hidden">
-        {mobileRows.map((row) => (
-          <ul key={row.map((ref) => ref.id).join("+")} className="flex gap-2.5">
-            {row.map((ref) => {
-              const tile = byId.get(ref.id);
-              if (!tile || tile.placeholder) return null;
-              const ratio = ref.ratio ?? tile.w / tile.h;
-              return (
-                <li key={ref.id} className="relative min-w-0" style={{ flex: `${ratio} 1 0%`, aspectRatio: ratio }}>
-                  {tileLink(tile, ref.mask ?? tile.mask, row.length > 1 ? "50vw" : "100vw")}
-                </li>
-              );
-            })}
-          </ul>
-        ))}
-      </div>
+      {/* Below lg: Figma "Projects" mobile frame, 402 x 581. Photos are exported with their chamfered
+          outline baked in; the band takes the page's tile colour (placeholderClass) through a mask. */}
+      <Link
+        href={href}
+        aria-label={`${title}: see all projects`}
+        className="-mx-4 block outline-offset-[-4px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream sm:-mx-6 lg:hidden"
+      >
+        <span className="relative mx-auto block aspect-[402/581] w-full max-w-[402px] [container-type:inline-size]">
+          <span className="absolute inset-[5.68%_3.98%_57.51%_4.73%]">
+            <Image src="/images/projects-mobile/photo-top.webp" alt="" fill sizes="402px" />
+          </span>
+          <span className="absolute inset-[56.65%_3.98%_5.72%_4.73%]">
+            <Image src="/images/projects-mobile/photo-bottom.webp" alt="" fill sizes="402px" />
+          </span>
+          <span className="absolute inset-[41.82%_4.01%_42%_4.7%] z-10 flex items-center justify-center">
+            <span aria-hidden className={`absolute inset-0 [mask-repeat:no-repeat] [mask-size:100%_100%] ${placeholderClass}`} style={maskStyle("/images/projects-mobile/band.svg")} />
+            <h2 className={`relative font-accent text-[9.7cqw] font-bold uppercase leading-none tracking-[0.2em] ${labelTextClass}`}>{title}</h2>
+          </span>
+        </span>
+      </Link>
 
       {/* lg+: every tile at its Figma position. */}
       <ul className="absolute inset-0 hidden lg:block">

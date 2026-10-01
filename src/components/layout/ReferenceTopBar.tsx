@@ -64,7 +64,18 @@ export function ReferenceTopBar({ tone = "gold" }: ReferenceTopBarProps) {
   // 1592px column as the page. Height matches --header-h in globals.css.
   return (
     <>
-    <header className={`fixed left-1/2 top-0 z-50 h-[88px] w-full max-w-[1592px] -translate-x-1/2 ${theme.ink} sm:h-[120px] lg:h-[min(7.76vw,123.6px)]`}>
+    <header className={`fixed left-1/2 top-[env(safe-area-inset-top)] z-50 h-[88px] w-full max-w-[1592px] -translate-x-1/2 ${theme.ink} sm:h-[120px] lg:h-[min(7.76vw,123.6px)]`}>
+      {/* Phones: the bar's fill continues above it (Figma node 621:7788 is the same shape,
+          drawn taller and tucked behind the top edge). It fills the strip under the iPhone
+          status bar / notch so the site has no empty band there, and its last 4px overlap the
+          bar's cream top outline so no line shows between the two. Zero-height strip + 4px on
+          phones without a notch. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-[calc(100%-4px)] h-[calc(env(safe-area-inset-top)+4px)] sm:hidden"
+        style={{ backgroundColor: theme.fill }}
+      />
+
       {/* Figma node 406:17451 (Property 1=Default): a single flatter chamfered
           bar (cut corner bottom-right), 1484.889 x 115.228, replacing the
           previous zigzag-ended shape. Stretched to the header's own box;

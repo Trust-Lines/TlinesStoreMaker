@@ -66,6 +66,12 @@ html {
   scroll-behavior: smooth;
 }
 
+/* iPhones with a notch: the page is allowed under the status bar (viewport-fit=cover),
+   so keep the content below it; the fixed top bar paints the strip itself. */
+body {
+  padding-top: env(safe-area-inset-top);
+}
+
 /* One Figma px on the 1592px frame, shrinking with narrower viewports
    (used as calc(var(--u) * N) for design measurements). */
 :root {

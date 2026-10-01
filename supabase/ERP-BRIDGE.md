@@ -7,8 +7,9 @@ Content (projects, blog, page headers): the website only **reads**, the ERP mark
    - `supabase/migrations/118_web_projects.sql`
    - `supabase/migrations/119_web_settings.sql`
    - `supabase/migrations/120_web_blog.sql`
+   - `supabase/migrations/121_web_work_types.sql` (project work-type tiles, see `ERP-WORK-TYPES.md`)
    Copy them into the ERP repo's `supabase/migrations/` (same numbers) and run `supabase db push`,
-   or paste 118, 119, 120 in order into the Supabase SQL editor.
+   or paste 118, 119, 120, 121 in order into the Supabase SQL editor.
    `web_can_edit()` allows `marketing_manager`, `general_manager`, `ops_manager` (ERP migration 084);
    `marketing_pr` cannot write.
 2. Website env (Vercel + `.env.local`):
@@ -34,6 +35,7 @@ RLS is the second line of defence. The website never uses the service-role key.
 | cover_image_url | ImageKit URL (gallery card) |
 | is_published | `true` to show on the site |
 | sort_order | lower shows first |
+| work_types | `{shelving,signage}` (text[] of `web_work_types.slug`; tiles on the project page, see `ERP-WORK-TYPES.md`) |
 
 `web_project_photos` — top carousel, any number: `project_id, image_url, alt, sort_order`
 

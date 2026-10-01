@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { ProjectsGrid, type MobileTileRef, type ProjectTile } from "./ProjectsGrid";
+import { ProjectsGrid, type ProjectTile } from "./ProjectsGrid";
 import type { ServiceTypeTile } from "./RotatingServiceTiles";
 import { TourTiles, type TourTile } from "./TourTiles";
 
@@ -23,7 +23,6 @@ export interface ProjectsGalleryProps {
     label: Box & { src: string };
     tourTab: Box;
     tourFrame: Box & { pad: number; gap: number };
-    mobileRows: MobileTileRef[][];
   };
   tours: {
     heading: string;
@@ -37,8 +36,9 @@ const pct = (value: number, of: number) => `${(value / of) * 100}%`;
  * Figma "Projects" frame (1592 x 1091, sage). From lg up the whole frame is a
  * fixed-ratio canvas: the mosaic, its label, and below it the forest
  * "Come take a live 360 tour!" tab resting on a forest frame of five tour
- * tiles (15px padding / gaps), all at their Figma positions in %. Below lg it
- * stacks, and the tours become a swipeable row.
+ * tiles (15px padding / gaps), all at their Figma positions in %. Below lg the
+ * mosaic becomes the compact 402 x 581 "Projects" card (photo / label / photo)
+ * and the tours become a swipeable row.
  */
 export function ProjectsGallery({
   title,
@@ -54,7 +54,7 @@ export function ProjectsGallery({
   const { frame, tourTab: tab, tourFrame: box } = layout;
 
   return (
-    <section id="projects" aria-labelledby="projects-heading" className={`${bgClass} py-10 lg:py-0`}>
+    <section id="projects" aria-labelledby="projects-heading" className={`${bgClass} pb-10 lg:py-0`}>
       <div
         className="relative px-4 sm:px-6 lg:aspect-[var(--frame-ratio)] lg:px-0"
         style={{ "--frame-ratio": `${frame.w} / ${frame.h}` } as CSSProperties}
@@ -67,7 +67,6 @@ export function ProjectsGallery({
           labelTextClass={labelTextClass}
           placeholderClass={placeholderClass}
           rotatingItems={rotatingItems}
-          mobileRows={layout.mobileRows}
           href="/projects"
         />
 

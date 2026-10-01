@@ -3,10 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion, type TargetAndTransition, type Transition } from "framer-motion";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { SpecialtyCardData } from "./SpecialtyCard";
 
 const assetRoot = "/images/figma/specialty/showcase";
+/** How long each photo stays in front before the next one comes forward. */
+const SLIDE_INTERVAL_MS = 3000;
+const mobileRoot = "/images/figma/specialty/mobile";
 const brandingSlides = [
   `${assetRoot}/branding-deck-3.svg`,
   `${assetRoot}/branding-deck-1.svg`,
@@ -63,18 +66,6 @@ function deckMotion(depth: number, count: number, dir: Direction, scales: readon
 }
 
 /**
- * The Figma arrow tile (68 x 73) turned 90° clockwise, so → reads ▼.
- * The rotated art is 73 wide x 68 tall; the inner box swaps the button's sides.
- */
-function RailArrow({ src }: { src: string }) {
-  return (
-    <span className="absolute left-1/2 top-1/2 h-[107.35%] w-[93.15%] -translate-x-1/2 -translate-y-1/2 rotate-90">
-      <Image src={src} alt="" fill unoptimized />
-    </span>
-  );
-}
-
-/**
  * Figma tints for the slides peeking behind the current one (depth 1 darker, depth 2
  * lighter). Kept out of the slide images so the front photo is never tinted; the
  * opacity fades with the slide transition.
@@ -106,26 +97,29 @@ interface PhotoDeckProps {
   /** Scale of the front / behind / furthest card (narrower the further back). */
   scales: readonly number[];
   renderSlide: (src: string, depth: number) => ReactNode;
-  /** ▼ art (the Figma → tile, rotated), button width (% of the stack) and label. */
-  next: { src: string; className: string; label: string };
 }
 
 /**
- * Click-driven vertical depth stack (no scroll). Every card is absolute inside one
- * `perspective: 1000px` viewport clipped to the stack, so the peeking cards and
- * the ▼ exit stay inside it. A single ▼ button sits centred inside the front photo,
- * just above its bottom edge, and cycles the deck forward.
+ * Vertical depth stack that steps forward by itself every 3 s (no controls, no scroll;
+ * visitors who prefer reduced motion get a still deck). Every card is absolute inside
+ * one `perspective: 1000px` viewport clipped to the stack, so the peeking cards and
+ * the exit stay inside it.
  * Owns its own state so stepping one deck never re-renders (and replays) the other.
  */
-function PhotoDeck({ slides, className, slideClassName, scales, renderSlide, next }: PhotoDeckProps) {
+function PhotoDeck({ slides, className, slideClassName, scales, renderSlide }: PhotoDeckProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<Direction>(0);
   const reduceMotion = useReducedMotion() ?? false;
   const count = slides.length;
-  const showNext = () => {
-    setDirection(1);
-    setCurrentIndex((current) => (current + 1) % count);
-  };
+
+  useEffect(() => {
+    if (reduceMotion || count < 2) return;
+    const timer = setInterval(() => {
+      setDirection(1);
+      setCurrentIndex((current) => (current + 1) % count);
+    }, SLIDE_INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, [reduceMotion, count]);
 
   return (
     <div className={className}>
@@ -149,16 +143,75 @@ function PhotoDeck({ slides, className, slideClassName, scales, renderSlide, nex
           );
         })}
       </div>
-      {/* Front photo ends 1% above the stack bottom; the button sits ~12px above that. */}
-      <button
-        type="button"
-        onClick={showNext}
-        aria-label={`Next ${next.label}`}
-        className={`absolute bottom-[3%] left-1/2 z-20 block aspect-[73/68] -translate-x-1/2 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream ${next.className}`}
-      >
-        <RailArrow src={next.src} />
-      </button>
     </div>
+  );
+}
+
+/**
+ * Phone version of a Branding / Project Management card: ribbon and bullet list on
+ * one side, the photo stack on the other (side = where the copy sits). Everything is
+ * placed in % of the 874 x 663 Figma frame and sized in container-query units, so the
+ * card scales as one piece; text never drops below a readable minimum.
+ */
+function MobileSpecialtyCard({
+  card,
+  side,
+  slides,
+  cardSrc,
+  ribbonSrc,
+  root,
+}: {
+  card: SpecialtyCardData;
+  side: "left" | "right";
+  slides: string[];
+  cardSrc: string;
+  ribbonSrc: string;
+  root: "branding" | "management";
+}) {
+  const left = side === "left";
+  const heading = card.title.replace(/^project\s+/i, "");
+
+  return (
+    <article id={`${card.id}-mobile`} className="relative aspect-[874/663] w-full text-cream [container-type:inline-size]">
+      <span aria-hidden className={`absolute ${left ? "inset-[1.36%_0.8%_1.21%_1.37%]" : "inset-[1.06%_0.81%]"}`}>
+        <Image src={cardSrc} alt="" fill unoptimized />
+      </span>
+
+      <span aria-hidden className={`absolute ${left ? "inset-[4.22%_56.29%_77.54%_1.37%]" : "inset-[3.94%_0.81%_77.74%_56.62%] -scale-x-100"}`}>
+        <Image src={ribbonSrc} alt="" fill unoptimized />
+      </span>
+      <h2
+        className={`absolute top-[8.3%] font-accent uppercase ${left ? "left-[5.6%]" : "right-[3.8%] text-right"}`}
+      >
+        <Link href={card.href} className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream">
+          <span className="block text-[max(12px,2.75cqw)] font-medium leading-[1.54]">Project</span>
+          <span className="block text-[max(16px,4.12cqw)] font-bold leading-[1.03]">{heading}</span>
+        </Link>
+      </h2>
+
+      <ul
+        className={`absolute top-[36%] w-[33.7%] list-disc pl-[4.1cqw] font-display text-[max(11px,2.75cqw)] font-medium leading-[1.05] marker:text-cream ${left ? "left-[5.4%]" : "left-[60.8%]"}`}
+      >
+        {card.points.map((point) => (
+          <li key={point} className="mb-[2.06cqw]">
+            {point.replace(/\*\*/g, "")}
+          </li>
+        ))}
+      </ul>
+
+      <PhotoDeck
+        slides={slides}
+        className={`absolute bottom-[3.62%] top-[4.22%] ${left ? "left-[46.45%] right-[2.4%]" : "left-[2.65%] right-[45.91%]"}`}
+        slideClassName="absolute bottom-[1%] left-[1.4%] right-[1.4%] top-[16%] overflow-hidden rounded-[10px] border-2 border-cream"
+        scales={[1, 0.94, 0.87]}
+        renderSlide={(src, depth) => (
+          <>
+            <Image src={src} alt="" fill unoptimized className="object-cover" />
+            <SlideTint root={root} depth={depth} />
+          </>
+        )}
+      />
+    </article>
   );
 }
 
@@ -175,7 +228,27 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
 
   return (
     <section aria-label="Branding and project management services" className="bg-cream px-5 py-12 sm:px-10 lg:px-0 lg:pb-[calc(var(--u)*80)] lg:pt-[calc(var(--u)*95)]">
-      <div className="mx-auto flex max-w-[1391px] snap-x snap-mandatory items-start gap-5 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:grid lg:w-[calc(var(--u)*1390.5)] lg:grid-cols-[calc(var(--u)*485)_calc(var(--u)*885.5)] lg:gap-[calc(var(--u)*20)] lg:overflow-visible lg:pb-0">
+      {/* Below lg: the two landscape phone cards (Figma nodes 657:7167 / 657:7170, 874 x 663). */}
+      <div className="mx-auto flex max-w-[640px] flex-col gap-5 lg:hidden">
+        <MobileSpecialtyCard
+          card={branding}
+          side="left"
+          slides={brandingSlides}
+          cardSrc={`${mobileRoot}/branding-card.svg`}
+          ribbonSrc={`${mobileRoot}/branding-ribbon.svg`}
+          root="branding"
+        />
+        <MobileSpecialtyCard
+          card={management}
+          side="right"
+          slides={managementSlides}
+          cardSrc={`${mobileRoot}/management-card.svg`}
+          ribbonSrc={`${mobileRoot}/management-ribbon.svg`}
+          root="management"
+        />
+      </div>
+
+      <div className="mx-auto hidden max-w-[1391px] items-start lg:grid lg:w-[calc(var(--u)*1390.5)] lg:grid-cols-[calc(var(--u)*485)_calc(var(--u)*885.5)] lg:gap-[calc(var(--u)*20)] lg:overflow-visible lg:pb-0">
         <article id={branding.id} className="relative z-10 aspect-[485/833] w-[88vw] max-w-[485px] shrink-0 snap-center rounded-[10px] bg-forest text-cream lg:w-[calc(var(--u)*485)]">
           <Image src={`${assetRoot}/branding-ribbon.svg`} alt="" width={362} height={77} unoptimized className="absolute left-1/2 top-0 h-auto w-[74.64%] -translate-x-1/2" />
           <h2 className="absolute left-1/2 top-[1.45%] z-10 flex h-[6.67%] w-[66.39%] -translate-x-1/2 items-center justify-center text-center font-accent text-[clamp(16px,4.5vw,36px)] font-bold uppercase leading-[1.333] lg:text-[calc(var(--u)*36)]">
@@ -191,7 +264,6 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
             className="absolute bottom-[3.36%] left-[4.12%] h-[73.35%] w-[92.16%]"
             slideClassName="absolute bottom-[1%] left-[1.4%] right-[1.4%] top-[16%] overflow-hidden rounded-[10px] border-2 border-cream"
             scales={[1, 0.94, 0.87]}
-            next={{ src: `${assetRoot}/branding-arrow-next.svg`, className: "w-[14.3%]", label: "branding project" }}
             renderSlide={(src, depth) => (
               <>
                 <Image src={src} alt="" fill unoptimized className="object-cover" />
@@ -215,7 +287,6 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
             className="absolute bottom-[3.36%] left-1/2 aspect-[847/611] w-[95.6%] -translate-x-1/2"
             slideClassName="absolute bottom-[1%] left-[0.6%] right-[0.6%] top-[16%] overflow-hidden rounded-[10px] border-2 border-cream"
             scales={[1, 0.97, 0.91]}
-            next={{ src: `${assetRoot}/arrow-next.svg`, className: "w-[7.56%]", label: "project management image" }}
             renderSlide={(src, depth) => (
               <>
                 <Image src={src} alt="" fill unoptimized className="object-cover" />

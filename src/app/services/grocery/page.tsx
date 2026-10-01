@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { ReferenceTopBar } from "@/components/layout/ReferenceTopBar";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { BoothBanner } from "@/components/home/BoothBanner";
@@ -27,6 +27,8 @@ import {
 // Figma "Grocery" frame (node 298:4915): Design/Supply/Build process cards in
 // place of the store-type picker, a sage/sage-dark colourway with cream text
 // throughout the branding and projects sections, and this page's own photos.
+
+export const viewport: Viewport = { viewportFit: "cover", themeColor: "#557256" };
 
 export const metadata: Metadata = {
   title: "Grocery — StoreMaker",

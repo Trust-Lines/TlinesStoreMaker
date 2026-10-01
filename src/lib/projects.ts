@@ -1,4 +1,4 @@
-import { projectCategories, type GalleryProject, type ProjectCategoryId } from "@/lib/content";
+import { projectCategories, projectWorkTypes, type GalleryProject, type ProjectCategoryId, type WorkType } from "@/lib/content";
 import { getSupabase } from "@/lib/supabase";
 
 // Every project on the site comes from Supabase (tables web_projects /
@@ -30,6 +30,7 @@ interface ProjectRow {
   year_built: number | null;
   cover_image_url: string;
   cover_image_alt: string | null;
+  work_types: string[] | null;
   web_project_photos: { id: string; image_url: string; alt: string | null; sort_order: number }[];
   web_project_sections: {
     heading: string | null;
@@ -53,6 +54,7 @@ function toDetail(row: ProjectRow): ProjectDetail | null {
     location: row.location,
     image: row.cover_image_url,
     alt,
+    workTypes: row.work_types ?? [],
     photos: photos.length ? photos : [{ id: `${row.slug}-cover`, image: row.cover_image_url, alt }],
     sections: [...row.web_project_sections]
       .sort((a, b) => a.sort_order - b.sort_order)
@@ -94,9 +96,34 @@ export async function getGalleryProjects(): Promise<GalleryProject[]> {
     location: project.location,
     image: project.image,
     alt: project.alt,
+    workTypes: project.workTypes,
   }));
 }
 
 export async function getProject(slug: string): Promise<ProjectDetail | null> {
   return (await fetchErpProjects()).find((project) => project.id === slug) ?? null;
+}
+
+/**
+ * Work-type tiles for the Projects page. The ERP-managed list (web_work_types) wins
+ * when it has active rows; otherwise the six defaults from content.ts are used.
+ */
+export async function getWorkTypes(): Promise<WorkType[]> {
+  const supabase = getSupabase();
+  if (!supabase) return projectWorkTypes;
+  try {
+    const { data, error } = await supabase
+      .from("web_work_types")
+      .select("slug, label, icon_url")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true });
+    if (error || !data?.length) return projectWorkTypes;
+    return data.map((row: { slug: string; label: string; icon_url: string | null }) => ({
+      id: row.slug,
+      label: row.label,
+      icon: row.icon_url || projectWorkTypes.find((type) => type.id === row.slug)?.icon || "",
+    }));
+  } catch {
+    return projectWorkTypes;
+  }
 }

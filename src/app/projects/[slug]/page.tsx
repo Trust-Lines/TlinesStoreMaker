@@ -6,6 +6,7 @@ import { GetStartedSection } from "@/components/home/GetStartedSection";
 import { ReferenceTopBar } from "@/components/layout/ReferenceTopBar";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ProjectHeroCarousel } from "@/components/projects/ProjectHeroCarousel";
+import { WorkTypeTiles } from "@/components/projects/WorkTypeTiles";
 import { cardTone, toneOfCategory } from "@/components/projects/projectTone";
 import {
   footer,
@@ -13,7 +14,7 @@ import {
   projectCategories,
   projectDetailType,
 } from "@/lib/content";
-import { getGalleryProjects, getProject } from "@/lib/projects";
+import { getGalleryProjects, getProject, getWorkTypes } from "@/lib/projects";
 
 // Project detail page (Figma "Projects" frame, node 261:7803). Projects added
 // from the ERP (Supabase) render their own title, meta and body sections; the
@@ -33,8 +34,10 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
 
 export default async function ProjectDetailPage({ params }: PageProps<"/projects/[slug]">) {
   const { slug } = await params;
-  const [project, galleryProjects] = await Promise.all([getProject(slug), getGalleryProjects()]);
+  const [project, galleryProjects, allWorkTypes] = await Promise.all([getProject(slug), getGalleryProjects(), getWorkTypes()]);
   if (!project) notFound();
+  // The kinds of work this project covered, in the ERP's display order.
+  const workTypes = allWorkTypes.filter((type) => project.workTypes.includes(type.id));
 
   const tone = toneOfCategory(project.category, projectCategories);
   const topBarTone = tone === "gold" ? undefined : tone;
@@ -78,6 +81,9 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
                 ))}
               </div>
 
+              {/* Body on the left; on lg+ the work-type tiles (Figma node 650:10316) sit to its right. */}
+              <div className={workTypes.length ? "flex flex-col lg:flex-row lg:items-start lg:gap-[calc(var(--u)*45)]" : ""}>
+                <div className="min-w-0 flex-1">
               {/* Body sections from the ERP: a section with a photo is text + photo
                   (side alternates), one without is a full-width text block. */}
               {project.sections.map((section, index) => {
@@ -101,6 +107,13 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
                   </div>
                 );
               })}
+                </div>
+                {workTypes.length > 0 && (
+                  <aside className="order-first mt-10 lg:order-last lg:mt-[calc(var(--u)*90)] lg:w-[calc(var(--u)*465)] lg:shrink-0">
+                    <WorkTypeTiles types={workTypes} />
+                  </aside>
+                )}
+              </div>
             </>
           )}
 
