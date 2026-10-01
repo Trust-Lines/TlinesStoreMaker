@@ -7,6 +7,8 @@ export interface BoothBannerProps {
   titleArt: string;
   boothLabel: string;
   boothNumber: string;
+  /** The whole banner links here (opens in a new tab). */
+  boothUrl: string;
   location: string;
   dates: string;
   /** Looping booth animation, 1200 x 600. */
@@ -21,7 +23,8 @@ export interface BoothBannerProps {
  * #2E4539). Left 772px: title art 139px in / 48px down, then the cream booth
  * badge (Vector 215, 291 x 113) 100px lower with the location and dates beside
  * it (34px coral icons, Montserrat 22 / 99.7%, 233px wide). Right 820px: the
- * looping booth animation. Below lg the two halves stack.
+ * looping booth animation. Below lg the two halves stack. The whole banner is one
+ * link to the booth on the NACS floor plan.
  */
 export function BoothBanner({
   exhibitorLine,
@@ -29,6 +32,7 @@ export function BoothBanner({
   titleArt,
   boothLabel,
   boothNumber,
+  boothUrl,
   location,
   dates,
   boothAnimation,
@@ -49,15 +53,17 @@ export function BoothBanner({
   ];
 
   return (
-    <section
-      id="nacs"
-      aria-labelledby="nacs-heading"
-      className="bg-[#2e4539] text-cream lg:grid lg:aspect-[1592/411] lg:grid-cols-[772fr_820fr]"
-    >
+    <section id="nacs" aria-labelledby="nacs-heading" className="bg-[#2e4539] text-cream">
+      <a
+        href={boothUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block outline-offset-[-4px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream lg:grid lg:aspect-[1592/411] lg:grid-cols-[772fr_820fr]"
+      >
       <div className="px-6 pb-10 pt-10 sm:px-10 lg:p-0 lg:pl-[calc(var(--u)*139)] lg:pt-[calc(var(--u)*48)]">
         <h2 id="nacs-heading">
           <span className="sr-only">
-            {exhibitorLine} {showName}
+            {exhibitorLine} {showName} (opens the booth on the floor plan in a new tab)
           </span>
           <Image
             src={titleArt}
@@ -104,6 +110,7 @@ export function BoothBanner({
           <img {...animationProps} alt={animationProps.alt} className="absolute inset-0 h-full w-full object-cover" />
         </picture>
       </div>
+      </a>
     </section>
   );
 }
