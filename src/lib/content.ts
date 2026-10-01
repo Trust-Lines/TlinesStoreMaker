@@ -372,6 +372,8 @@ export const boothBanner = {
   titleArt: "/images/nacs/title.svg",
   boothLabel: "Booth no.",
   boothNumber: "N3276",
+  /** Opens this booth on the NACS 2026 floor plan when the banner is clicked. */
+  boothUrl: "https://nacs26.mapyourshow.com/8_0/floorplan/?selectedBooth=booth%7EN3276",
   location: "Las Vegas Convention Center",
   dates: "October 6-9, 2026",
   /** Looping booth animation (Figma video layer), 1200 x 600, plus its first frame for reduced motion. */
