@@ -175,20 +175,20 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
 
   return (
     <section aria-label="Branding and project management services" className="bg-cream px-5 py-12 sm:px-10 lg:px-0 lg:pb-[calc(var(--u)*144)] lg:pt-[calc(var(--u)*105)]">
-      <div className="mx-auto flex max-w-[1391px] snap-x snap-mandatory items-start gap-5 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:grid lg:w-[calc(var(--u)*1389.5)] lg:grid-cols-[calc(var(--u)*485)_calc(var(--u)*883.5)] lg:gap-[calc(var(--u)*21)] lg:overflow-visible lg:pb-0">
-        <article id={branding.id} className="relative z-10 aspect-[485/833] w-[88vw] max-w-[485px] shrink-0 snap-center rounded-[10px] bg-forest text-cream lg:w-[calc(var(--u)*485)]">
+      <div className="mx-auto flex max-w-[1391px] flex-col items-center gap-6 lg:grid lg:w-[calc(var(--u)*1389.5)] lg:grid-cols-[calc(var(--u)*485)_calc(var(--u)*883.5)] lg:items-start lg:gap-[calc(var(--u)*21)]">
+        <article id={branding.id} className="relative z-10 flex w-full max-w-[560px] flex-col items-center rounded-[10px] bg-forest pb-[5.8%] text-cream lg:block lg:aspect-[485/833] lg:w-[calc(var(--u)*485)] lg:max-w-none lg:pb-0">
           <Image src={`${assetRoot}/branding-ribbon.svg`} alt="" width={362} height={77} unoptimized className="absolute left-1/2 top-0 h-auto w-[74.64%] -translate-x-1/2" />
-          <h2 className="absolute left-1/2 top-[1.45%] z-10 flex h-[6.67%] w-[66.39%] -translate-x-1/2 items-center justify-center text-center font-accent text-[clamp(16px,4.5vw,36px)] font-bold uppercase leading-[1.333] lg:text-[calc(var(--u)*36)]">
+          <h2 className="relative z-10 flex aspect-[362/77] w-[74.64%] items-center justify-center text-center font-accent text-[clamp(18px,5.5vw,36px)] font-bold lg:absolute lg:left-1/2 lg:top-[1.45%] lg:aspect-auto lg:h-[6.67%] lg:w-[66.39%] lg:-translate-x-1/2 uppercase leading-[1.333] lg:text-[calc(var(--u)*36)]">
             <Link href={branding.href} className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream">{branding.title}</Link>
           </h2>
-          <p className="absolute left-1/2 top-[12.1%] z-10 w-[83.51%] -translate-x-1/2 text-center font-display text-[clamp(13px,2.7vw,22px)] font-medium leading-[1.318] lg:text-[calc(var(--u)*22)] lg:leading-[calc(var(--u)*29)]">
+          <p className="relative z-10 mt-4 w-[83.51%] text-center font-display text-[clamp(14px,3.6vw,22px)] lg:absolute lg:left-1/2 lg:top-[12.1%] lg:mt-0 lg:-translate-x-1/2 font-medium leading-[1.318] lg:text-[calc(var(--u)*22)] lg:leading-[calc(var(--u)*29)]">
             {branding.description}
           </p>
 
           {/* Photo stack: 194 from the top, 28 from the bottom, 20 left, 18 right (447 x 611). */}
           <PhotoDeck
             slides={brandingSlides}
-            className="absolute bottom-[3.36%] left-[4.12%] h-[73.35%] w-[92.16%]"
+            className="relative mt-5 aspect-[447/611] w-[92.16%] lg:absolute lg:bottom-[3.36%] lg:left-[4.12%] lg:mt-0 lg:aspect-auto lg:h-[73.35%]"
             slideClassName="absolute bottom-[1%] left-[1.4%] right-[1.4%] top-[16%] overflow-hidden rounded-[10px] border-2 border-cream"
             scales={[1, 0.94, 0.87]}
             next={{ src: `${assetRoot}/branding-arrow-next.svg`, className: "w-[14.3%]", label: "branding project" }}
@@ -201,21 +201,21 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
           />
         </article>
 
-        <article id={management.id} className="relative isolate aspect-[883.5/833] w-[88vw] max-w-[884px] shrink-0 snap-center text-cream lg:w-[calc(var(--u)*883.5)]">
-          <Image src={`${assetRoot}/management-card.svg`} alt="" fill unoptimized className="-z-10" />
+        <article id={management.id} className="relative isolate flex w-full max-w-[560px] flex-col items-center rounded-[10px] bg-[#547255] pb-[5.8%] text-cream lg:block lg:aspect-[883.5/833] lg:w-[calc(var(--u)*883.5)] lg:max-w-none lg:rounded-none lg:bg-transparent lg:pb-0">
+          <Image src={`${assetRoot}/management-card.svg`} alt="" fill unoptimized className="-z-10 hidden lg:block" />
           <Image src={`${assetRoot}/management-ribbon.svg`} alt="" width={602} height={77} unoptimized className="absolute left-1/2 top-0 h-auto w-[68.14%] -translate-x-1/2" />
-          <h2 className="absolute left-1/2 top-[1.45%] z-10 flex h-[6.72%] w-[79.68%] -translate-x-1/2 items-center justify-center text-center font-accent text-[clamp(16px,4.1vw,36px)] font-bold uppercase leading-[1.333] lg:text-[calc(var(--u)*36)]">
+          <h2 className="relative z-10 flex aspect-[602/77] w-[68.14%] items-center justify-center whitespace-nowrap px-2 text-center font-accent text-[clamp(12px,3.6vw,36px)] font-bold lg:absolute lg:left-1/2 lg:top-[1.45%] lg:aspect-auto lg:h-[6.72%] lg:w-[79.68%] lg:-translate-x-1/2 lg:px-0 uppercase leading-[1.333] lg:text-[calc(var(--u)*36)]">
             <Link href={management.href} className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream">{management.title}</Link>
           </h2>
-          <p className="absolute left-1/2 top-[12.1%] z-10 w-[79.68%] -translate-x-1/2 text-center font-display text-[clamp(13px,2.5vw,22px)] font-medium leading-[1.318] lg:text-[calc(var(--u)*22)] lg:leading-[calc(var(--u)*29)]">
+          <p className="relative z-10 mt-4 w-[83.51%] text-center font-display text-[clamp(14px,3.6vw,22px)] lg:absolute lg:left-1/2 lg:top-[12.1%] lg:mt-0 lg:w-[79.68%] lg:-translate-x-1/2 font-medium leading-[1.318] lg:text-[calc(var(--u)*22)] lg:leading-[calc(var(--u)*29)]">
             {management.description}
           </p>
           <PhotoDeck
             slides={managementSlides}
-            className="absolute bottom-[3.36%] left-1/2 aspect-[847/611] w-[95.87%] -translate-x-1/2"
+            className="relative mt-5 aspect-[847/611] w-[92.16%] lg:absolute lg:bottom-[3.36%] lg:left-1/2 lg:mt-0 lg:w-[95.87%] lg:-translate-x-1/2"
             slideClassName="absolute bottom-[1%] left-[0.6%] right-[0.6%] top-[16%] overflow-hidden rounded-[10px] border-2 border-cream"
             scales={[1, 0.97, 0.91]}
-            next={{ src: `${assetRoot}/arrow-next.svg`, className: "w-[7.56%]", label: "project management image" }}
+            next={{ src: `${assetRoot}/arrow-next.svg`, className: "w-[14.3%] lg:w-[7.56%]", label: "project management image" }}
             renderSlide={(src, depth) => (
               <>
                 <Image src={src} alt="" fill unoptimized className="object-cover" />
