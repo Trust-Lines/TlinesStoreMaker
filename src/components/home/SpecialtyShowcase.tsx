@@ -18,6 +18,29 @@ const managementSlides = [
 ];
 
 /**
+ * Figma tints for the slides peeking behind the current one (depth 1 darker, depth 2
+ * lighter). Kept out of the slide images so the front photo is never tinted; the
+ * opacity fades with the slide transition.
+ */
+function SlideTint({ root, depth }: { root: "branding" | "management"; depth: number }) {
+  return (
+    <>
+      {[1, 2].map((level) => (
+        <Image
+          key={level}
+          src={`${assetRoot}/${root}-tint-${level}.svg`}
+          alt=""
+          fill
+          unoptimized
+          className="pointer-events-none transition-opacity duration-500 motion-reduce:transition-none"
+          style={{ opacity: depth === level ? 1 : 0 }}
+        />
+      ))}
+    </>
+  );
+}
+
+/**
  * Asymmetrical Branding / Project Management composition (Figma frame, 1592 wide):
  * Branding card 485 x 833 at x=101, Project Management card 885.5 x 833 20px to its
  * right (100.5px right margin). In both, the photo stack starts 194px below the
@@ -49,21 +72,19 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
               const lift = depth * 38;
 
               return (
-                <Image
+                <div
                   key={src}
-                  src={src}
-                  alt=""
-                  width={445}
-                  height={535}
-                  unoptimized
                   aria-hidden={depth !== 0}
-                  className="absolute bottom-0 left-1/2 h-auto w-[99.55%] rounded-[8px] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+                  className="absolute bottom-0 left-1/2 aspect-[445/534] w-[99.55%] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
                   style={{
                     zIndex: brandingSlides.length - depth,
                     transform: `translateX(-50%) translateY(-${lift}px)`,
                     transformOrigin: "center bottom",
                   }}
-                />
+                >
+                  <Image src={src} alt="" fill unoptimized />
+                  <SlideTint root="branding" depth={depth} />
+                </div>
               );
             })}
             <Image src={`${assetRoot}/branding-frame.svg`} alt="" fill unoptimized className="pointer-events-none z-10" />
@@ -102,6 +123,10 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
                   }}
                 >
                   <Image src={src} alt="" fill unoptimized className="object-cover object-bottom pt-[9.09%]" />
+                  {/* Same 534px box as the photo: 77px top padding = 12.6% of the 611 stack. */}
+                  <div className="absolute inset-x-0 bottom-0 top-[12.6%]">
+                    <SlideTint root="management" depth={depth} />
+                  </div>
                 </div>
               );
             })}
