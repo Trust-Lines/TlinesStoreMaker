@@ -75,7 +75,11 @@ body {
 /* One Figma px on the 1592px frame, shrinking with narrower viewports
    (used as calc(var(--u) * N) for design measurements). */
 :root {
-  --u: min(calc(100vw / 1592), 1px);
+  /* --zoom (set before first paint by the script in layout.tsx) is 1 normally and < 1 when
+     the page is zoomed out to fit a short window; dividing it out keeps one design px = 1px
+     of the zoomed page. */
+  --zoom: 1;
+  --u: min(calc(100vw / var(--zoom) / 1592), 1px);
 }
 
 /* Height of the fixed top bar (ReferenceTopBar). In-page anchors land just

@@ -154,7 +154,7 @@ export function ReferenceTopBar({ tone = "gold" }: ReferenceTopBarProps) {
         // Clicking the dimmed backdrop (outside the panel) closes the drawer.
         if (event.target === event.currentTarget) setOpen(false);
       }}
-      className="side-nav m-0 ml-auto h-dvh max-h-none w-[min(420px,max(60vw,240px))] max-w-none bg-forest p-0 text-cream backdrop:bg-forest-dark/60"
+      className="side-nav m-0 ml-auto h-[calc(100dvh/var(--zoom))] max-h-none w-[min(420px,max(60vw,240px))] max-w-none bg-forest p-0 text-cream backdrop:bg-forest-dark/60"
     >
       <div className="flex h-full flex-col overflow-y-auto overscroll-contain px-[14%] pb-10 pt-5">
         <button

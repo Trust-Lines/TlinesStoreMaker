@@ -28,9 +28,11 @@ export interface HomeHeroProps {
 }
 
 /**
- * Full-bleed hero under the absolutely-positioned ReferenceTopBar. Mobile uses
- * a tall fixed-ish height so the copy never collides with the header; from sm
- * up it follows the Figma frame ratio (1592 x 923).
+ * Full-bleed hero under the absolutely-positioned ReferenceTopBar. Phones and tablets: one
+ * screen tall (small-viewport height, so it fits an iPhone with Safari's toolbar showing).
+ * From lg up it is the Figma frame (1592 x 923 hero over an 80px logo strip); when that is
+ * taller than the window the whole page is zoomed out (see layout.tsx), so the strip is
+ * always in view on the first screen. The copy hangs from the bottom of the photo.
  */
 export function HomeHero({
   heading,
@@ -44,8 +46,8 @@ export function HomeHero({
   badge,
 }: HomeHeroProps) {
   return (
-    <section id="home" aria-labelledby="home-hero-heading" className="relative isolate bg-forest">
-      <div className="relative h-[min(100svh,640px)] min-h-[480px] w-full sm:aspect-[1592/923] sm:h-auto sm:min-h-0">
+    <section id="home" aria-labelledby="home-hero-heading" className="relative isolate flex h-[100svh] min-h-[560px] flex-col bg-forest lg:h-auto lg:min-h-0">
+      <div className="relative min-h-0 w-full flex-1 lg:aspect-[1592/923] lg:flex-none">
         {backgroundVideo ? (
           <video
             id="home-hero-video"
@@ -76,7 +78,7 @@ export function HomeHero({
 
         {/* lg+: Figma heading box at x=121.13, y=560.8 (60.76% of the 923px hero),
             463.6 wide; the button follows below, left-aligned with it. */}
-        <div className="absolute inset-x-0 bottom-0 px-6 pb-10 sm:bottom-[9%] sm:px-[9.5%] sm:pb-0 lg:bottom-auto lg:top-[60.76%] lg:pl-[7.61%] lg:pr-0">
+        <div className="absolute inset-x-0 bottom-0 px-6 pb-10 sm:bottom-[9%] sm:px-[9.5%] sm:pb-0 lg:bottom-[16%] lg:pl-[7.61%] lg:pr-0">
           {badge ? (
             <h1
               id="home-hero-heading"
@@ -90,14 +92,14 @@ export function HomeHero({
           ) : (
             <h1
               id="home-hero-heading"
-              className="max-w-[10.5ch] font-display text-[clamp(2.5rem,5.4vw,5.25rem)] font-semibold uppercase leading-[1.02] tracking-[-0.02em] text-cream lg:w-[min(29.12vw,463.6px)] lg:max-w-none lg:text-[min(3.769vw,60px)] lg:leading-[0.9667] lg:tracking-normal"
+              className="max-w-[10.5ch] font-display text-[clamp(2.5rem,5.4vw,5.25rem)] font-semibold uppercase leading-[1.02] tracking-[-0.02em] text-cream lg:w-[calc(var(--u)*463.6)] lg:max-w-none lg:text-[calc(var(--u)*60)] lg:leading-[0.9667] lg:tracking-normal"
             >
               {phrases && backgroundVideo ? <RotatingHeroHeading phrases={phrases} videoId="home-hero-video" /> : heading}
             </h1>
           )}
           <Link
             href={action.href}
-            className="relative isolate mt-6 inline-flex aspect-[338/67] w-[var(--bw)] items-start justify-center pl-[calc(var(--bw)*57/338)] pr-[calc(var(--bw)*59/338)] pt-[calc(var(--bw)*17/338)] text-center whitespace-nowrap font-display text-[calc(var(--bw)*24/338)] [--bw:clamp(220px,21.23vw,338px)] font-bold leading-none text-cream transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream sm:mt-8"
+            className="relative isolate mt-6 inline-flex aspect-[338/67] w-[var(--bw)] items-start justify-center pl-[calc(var(--bw)*57/338)] pr-[calc(var(--bw)*59/338)] pt-[calc(var(--bw)*17/338)] text-center whitespace-nowrap font-display text-[calc(var(--bw)*24/338)] [--bw:clamp(220px,21.23vw,338px)] lg:[--bw:calc(var(--u)*338)] font-bold leading-none text-cream transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream sm:mt-8"
           >
             {/* Exact Figma button shape (338 x 67). Text: Montserrat 24/24 bold; box inset
                 17 top / 26 bottom / 57 left / 59 right — padding and font derived
@@ -114,7 +116,7 @@ export function HomeHero({
           keep the loop seamless. Sized via --strip-h so it scales per breakpoint. */}
       <p className="sr-only">Clients: {clients.names.join(", ")}</p>
       <div aria-hidden className={`brand-marquee overflow-hidden ${stripBgClass}`}>
-        <div className="brand-marquee-track flex h-[var(--strip-h)] w-max items-center [--strip-h:44px] sm:[--strip-h:56px] lg:[--strip-h:80px]" style={{ animationDuration: "90s" }}>
+        <div className="brand-marquee-track flex h-[var(--strip-h)] w-max items-center [--strip-h:44px] sm:[--strip-h:56px] lg:[--strip-h:calc(var(--u)*80)]" style={{ animationDuration: "90s" }}>
           {[0, 1].map((copy) => (
             <Image
               key={copy}
