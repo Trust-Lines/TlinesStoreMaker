@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { MobileProjectRows } from "./MobileProjectRows";
 import { RotatingServiceTiles, type ServiceTypeTile } from "./RotatingServiceTiles";
 
 /**
@@ -129,23 +130,23 @@ export function ProjectsGrid({
         </h2>
       </Link>
 
-      {/* Below lg: wide / pair rows. */}
-      <div className="mx-auto flex max-w-[640px] flex-col gap-2.5 lg:hidden">
-        {mobileRows.map((row) => (
-          <ul key={row.map((ref) => ref.id).join("+")} className="flex gap-2.5">
-            {row.map((ref) => {
-              const tile = byId.get(ref.id);
-              if (!tile || tile.placeholder) return null;
-              const ratio = ref.ratio ?? tile.w / tile.h;
-              return (
-                <li key={ref.id} className="relative min-w-0" style={{ flex: `${ratio} 1 0%`, aspectRatio: ratio }}>
-                  {tileLink(tile, ref.mask ?? tile.mask, row.length > 1 ? "50vw" : "100vw")}
-                </li>
-              );
-            })}
-          </ul>
-        ))}
-      </div>
+      {/* Below lg: wide / pair rows, with the same rotating store-type labels. */}
+      <MobileProjectRows
+        rotatingItems={rotatingItems}
+        rows={mobileRows.map((row) =>
+          row.flatMap((ref) => {
+            const tile = byId.get(ref.id);
+            if (!tile || tile.placeholder) return [];
+            const mask = ref.mask ?? tile.mask;
+            return [{
+              id: ref.id,
+              ratio: ref.ratio ?? tile.w / tile.h,
+              shapeMask: ref.mask ?? TILE_SHAPE_MASKS[tile.id] ?? tile.mask,
+              node: tileLink(tile, mask, row.length > 1 ? "50vw" : "100vw"),
+            }];
+          }),
+        )}
+      />
 
       {/* lg+: every tile at its Figma position. */}
       <ul className="absolute inset-0 hidden lg:block">
