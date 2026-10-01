@@ -228,7 +228,27 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
 
   return (
     <section aria-label="Branding and project management services" className="bg-cream px-5 py-12 sm:px-10 lg:px-0 lg:pb-[calc(var(--u)*80)] lg:pt-[calc(var(--u)*95)]">
-      <div className="mx-auto flex max-w-[1391px] snap-x snap-mandatory items-start gap-5 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:grid lg:w-[calc(var(--u)*1390.5)] lg:grid-cols-[calc(var(--u)*485)_calc(var(--u)*885.5)] lg:gap-[calc(var(--u)*20)] lg:overflow-visible lg:pb-0">
+      {/* Below lg: the two landscape phone cards (Figma nodes 657:7167 / 657:7170, 874 x 663). */}
+      <div className="mx-auto flex max-w-[640px] flex-col gap-5 lg:hidden">
+        <MobileSpecialtyCard
+          card={branding}
+          side="left"
+          slides={brandingSlides}
+          cardSrc={`${mobileRoot}/branding-card.svg`}
+          ribbonSrc={`${mobileRoot}/branding-ribbon.svg`}
+          root="branding"
+        />
+        <MobileSpecialtyCard
+          card={management}
+          side="right"
+          slides={managementSlides}
+          cardSrc={`${mobileRoot}/management-card.svg`}
+          ribbonSrc={`${mobileRoot}/management-ribbon.svg`}
+          root="management"
+        />
+      </div>
+
+      <div className="mx-auto hidden max-w-[1391px] items-start lg:grid lg:w-[calc(var(--u)*1390.5)] lg:grid-cols-[calc(var(--u)*485)_calc(var(--u)*885.5)] lg:gap-[calc(var(--u)*20)] lg:overflow-visible lg:pb-0">
         <article id={branding.id} className="relative z-10 aspect-[485/833] w-[88vw] max-w-[485px] shrink-0 snap-center rounded-[10px] bg-forest text-cream lg:w-[calc(var(--u)*485)]">
           <Image src={`${assetRoot}/branding-ribbon.svg`} alt="" width={362} height={77} unoptimized className="absolute left-1/2 top-0 h-auto w-[74.64%] -translate-x-1/2" />
           <h2 className="relative z-10 flex aspect-[362/77] w-[74.64%] items-center justify-center text-center font-accent text-[clamp(18px,5.5vw,36px)] font-bold lg:absolute lg:left-1/2 lg:top-[1.45%] lg:aspect-auto lg:h-[6.67%] lg:w-[66.39%] lg:-translate-x-1/2 uppercase leading-[1.333] lg:text-[calc(var(--u)*36)]">
@@ -267,7 +287,6 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
             className="relative mt-5 aspect-[847/611] w-[92.16%] lg:absolute lg:bottom-[3.36%] lg:left-1/2 lg:mt-0 lg:w-[95.87%] lg:-translate-x-1/2"
             slideClassName="absolute bottom-[1%] left-[0.6%] right-[0.6%] top-[16%] overflow-hidden rounded-[10px] border-2 border-cream"
             scales={[1, 0.97, 0.91]}
-            next={{ src: `${assetRoot}/arrow-next.svg`, className: "w-[7.56%]", label: "project management image" }}
             renderSlide={(src, depth) => (
               <>
                 <Image src={src} alt="" fill unoptimized className="object-cover" />
