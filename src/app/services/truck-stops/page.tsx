@@ -52,7 +52,7 @@ export default function TruckStopsPage() {
         />
         <ServiceCardsSection cards={truckStopsProcessCards} />
         <BoothBanner {...boothBanner} />
-        <SpecialtyCardsSection cards={truckStopsSpecialtyCards} />
+        <SpecialtyCardsSection cards={truckStopsSpecialtyCards} palette="truck" />
         <ProjectsGallery
           title={featuredProjects.title}
           bgClass="bg-coral"

@@ -51,7 +51,7 @@ export default function GroceryPage() {
         />
         <ServiceCardsSection cards={groceryProcessCards} />
         <BoothBanner {...boothBanner} />
-        <SpecialtyCardsSection cards={grocerySpecialtyCards} />
+        <SpecialtyCardsSection cards={grocerySpecialtyCards} palette="grocery" />
         <ProjectsGallery
           title={featuredProjects.title}
           bgClass="bg-sage-dark"

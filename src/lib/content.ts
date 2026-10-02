@@ -45,6 +45,35 @@ export const homeHero = {
   },
 };
 
+// C-store hero client logos (Figma "Frame 427319136", #547255 logos on the gold
+// #F7C56B bar): individual exports at Figma size, laid out 1341 apart and centred in
+// a 1571-tall row (200 padding above/below the tallest, 1171-tall logo).
+export const cStoreClientLogos = [
+  { src: "/images/figma/clients/logos/client-01.svg", width: 1389, height: 496 },
+  { src: "/images/figma/clients/logos/client-02.svg", width: 985, height: 1136 },
+  { src: "/images/figma/clients/logos/client-03.svg", width: 1969, height: 485 },
+  { src: "/images/figma/clients/logos/client-04.svg", width: 1079, height: 1171 },
+  { src: "/images/figma/clients/logos/client-05.svg", width: 1837, height: 566 },
+  { src: "/images/figma/clients/logos/client-06.svg", width: 1742, height: 836 },
+  { src: "/images/figma/clients/logos/client-07.svg", width: 1364, height: 1032 },
+  { src: "/images/figma/clients/logos/client-08.svg", width: 1474, height: 526 },
+  { src: "/images/figma/clients/logos/client-09.svg", width: 1047, height: 990 },
+  { src: "/images/figma/clients/logos/client-10.svg", width: 1195, height: 593 },
+  { src: "/images/figma/clients/logos/client-11.svg", width: 1781, height: 433 },
+  { src: "/images/figma/clients/logos/client-12.svg", width: 1620, height: 790 },
+  { src: "/images/figma/clients/logos/client-13.svg", width: 1562, height: 792 },
+  { src: "/images/figma/clients/logos/client-14.svg", width: 1902, height: 384 },
+  { src: "/images/figma/clients/logos/client-15.svg", width: 905, height: 642 },
+  { src: "/images/figma/clients/logos/client-16.svg", width: 1097, height: 552 },
+  { src: "/images/figma/clients/logos/client-17.svg", width: 1214, height: 355 },
+  { src: "/images/figma/clients/logos/client-18.svg", width: 1046, height: 804 },
+  { src: "/images/figma/clients/logos/client-19.svg", width: 1153, height: 491 },
+  { src: "/images/figma/clients/logos/client-20.svg", width: 2847, height: 590 },
+  { src: "/images/figma/clients/logos/client-21.svg", width: 2084, height: 620 },
+  { src: "/images/figma/clients/logos/client-22.svg", width: 1360, height: 1041 },
+  { src: "/images/figma/clients/logos/client-23.svg", width: 717, height: 898 },
+];
+
 // Homepage store-type cards (Figma "Vector" 381.593 x 743.425): short bullet
 // lists, Montserrat 22/36 medium.
 export const serviceCards = [
@@ -253,6 +282,7 @@ export const specialtyCards = [
 export const cStoreSpecialtyCards = [
   {
     id: "branding",
+    showcase: true,
     eyebrow: "Project",
     title: "Branding",
     href: "/#contact",
@@ -270,6 +300,7 @@ export const cStoreSpecialtyCards = [
   },
   {
     id: "management",
+    showcase: true,
     eyebrow: "Project",
     title: "Management",
     href: "/#contact",
@@ -292,6 +323,7 @@ export const cStoreSpecialtyCards = [
 export const truckStopsSpecialtyCards = [
   {
     id: "branding",
+    showcase: true,
     eyebrow: "Project",
     title: "Branding",
     href: "/#contact",
@@ -309,6 +341,7 @@ export const truckStopsSpecialtyCards = [
   },
   {
     id: "management",
+    showcase: true,
     eyebrow: "Project",
     title: "Management",
     href: "/#contact",
@@ -331,6 +364,7 @@ export const truckStopsSpecialtyCards = [
 export const grocerySpecialtyCards = [
   {
     id: "branding",
+    showcase: true,
     eyebrow: "Project",
     title: "Branding",
     href: "/#contact",
@@ -348,6 +382,7 @@ export const grocerySpecialtyCards = [
   },
   {
     id: "management",
+    showcase: true,
     eyebrow: "Project",
     title: "Management",
     href: "/#contact",

@@ -11,8 +11,11 @@ export interface HomeHeroProps {
   backgroundVideo?: string;
   imageAlt: string;
   action: { label: string; href: string };
-  /** Client logo strip exported from Figma, plus the client names for screen readers. */
-  clients: { src: string; width: number; height: number; names: string[] };
+  /**
+   * Client logo strip exported from Figma, plus the client names for screen readers.
+   * `logos` (individual exports at Figma size) replaces the single strip image.
+   */
+  clients: { src: string; width: number; height: number; names: string[]; logos?: { src: string; width: number; height: number }[] };
   /** Tailwind bg class for the client-strip bar. Defaults to sage-dark. */
   stripBgClass?: string;
   /** Service-page hero (Figma node 353:8060): a ribbon badge with the store name, in place of `heading`; also recolours the button below it. */
@@ -117,17 +120,37 @@ export function HomeHero({
       <p className="sr-only">Clients: {clients.names.join(", ")}</p>
       <div aria-hidden className={`brand-marquee overflow-hidden ${stripBgClass}`}>
         <div className="brand-marquee-track flex h-[var(--strip-h)] w-max items-center [--strip-h:44px] sm:[--strip-h:56px] lg:[--strip-h:calc(var(--u)*80)]" style={{ animationDuration: "90s" }}>
-          {[0, 1].map((copy) => (
-            <Image
-              key={copy}
-              src={clients.src}
-              alt=""
-              width={clients.width}
-              height={clients.height}
-              unoptimized
-              className="h-[var(--strip-h)] w-auto max-w-none shrink-0 mr-[calc(var(--strip-h)*35/102)]"
-            />
-          ))}
+          {[0, 1].map((copy) =>
+            clients.logos ? (
+              // Figma row: 1571 tall (200 padding around the 1171-tall logo), logos
+              // 1341 apart; every size is that fraction of --strip-h. Each copy ends
+              // with the same gap so the loop stays seamless.
+              <div key={copy} className="flex h-full shrink-0 items-center gap-[calc(var(--strip-h)*1341/1571)] pr-[calc(var(--strip-h)*1341/1571)]">
+                {clients.logos.map((logo) => (
+                  <Image
+                    key={logo.src}
+                    src={logo.src}
+                    alt=""
+                    width={logo.width}
+                    height={logo.height}
+                    unoptimized
+                    className="w-auto max-w-none shrink-0"
+                    style={{ height: `calc(var(--strip-h) * ${logo.height} / 1571)` }}
+                  />
+                ))}
+              </div>
+            ) : (
+              <Image
+                key={copy}
+                src={clients.src}
+                alt=""
+                width={clients.width}
+                height={clients.height}
+                unoptimized
+                className="h-[var(--strip-h)] w-auto max-w-none shrink-0 mr-[calc(var(--strip-h)*35/102)]"
+              />
+            ),
+          )}
         </div>
       </div>
     </section>

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion, type TargetAndTransition, type Transition } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion, type TargetAndTransition, type Transition } from "framer-motion";
 import { useEffect, useState, type ReactNode } from "react";
 import type { SpecialtyCardData } from "./SpecialtyCard";
 
@@ -73,13 +73,13 @@ function deckMotion(depth: number, count: number, dir: Direction, scales: readon
  * lighter). Kept out of the slide images so the front photo is never tinted; the
  * opacity fades with the slide transition.
  */
-function SlideTint({ root, depth }: { root: "branding" | "management"; depth: number }) {
+function SlideTint({ prefix, depth }: { prefix: string; depth: number }) {
   return (
     <>
       {[1, 2].map((level) => (
         <Image
           key={level}
-          src={`${assetRoot}/${root}-tint-${level}.svg`}
+          src={`${prefix}-${level}.svg`}
           alt=""
           fill
           unoptimized
@@ -162,20 +162,24 @@ function MobileSpecialtyCard({
   slides,
   cardSrc,
   ribbonSrc,
-  root,
+  tintPrefix,
+  textClass,
+  pointsClass,
 }: {
   card: SpecialtyCardData;
   side: "left" | "right";
   slides: string[];
   cardSrc: string;
   ribbonSrc: string;
-  root: "branding" | "management";
+  tintPrefix: string;
+  textClass: string;
+  pointsClass: string;
 }) {
   const left = side === "left";
   const heading = card.title.replace(/^project\s+/i, "");
 
   return (
-    <article id={`${card.id}-mobile`} className="relative aspect-[874/663] w-full text-cream [container-type:inline-size]">
+    <article id={`${card.id}-mobile`} className={`relative aspect-[874/663] w-full ${textClass} [container-type:inline-size]`}>
       <span aria-hidden className={`absolute ${left ? "inset-[1.36%_0.8%_1.21%_1.37%]" : "inset-[1.06%_0.81%]"}`}>
         <Image src={cardSrc} alt="" fill unoptimized />
       </span>
@@ -193,7 +197,7 @@ function MobileSpecialtyCard({
       </h2>
 
       <ul
-        className={`absolute top-[36%] w-[33.7%] list-disc pl-[4.1cqw] font-display text-[max(11px,2.75cqw)] font-medium leading-[1.05] marker:text-cream ${left ? "left-[5.4%]" : "left-[60.8%]"}`}
+        className={`absolute top-[36%] w-[calc(24.83%+4.1cqw)] list-disc pl-[4.1cqw] font-display text-[max(11px,2.746cqw)] font-medium leading-[1.2083] marker:text-current ${pointsClass} ${left ? "left-[5.4%]" : "left-[60.8%]"}`}
       >
         {card.points.map((point) => (
           <li key={point} className="mb-[2.06cqw]">
@@ -210,7 +214,7 @@ function MobileSpecialtyCard({
         renderSlide={(src, depth) => (
           <>
             <Image src={src} alt="" fill unoptimized className="object-cover" />
-            <SlideTint root={root} depth={depth} />
+            <SlideTint prefix={tintPrefix} depth={depth} />
           </>
         )}
       />
@@ -223,30 +227,54 @@ const cardPct = (value: number, of: number) => `${(value / of) * 100}%`;
 const CARD_H = 692;
 
 /**
- * The strip of bullet points that runs across a desktop card (Figma 685:11222 / 685:11235):
- * 43px tall, 24px Montserrat Medium, 50px between points, 20px side padding. The list is
- * doubled and slid by half its width (the site's .brand-marquee), so it loops without a
- * jump; hovering pauses it and reduced-motion visitors get it still.
+ * The card's bullet points as a slideshow: one point at a time, plain text in the card's
+ * title colour (no band or pill behind it), centred where the old full-width strip sat
+ * (148px down, 43px tall, 24px Montserrat Medium). It fades to the next point every 3 s, so no point is
+ * ever cut off at the card edge. Screen readers get the whole list; visitors who prefer
+ * reduced motion see the points swap without the fade.
  */
-function PointsMarquee({ points, bgClass, duration }: { points: string[]; bgClass: string; duration: string }) {
+function PointsSlideshow({ points, cardWidth, size = 24, className }: { points: string[]; cardWidth: number; size?: number; className: string }) {
+  const [index, setIndex] = useState(0);
+  const reduceMotion = useReducedMotion() ?? false;
+  const items = points.map((point) => point.replace(/\*\*/g, ""));
+  const count = items.length;
+  // At 24px a character averages ~13.8 design px (scaled for other sizes); the bullet adds
+  // ~20px and the text keeps 20px clear of each card edge. A point longer than that budget
+  // is set smaller so it still fits on one line (e.g. "Communication and progress updates"
+  // on the 485 card).
+  const charBudget = (cardWidth - 40 - 20) / ((13.8 * size) / 24);
+  const fontPx = (text: string) => size * Math.min(1, charBudget / text.length);
+
+  useEffect(() => {
+    if (count < 2) return;
+    const timer = setInterval(() => setIndex((current) => (current + 1) % count), SLIDE_INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, [count]);
+
   return (
     <div
-      className={`brand-marquee absolute inset-x-0 overflow-hidden font-display font-medium text-cream ${bgClass}`}
-      style={{ top: cardPct(148, CARD_H), height: cardPct(43, CARD_H), fontSize: "calc(var(--u) * 24)" }}
+      className={`absolute inset-x-0 flex items-center justify-center font-display font-medium ${className}`}
+      style={{ top: cardPct(148, CARD_H), height: cardPct(43, CARD_H), fontSize: `calc(var(--u) * ${size})` }}
     >
-      <ul aria-label="What is included" className="brand-marquee-track flex h-full w-max items-center" style={{ animationDuration: duration }}>
-        {[0, 1].map((copy) =>
-          points.map((point) => (
-            <li
-              key={`${copy}-${point}`}
-              aria-hidden={copy === 1 || undefined}
-              className="flex shrink-0 items-center whitespace-nowrap pl-[calc(var(--u)*36)] pr-[calc(var(--u)*50)] leading-[1.21] before:mr-[calc(var(--u)*14)] before:size-[calc(var(--u)*6)] before:shrink-0 before:rounded-full before:bg-cream before:content-['']"
-            >
-              {point.replace(/\*\*/g, "")}
-            </li>
-          )),
-        )}
+      <ul className="sr-only">
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
       </ul>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={items[index]}
+          aria-hidden
+          className="flex h-full items-center whitespace-nowrap leading-[1.21] before:mr-[calc(var(--u)*14)] before:size-[calc(var(--u)*6)] before:shrink-0 before:rounded-full before:bg-current before:content-['']"
+          initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduceMotion ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, y: -6 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          style={{ fontSize: `calc(var(--u) * ${fontPx(items[index]).toFixed(2)})` }}
+        >
+          {items[index]}
+        </motion.span>
+      </AnimatePresence>
     </div>
   );
 }
@@ -293,24 +321,28 @@ interface DesktopCardProps {
   ribbon: { src: string; x: number; w: number };
   /** "PROJECT / HEADING" text box, design px. */
   textBox: { x: number; w: number };
-  stripClass: string;
-  stripDuration: string;
+  /** Text colour of the "PROJECT / HEADING" title. */
+  textClass: string;
+  /** Text colour of the points under the ribbon (they sit on the card colour). */
+  pointsClass: string;
+  /** Points font size in design px (24 by default). */
+  pointsSize?: number;
   /** One or more photos (design px box); several rotate every 3 s. */
   photo: { photos: { src: string; alt: string }[]; x: number; w: number };
 }
 
 /**
  * Desktop Branding / Project Management card (Figma frame 685:11257, 692px tall): coral
- * ribbon with "PROJECT" over the name, the running points strip 148px down, and a
+ * ribbon with "PROJECT" over the name, the points pill (one point at a time) 148px down, and a
  * 453px-tall photo frame from 214px down (several photos take turns in it). Everything is placed in % of the card, which is itself
  * sized in --u, so the card scales as one piece.
  */
-function DesktopSpecialtyCard({ card, width, cardSrc, ribbon, textBox, stripClass, stripDuration, photo }: DesktopCardProps) {
+function DesktopSpecialtyCard({ card, width, cardSrc, ribbon, textBox, textClass, pointsClass, pointsSize, photo }: DesktopCardProps) {
   const heading = card.title.replace(/^project\s+/i, "");
   return (
     <article
       id={card.id}
-      className="relative shrink-0 text-cream"
+      className={`relative shrink-0 ${textClass}`}
       style={{ width: `calc(var(--u) * ${width})`, aspectRatio: `${width} / ${CARD_H}` }}
     >
       <Image src={cardSrc} alt="" fill unoptimized className="pointer-events-none" />
@@ -328,7 +360,7 @@ function DesktopSpecialtyCard({ card, width, cardSrc, ribbon, textBox, stripClas
         </Link>
       </h2>
 
-      <PointsMarquee points={card.points} bgClass={stripClass} duration={stripDuration} />
+      <PointsSlideshow points={card.points} cardWidth={width} size={pointsSize} className={pointsClass} />
 
       <span className="absolute" style={{ left: cardPct(photo.x, width), width: cardPct(photo.w, width), top: cardPct(214, CARD_H), height: cardPct(453, CARD_H) }}>
         <PhotoCrossfade photos={photo.photos} sizes="(min-width: 1024px) 60vw, 100vw" />
@@ -337,15 +369,115 @@ function DesktopSpecialtyCard({ card, width, cardSrc, ribbon, textBox, stripClas
   );
 }
 
+const cstoreRoot = "/images/figma/specialty/cstore";
+const truckRoot = "/images/figma/specialty/truck";
+const groceryRoot = "/images/figma/specialty/grocery";
+
+/**
+ * Card art and colours per page. "home": the homepage greens. "cstore" (C-store page):
+ * coral Branding card with a gold ribbon (#547255 title, cream points); gold Project
+ * Management card with a coral ribbon (cream title, #547255 points).
+ * "truck" (Truck Stops page): sage Branding card with a coral ribbon; coral Project
+ * Management card with a sage ribbon; cream text throughout.
+ * "grocery" (Grocery page): olive #939878 Branding card with a sage #557256 ribbon; sage
+ * Project Management card with an olive ribbon; cream text throughout.
+ * Same shapes, photos and layout as the homepage.
+ */
+const palettes = {
+  home: {
+    branding: {
+      desktopCard: `${desktopRoot}/branding-card.svg`,
+      desktopRibbon: `${desktopRoot}/branding-ribbon.svg`,
+      mobileCard: `${mobileRoot}/branding-card.svg`,
+      mobileRibbon: `${mobileRoot}/branding-ribbon.svg`,
+      tint: `${assetRoot}/branding-tint`,
+      text: "text-cream",
+      points: "text-cream",
+    },
+    management: {
+      desktopCard: `${desktopRoot}/management-card.svg`,
+      desktopRibbon: `${desktopRoot}/management-ribbon.svg`,
+      mobileCard: `${mobileRoot}/management-card.svg`,
+      mobileRibbon: `${mobileRoot}/management-ribbon.svg`,
+      tint: `${assetRoot}/management-tint`,
+      text: "text-cream",
+      points: "text-cream",
+    },
+  },
+  cstore: {
+    branding: {
+      desktopCard: `${cstoreRoot}/desktop-branding-card.svg`,
+      desktopRibbon: `${cstoreRoot}/desktop-branding-ribbon.svg`,
+      mobileCard: `${cstoreRoot}/mobile-branding-card.svg`,
+      mobileRibbon: `${cstoreRoot}/mobile-branding-ribbon.svg`,
+      tint: `${cstoreRoot}/branding-tint`,
+      text: "text-[#547255]",
+      points: "text-cream",
+    },
+    management: {
+      desktopCard: `${cstoreRoot}/desktop-management-card.svg`,
+      desktopRibbon: `${cstoreRoot}/desktop-management-ribbon.svg`,
+      mobileCard: `${cstoreRoot}/mobile-management-card.svg`,
+      mobileRibbon: `${cstoreRoot}/mobile-management-ribbon.svg`,
+      tint: `${cstoreRoot}/management-tint`,
+      text: "text-cream",
+      points: "text-[#547255]",
+    },
+  },
+  truck: {
+    branding: {
+      desktopCard: `${truckRoot}/desktop-branding-card.svg`,
+      desktopRibbon: `${truckRoot}/desktop-branding-ribbon.svg`,
+      mobileCard: `${truckRoot}/mobile-branding-card.svg`,
+      mobileRibbon: `${truckRoot}/mobile-branding-ribbon.svg`,
+      tint: `${truckRoot}/branding-tint`,
+      text: "text-cream",
+      points: "text-cream",
+    },
+    management: {
+      desktopCard: `${truckRoot}/desktop-management-card.svg`,
+      desktopRibbon: `${truckRoot}/desktop-management-ribbon.svg`,
+      mobileCard: `${truckRoot}/mobile-management-card.svg`,
+      mobileRibbon: `${truckRoot}/mobile-management-ribbon.svg`,
+      tint: `${truckRoot}/management-tint`,
+      text: "text-cream",
+      points: "text-cream",
+    },
+  },
+  grocery: {
+    branding: {
+      desktopCard: `${groceryRoot}/desktop-branding-card.svg`,
+      desktopRibbon: `${groceryRoot}/desktop-branding-ribbon.svg`,
+      mobileCard: `${groceryRoot}/mobile-branding-card.svg`,
+      mobileRibbon: `${groceryRoot}/mobile-branding-ribbon.svg`,
+      tint: `${groceryRoot}/branding-tint`,
+      text: "text-cream",
+      points: "text-cream",
+    },
+    management: {
+      desktopCard: `${groceryRoot}/desktop-management-card.svg`,
+      desktopRibbon: `${groceryRoot}/desktop-management-ribbon.svg`,
+      mobileCard: `${groceryRoot}/mobile-management-card.svg`,
+      mobileRibbon: `${groceryRoot}/mobile-management-ribbon.svg`,
+      tint: `${groceryRoot}/management-tint`,
+      text: "text-cream",
+      points: "text-cream",
+    },
+  },
+} as const;
+
+export type ShowcasePalette = keyof typeof palettes;
+
 /**
  * Branding / Project Management section. From lg up it is the Figma frame 685:11257:
  * Project Management (485 x 692) on the left, Branding (885.5 x 692) on the right, 20px
- * apart (1390.5 wide, centred), each with its running points strip. Below lg it is the two
+ * apart (1390.5 wide, centred), each with its points pill. Below lg it is the two
  * landscape phone cards (Figma nodes 657:7167 / 657:7170).
  */
-export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
+export function SpecialtyShowcase({ cards, palette = "home" }: { cards: SpecialtyCardData[]; palette?: ShowcasePalette }) {
   const branding = cards.find((card) => card.id === "branding") ?? cards[0];
   const management = cards.find((card) => card.id === "management") ?? cards[1];
+  const colors = palettes[palette];
 
   return (
     <section aria-label="Branding and project management services" className="bg-cream px-5 py-12 sm:px-10 lg:px-0 lg:pb-[calc(var(--u)*80)] lg:pt-[calc(var(--u)*95)]">
@@ -355,17 +487,21 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
           card={branding}
           side="left"
           slides={brandingSlides}
-          cardSrc={`${mobileRoot}/branding-card.svg`}
-          ribbonSrc={`${mobileRoot}/branding-ribbon.svg`}
-          root="branding"
+          cardSrc={colors.branding.mobileCard}
+          ribbonSrc={colors.branding.mobileRibbon}
+          tintPrefix={colors.branding.tint}
+          textClass={colors.branding.text}
+          pointsClass={colors.branding.points}
         />
         <MobileSpecialtyCard
           card={management}
           side="right"
           slides={managementSlides}
-          cardSrc={`${mobileRoot}/management-card.svg`}
-          ribbonSrc={`${mobileRoot}/management-ribbon.svg`}
-          root="management"
+          cardSrc={colors.management.mobileCard}
+          ribbonSrc={colors.management.mobileRibbon}
+          tintPrefix={colors.management.tint}
+          textClass={colors.management.text}
+          pointsClass={colors.management.points}
         />
       </div>
 
@@ -373,11 +509,11 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
         <DesktopSpecialtyCard
           card={management}
           width={485}
-          cardSrc={`${desktopRoot}/management-card.svg`}
-          ribbon={{ src: `${desktopRoot}/management-ribbon.svg`, x: 64.5, w: 362 }}
+          cardSrc={colors.management.desktopCard}
+          ribbon={{ src: colors.management.desktopRibbon, x: 64.5, w: 362 }}
           textBox={{ x: 86, w: 314 }}
-          stripClass="bg-sage-dark"
-          stripDuration="32s"
+          textClass={colors.management.text}
+          pointsClass={colors.management.points}
           photo={{
             photos: [
               { src: `${desktopRoot}/management-photo.webp`, alt: "Blueprints laid over shelving in a finished store" },
@@ -391,11 +527,12 @@ export function SpecialtyShowcase({ cards }: { cards: SpecialtyCardData[] }) {
         <DesktopSpecialtyCard
           card={branding}
           width={885.5}
-          cardSrc={`${desktopRoot}/branding-card.svg`}
-          ribbon={{ src: `${desktopRoot}/branding-ribbon.svg`, x: 242, w: 402 }}
+          cardSrc={colors.branding.desktopCard}
+          ribbon={{ src: colors.branding.desktopRibbon, x: 242, w: 402 }}
           textBox={{ x: 286, w: 314 }}
-          stripClass="bg-[#2e4539]"
-          stripDuration="28s"
+          textClass={colors.branding.text}
+          pointsClass={colors.branding.points}
+          pointsSize={28}
           photo={{
             photos: [
               { src: `${desktopRoot}/branding-photo-prince.webp`, alt: "Prince Market storefront and its brand board" },

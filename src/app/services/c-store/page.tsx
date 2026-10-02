@@ -10,6 +10,7 @@ import { ServiceCardsSection } from "@/components/home/ServiceCardsSection";
 import { SpecialtyCardsSection } from "@/components/home/SpecialtyCardsSection";
 import {
   boothBanner,
+  cStoreClientLogos,
   cStoreProcessCards,
   cStoreProjectsLayout,
   cStoreProjectTiles,
@@ -41,12 +42,13 @@ export default function CStorePage() {
           {...homeHero}
           backgroundImage="/images/figma/cstore-hero.webp"
           imageAlt="Teddy’s Market c-store interior with blue ceiling baffles and candy aisles"
+          clients={{ ...homeHero.clients, logos: cStoreClientLogos }}
           stripBgClass="bg-gold"
           badge={{ label: "C-Store" }}
         />
         <ServiceCardsSection cards={cStoreProcessCards} />
         <BoothBanner {...boothBanner} />
-        <SpecialtyCardsSection cards={cStoreSpecialtyCards} />
+        <SpecialtyCardsSection cards={cStoreSpecialtyCards} palette="cstore" />
         <ProjectsGallery
           title={featuredProjects.title}
           bgClass="bg-gold"

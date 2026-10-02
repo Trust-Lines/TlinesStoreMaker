@@ -1,13 +1,15 @@
 import { SpecialtyCard, type SpecialtyCardData } from "./SpecialtyCard";
-import { SpecialtyShowcase } from "./SpecialtyShowcase";
+import { SpecialtyShowcase, type ShowcasePalette } from "./SpecialtyShowcase";
 
 export interface SpecialtyCardsSectionProps {
   cards: SpecialtyCardData[];
+  /** Colourway for the homepage-style showcase. Defaults to the homepage greens. */
+  palette?: ShowcasePalette;
 }
 
-export function SpecialtyCardsSection({ cards }: SpecialtyCardsSectionProps) {
+export function SpecialtyCardsSection({ cards, palette }: SpecialtyCardsSectionProps) {
   if (cards.length === 2 && cards.every((card) => card.showcase)) {
-    return <SpecialtyShowcase cards={cards} />;
+    return <SpecialtyShowcase cards={cards} palette={palette} />;
   }
 
   return (
