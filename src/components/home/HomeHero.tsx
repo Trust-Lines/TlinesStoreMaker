@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { RotatingHeroHeading, type HeroPhrase } from "./RotatingHeroHeading";
 
 export interface HomeHeroProps {
@@ -85,7 +86,12 @@ export function HomeHero({
           {badge ? (
             <h1
               id="home-hero-heading"
-              className={`relative isolate flex aspect-[938.227/162.975] w-[240px] items-center justify-start pb-[2%] pl-[13%] font-accent text-[clamp(1.5rem,3.4vw,3rem)] font-bold uppercase leading-none tracking-[0.04em] lg:w-[clamp(280px,59.05vw,940px)] lg:pl-[38%] lg:[transform:translateX(calc(min(36vw,573px)*-1))] ${badge.textClass ?? "text-gold"}`}
+              // Below lg the badge is --bw wide (240px on phones, growing to 360px on tablets) and
+              // its padding / type are fractions of --bw — plain % padding would resolve against the
+              // hero column and push the word onto the ribbon's tip. Longer labels ("Truck Stops")
+              // get proportionally smaller type so they always fit between the ends.
+              className={`relative isolate flex aspect-[938.227/162.975] w-[var(--bw)] items-center justify-start pb-[calc(var(--bw)*0.02)] pl-[calc(var(--bw)*0.13)] pr-[calc(var(--bw)*0.1)] font-accent text-[length:calc(var(--bw)*var(--badge-k))] font-bold uppercase leading-none tracking-[0.04em] whitespace-nowrap [--bw:clamp(240px,42vw,360px)] lg:w-[clamp(280px,59.05vw,940px)] lg:pb-[2%] lg:pl-[38%] lg:pr-0 lg:text-[clamp(1.5rem,3.4vw,3rem)] lg:[transform:translateX(calc(min(36vw,573px)*-1))] ${badge.textClass ?? "text-gold"}`}
+              style={{ "--badge-k": Math.min(0.11, 0.77 / (badge.label.length * 0.9)).toFixed(4) } as CSSProperties}
             >
               {/* Flipped and bled ~25% of its own width past the hero's left edge (Figma inset left: -24.69%) —
                   the page's own overflow-x-clip crops it, so it reads as cut off rather than a clean point. */}
