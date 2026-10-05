@@ -90,12 +90,17 @@ export function HomeHero({
               // its padding / type are fractions of --bw — plain % padding would resolve against the
               // hero column and push the word onto the ribbon's tip. Longer labels ("Truck Stops")
               // get proportionally smaller type so they always fit between the ends.
-              className={`relative isolate flex aspect-[938.227/162.975] w-[var(--bw)] items-center justify-start pb-[calc(var(--bw)*0.02)] pl-[calc(var(--bw)*0.13)] pr-[calc(var(--bw)*0.1)] font-accent text-[length:calc(var(--bw)*var(--badge-k))] font-bold uppercase leading-none tracking-[0.04em] whitespace-nowrap [--bw:clamp(240px,42vw,360px)] lg:w-[clamp(280px,59.05vw,940px)] lg:pb-[2%] lg:pl-[38%] lg:pr-0 lg:text-[clamp(1.5rem,3.4vw,3rem)] lg:[transform:translateX(calc(min(36vw,573px)*-1))] ${badge.textClass ?? "text-gold"}`}
+              className={`relative isolate flex aspect-[938.227/162.975] w-[var(--bw)] items-center justify-start pb-[calc(var(--bw)*0.02)] pl-[calc(var(--bw)*0.13)] pr-[calc(var(--bw)*0.1)] font-accent text-[length:calc(var(--bw)*var(--badge-k))] font-bold uppercase leading-none tracking-[0.04em] whitespace-nowrap [--bw:clamp(240px,42vw,360px)] lg:aspect-auto lg:h-[calc(var(--u)*163)] lg:w-max lg:min-w-[calc(var(--u)*488)] lg:-ml-[calc(var(--u)*121)] lg:overflow-hidden lg:pb-[calc(var(--u)*3)] lg:pl-[calc(var(--u)*106)] lg:pr-[calc(var(--u)*90)] lg:text-[calc(var(--u)*48)] ${badge.textClass ?? "text-gold"}`}
               style={{ "--badge-k": Math.min(0.11, 0.77 / (badge.label.length * 0.9)).toFixed(4) } as CSSProperties}
             >
-              {/* Flipped and bled ~25% of its own width past the hero's left edge (Figma inset left: -24.69%) —
-                  the page's own overflow-x-clip crops it, so it reads as cut off rather than a clean point. */}
-              <Image src={badge.ribbonSrc ?? "/images/figma/hero-badge-ribbon.svg"} alt="" fill unoptimized className="pointer-events-none -z-10 lg:-scale-x-100" />
+              {/* lg+: the badge runs from the page's left edge to 90px past the word (never shorter than
+                  the Figma 488px), so long labels like "Truck Stops" stay on the ribbon. The ribbon art
+                  keeps its Figma size (940 x 163, flipped) pinned to the right, so its angled tip is
+                  never stretched; the extra length on the left is cropped by the h1. Below lg the art
+                  simply fills the badge. */}
+              <span aria-hidden className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-full lg:w-[calc(var(--u)*940)]">
+                <Image src={badge.ribbonSrc ?? "/images/figma/hero-badge-ribbon.svg"} alt="" fill unoptimized className="lg:-scale-x-100" />
+              </span>
               {badge.label}
             </h1>
           ) : (
