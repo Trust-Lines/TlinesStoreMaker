@@ -34,7 +34,7 @@ export const homeHeroPhrases = [
 
 export const homeHero = {
   heading: "Planning your store",
-  backgroundImage: "/images/figma/hero-photo.png",
+  backgroundImage: "/images/figma/hero-photo.webp",
   imageAlt: "T Lines mascot planning a store layout at a drafting table",
   action: startProjectAction,
   clients: {

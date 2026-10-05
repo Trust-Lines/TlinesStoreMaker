@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { preload } from "react-dom";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { RotatingHeroHeading, type HeroPhrase } from "./RotatingHeroHeading";
@@ -49,6 +50,8 @@ export function HomeHero({
   stripBgClass = "bg-sage-dark",
   badge,
 }: HomeHeroProps) {
+  // The poster is the first thing painted (the video follows): fetch it at high priority.
+  if (backgroundVideo) preload(backgroundImage, { as: "image", fetchPriority: "high" });
   return (
     <section id="home" aria-labelledby="home-hero-heading" className="relative isolate flex h-[100svh] min-h-[560px] flex-col bg-forest lg:h-auto lg:min-h-0">
       <div className="relative min-h-0 w-full flex-1 lg:aspect-[1592/923] lg:flex-none">
@@ -56,6 +59,7 @@ export function HomeHero({
           <video
             id="home-hero-video"
             autoPlay
+            preload="metadata"
             loop
             muted
             playsInline

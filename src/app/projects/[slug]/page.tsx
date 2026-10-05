@@ -14,7 +14,9 @@ import {
   projectCategories,
   projectDetailType,
 } from "@/lib/content";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getGalleryProjects, getProject, getWorkTypes } from "@/lib/projects";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/site";
 
 // Project detail page (Figma "Projects" frame, node 261:7803). Projects added
 // from the ERP (Supabase) render their own title, meta and body sections; the
@@ -29,7 +31,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/projects/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProject(slug);
-  return project ? { title: `${project.title} — StoreMaker` } : {};
+  if (!project) return {};
+  const type = project.projectType || projectDetailType[project.category];
+  return pageMetadata({
+    title: `${project.title} — StoreMaker`,
+    description: `${project.title}: ${type.toLowerCase()} in ${project.location}${project.year ? `, ${project.year}` : ""}, designed and built by T Lines Store Maker.`,
+    path: `/projects/${slug}`,
+    image: project.image,
+  });
 }
 
 export default async function ProjectDetailPage({ params }: PageProps<"/projects/[slug]">) {
@@ -50,6 +59,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
   return (
     <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
       <main className="relative bg-cream pb-[3.08%]">
+        <JsonLd data={breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Projects", path: "/projects" }, { name: project.title, path: `/projects/${project.id}` }])} />
         <ReferenceTopBar tone={topBarTone} />
 
         <div className="px-6 pt-[104px] sm:px-10 lg:px-[8.73%] lg:pt-[calc(var(--u)*104)]">

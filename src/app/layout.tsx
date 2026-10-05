@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Montserrat, Orbitron } from "next/font/google";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { isIndexable, organizationJsonLd, siteDescription, siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 // Self-hosted via next/font/google: Next.js downloads these at build time and
@@ -41,10 +43,19 @@ const fitHeroScript = `(function(){var d=document.documentElement;function f(){v
 const gtmId = process.env.NODE_ENV === "production" ? (process.env.NEXT_PUBLIC_GTM_ID ?? "GTM-KPBPCJ99") : undefined;
 const gtmScript = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');`;
 
+const defaultTitle = "StoreMaker — From vanilla box to open date";
+
 export const metadata: Metadata = {
-  title: "StoreMaker — From vanilla box to open date",
-  description:
-    "StoreMaker designs, builds, and installs c-stores, grocery stores, truck stops, and travel plazas from vanilla box to open date.",
+  metadataBase: new URL(siteUrl),
+  title: defaultTitle,
+  description: siteDescription,
+  applicationName: siteName,
+  openGraph: { type: "website", siteName, locale: "en_US", title: defaultTitle, description: siteDescription, url: "/" },
+  twitter: { card: "summary_large_image", title: defaultTitle, description: siteDescription },
+  // Only the production deployment is indexed; previews are kept out of search results.
+  robots: isIndexable
+    ? { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } }
+    : { index: false, follow: false },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -66,6 +77,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {gtmId && <Script id="gtm" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: gtmScript }} />}
         {/* beforeInteractive: runs before the first paint, so the page never flashes at full size. */}
         <Script id="fit-hero-zoom" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: fitHeroScript }} />
+        <JsonLd data={organizationJsonLd()} />
         {children}
       </body>
     </html>

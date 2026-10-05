@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { socialLinks } from "@/lib/site";
 import { NewsletterForm } from "./NewsletterForm";
 
 export interface FooterLinkColumn {
@@ -29,11 +30,7 @@ export interface SiteFooterProps {
   copyright: string;
 }
 
-const socials = [
-  { label: "Instagram", href: "https://www.instagram.com/tlines.storemaker" },
-  { label: "YouTube", href: "https://www.youtube.com/@Tlinesusa" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/tlines-store-maker/" },
-];
+const socials = socialLinks;
 
 const labelClass = "font-display text-[14px] uppercase text-cream/65 lg:text-[calc(var(--u)*16)]";
 const linkClass =
