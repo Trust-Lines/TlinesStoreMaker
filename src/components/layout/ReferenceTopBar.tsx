@@ -22,24 +22,24 @@ const tones = {
     fill: "#F7C56B",
     ink: "text-forest",
     focus: "focus-visible:outline-forest",
-    logo: { src: "/images/figma/topbar-logo.svg", width: 311, height: 85, className: "w-[150px] sm:w-[210px] lg:w-[min(17.68vw,281.6px)]" },
+    logo: { src: "/images/logo-animation/logo-animated.svg", width: 358, height: 95, className: "w-[150px] sm:w-[210px] lg:w-[min(17.68vw,281.6px)]" },
     menuIcon: "/images/figma/menu-icon.svg",
   },
-  // Same logo asset/box as the gold (homepage) bar — only the fill colour
-  // changes (a cream-recoloured duplicate of topbar-logo.svg), so the logo
-  // is the exact same size everywhere.
+  // Same animated logo as the gold (homepage) bar (the wording swaps between
+  // "T Lines / STORE MAKER" and "STORE / MAKER"; see scripts/build-logo-animation.cjs),
+  // only the ink changes to cream, so the logo is the exact same size everywhere.
   coral: {
     fill: "#DB7358",
     ink: "text-cream",
     focus: "focus-visible:outline-cream",
-    logo: { src: "/images/figma/topbar-logo-cream-v2.svg", width: 311, height: 85, className: "w-[150px] sm:w-[210px] lg:w-[min(17.68vw,281.6px)]" },
+    logo: { src: "/images/logo-animation/logo-animated-cream.svg", width: 358, height: 95, className: "w-[150px] sm:w-[210px] lg:w-[min(17.68vw,281.6px)]" },
     menuIcon: "/images/figma/menu-icon-cream.svg",
   },
   sage: {
     fill: "#557256",
     ink: "text-cream",
     focus: "focus-visible:outline-cream",
-    logo: { src: "/images/figma/topbar-logo-cream-v2.svg", width: 311, height: 85, className: "w-[150px] sm:w-[210px] lg:w-[min(17.68vw,281.6px)]" },
+    logo: { src: "/images/logo-animation/logo-animated-cream.svg", width: 358, height: 95, className: "w-[150px] sm:w-[210px] lg:w-[min(17.68vw,281.6px)]" },
     menuIcon: "/images/figma/menu-icon-cream.svg",
   },
 } as const;
