@@ -158,7 +158,7 @@ export function HomeHero({
                 width={clients.width}
                 height={clients.height}
                 unoptimized
-                className="h-[var(--strip-h)] w-auto max-w-none shrink-0 mr-[calc(var(--strip-h)*35/102)]"
+                className="h-[var(--strip-h)] w-auto max-w-none shrink-0"
               />
             ),
           )}
