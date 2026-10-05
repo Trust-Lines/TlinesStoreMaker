@@ -7,8 +7,8 @@ export const navItems = [
   { id: "about", label: "About us", href: "/about" },
 ];
 
-export const contactAction = { label: "Get in touch", href: "/#contact" };
-export const startProjectAction = { label: "Start Your Project", href: "/#contact" };
+export const contactAction = { label: "Get in touch", href: "/contact#project-form" };
+export const startProjectAction = { label: "Start Your Project", href: "/contact#project-form" };
 
 export const logo = { src: "/images/figma/header-logo-mark.svg", alt: "Tlines", href: "/#home" };
 
