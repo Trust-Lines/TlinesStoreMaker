@@ -35,6 +35,12 @@ export const viewport: Viewport = {
  */
 const fitHeroScript = `(function(){var d=document.documentElement;function f(){var w=innerWidth,h=innerHeight,z=1;if(w>=1024&&1003*Math.min(w,1592)/1592>h)z=Math.max(.5,h/1003);z=Math.round(z*1000)/1000;if(z===1){d.style.removeProperty('zoom')}else{d.style.zoom=z}d.style.setProperty('--zoom',z)}f();addEventListener('resize',f)})()`;
 
+// Google Tag Manager container (Google Analytics and any other tags are configured inside GTM).
+// Loaded only in production builds so local development never counts as traffic; set
+// NEXT_PUBLIC_GTM_ID to use a different container.
+const gtmId = process.env.NODE_ENV === "production" ? (process.env.NEXT_PUBLIC_GTM_ID ?? "GTM-KPBPCJ99") : undefined;
+const gtmScript = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');`;
+
 export const metadata: Metadata = {
   title: "StoreMaker — From vanilla box to open date",
   description:
@@ -52,6 +58,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         className="min-h-full flex flex-col bg-cream text-ink"
         suppressHydrationWarning
       >
+        {gtmId && (
+          <noscript>
+            <iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style={{ display: "none", visibility: "hidden" }} />
+          </noscript>
+        )}
+        {gtmId && <Script id="gtm" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: gtmScript }} />}
         {/* beforeInteractive: runs before the first paint, so the page never flashes at full size. */}
         <Script id="fit-hero-zoom" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: fitHeroScript }} />
         {children}
