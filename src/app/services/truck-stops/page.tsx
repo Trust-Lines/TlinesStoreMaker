@@ -47,6 +47,8 @@ export default function TruckStopsPage() {
         <ReferenceTopBar tone="coral" />
         <HomeHero
           {...homeHero}
+          backgroundImage="/images/figma/hero-truck-stops.webp"
+          imageAlt="Truck stop interior with a pizza counter, curved seating, trucker hub and c-store aisles"
           stripBgClass="bg-coral"
           badge={{
             label: "Truck Stops",

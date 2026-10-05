@@ -46,6 +46,8 @@ export default function GroceryPage() {
         <ReferenceTopBar tone="sage" />
         <HomeHero
           {...homeHero}
+          backgroundImage="/images/figma/hero-grocery.webp"
+          imageAlt="Prince Market grocery store with a wood self-checkout counter, linear lighting and stocked aisles"
           stripBgClass="bg-sage-dark"
           badge={{
             label: "Grocery",
