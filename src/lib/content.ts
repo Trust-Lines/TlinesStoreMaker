@@ -3,7 +3,7 @@
 export const navItems = [
   { id: "home", label: "Home", href: "/#home" },
   { id: "projects", label: "Projects", href: "/projects" },
-  { id: "news", label: "News", href: "/news" },
+  { id: "news", label: "News", href: "/blog" },
   { id: "about", label: "About us", href: "/about" },
 ];
 
@@ -706,7 +706,7 @@ export const footer = {
       links: [
         { id: "news", label: "News", href: "/news" },
         { id: "blog", label: "Blog", href: "/blog" },
-        { id: "events", label: "Events", href: "/events" },
+        { id: "events", label: "Events", href: "/#nacs" },
       ],
     },
     {

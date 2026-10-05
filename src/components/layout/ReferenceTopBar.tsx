@@ -11,7 +11,7 @@ const menuItems = [
   { label: "Truck stops", href: "/services/truck-stops", sub: true },
   { label: "Grocery", href: "/services/grocery", sub: true },
   { label: "Projects", href: "/projects" },
-  { label: "News", href: "/news" },
+  { label: "News", href: "/blog" },
   { label: "About us", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;

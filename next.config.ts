@@ -10,7 +10,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     // "News" in the nav and footer shares the Blog & News page; a permanent redirect passes
     // search-engine value to /blog instead of leaving a duplicate page.
-    return [{ source: "/news", destination: "/blog", permanent: true }];
+    return [
+      { source: "/news", destination: "/blog", permanent: true },
+      // The footer used to link to a page that does not exist; the only event on the site is the NACS banner.
+      { source: "/events", destination: "/#nacs", permanent: false },
+    ];
   },
   async headers() {
     const security = [
