@@ -28,6 +28,8 @@ export interface SiteFooterProps {
   callUsHeading: string;
   phoneNumbers: string[];
   copyright: string;
+  /** Bottom-right legal links (Figma 545 wide, Montserrat 18/24, white at 30%). */
+  legalLinks: { id: string; label: string; href: string }[];
 }
 
 const socials = socialLinks;
@@ -41,7 +43,7 @@ const linkClass =
  * --u scale: logo at x=138/y=62 with the three 323 x 81 brand pills in a row
  * from x=444; newsletter block at y=248; link columns at 679 / 902 / 1146 /
  * 1312 from y=267; socials at y=503; Locations at 892 and Call us at 1291 from
- * y=516; copyright repeated bottom-left and bottom-right. Below lg it stacks.
+ * y=516; copyright bottom-left, legal links bottom-right. Below lg it stacks.
  */
 export function SiteFooter({
   logo,
@@ -53,6 +55,7 @@ export function SiteFooter({
   callUsHeading,
   phoneNumbers,
   copyright,
+  legalLinks,
 }: SiteFooterProps) {
   const lastLine = newsletter.heading.at(-1) ?? "";
   const boldAt = lastLine.lastIndexOf(" ") + 1;
@@ -173,9 +176,16 @@ export function SiteFooter({
 
         <div className="flex flex-col items-start gap-2 font-display text-[13px] text-muted-green sm:flex-row sm:items-center sm:justify-between lg:absolute lg:left-[calc(var(--u)*138)] lg:right-[calc(var(--u)*146)] lg:top-[calc(var(--u)*686)] lg:text-[calc(var(--u)*15)]">
           <p>{copyright}</p>
-          <p aria-hidden className="hidden sm:block">
-            {copyright}
-          </p>
+          <nav aria-label="Legal" className="font-display text-[14px] leading-[24px] text-white/30 sm:text-right lg:w-[calc(var(--u)*545)] lg:text-[calc(var(--u)*18)] lg:leading-[calc(var(--u)*24)]">
+            {legalLinks.map((link, index) => (
+              <span key={link.id}>
+                {index > 0 && <span aria-hidden className="mx-[0.6em]">|</span>}
+                <Link href={link.href} className="hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral">
+                  {link.label}
+                </Link>
+              </span>
+            ))}
+          </nav>
         </div>
       </div>
     </footer>

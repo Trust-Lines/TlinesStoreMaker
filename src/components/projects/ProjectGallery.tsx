@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import type { GalleryProject, ProjectCategoryId } from "@/lib/content";
-import { cardTone, toneOfCategory, type Tone } from "./projectTone";
+import { cardTone, projectCardLabel, toneOfCategory, type Tone } from "./projectTone";
 
 export interface ProjectGalleryProps {
   projects: GalleryProject[];
@@ -87,7 +87,7 @@ export function ProjectGallery({ projects, categories }: ProjectGalleryProps) {
               <li key={project.id} className="@container">
                 <Link
                   href={`/projects/${project.id}`}
-                  aria-label={`${project.alt}, ${project.location}: view project`}
+                  aria-label={`${projectCardLabel(project.title, project.location)}: view project`}
                   className="group relative block w-full text-left outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
                 >
                   <span className={`relative block aspect-[637/407] overflow-hidden rounded-[16px] border-2 ${tone.frame}`}>
@@ -102,8 +102,8 @@ export function ProjectGallery({ projects, categories }: ProjectGalleryProps) {
                   {/* Ribbon: 320 x 64 at -22px left, straddling the card's bottom edge. */}
                   <span className="absolute -bottom-[5.3cqw] -left-[3.5cqw] isolate flex aspect-[320/64] w-[50.2cqw] items-center pb-[0.6cqw] pl-[6.2cqw]">
                     <Image src={tone.label} alt="" fill unoptimized className="-z-10" />
-                    <span className={`font-display text-[clamp(11px,2.83cqw,18px)] font-bold uppercase tracking-[0.06em] ${tone.text}`}>
-                      {project.location}
+                    <span className={`max-w-[42cqw] truncate whitespace-nowrap font-display text-[clamp(11px,3.14cqw,20px)] font-bold uppercase leading-normal tracking-[0.05em] ${tone.text}`}>
+                      {projectCardLabel(project.title, project.location)}
                     </span>
                   </span>
                 </Link>

@@ -756,6 +756,12 @@ export const footer = {
   callUsHeading: "Call us",
   phoneNumbers: ["800-660-3772"],
   copyright: "All rights are reserved for TLines 2026",
+  // Bottom-right legal links: edit labels / hrefs here.
+  legalLinks: [
+    { id: "privacy", label: "Privacy Policy", href: "#" },
+    { id: "terms", label: "Terms of Service", href: "#" },
+    { id: "cookies", label: "Cookie Policy", href: "#" },
+  ],
 };
 
 /** Contact page ("Contact us" Figma frame). */

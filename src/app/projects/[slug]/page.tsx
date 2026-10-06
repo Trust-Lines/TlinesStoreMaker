@@ -7,7 +7,7 @@ import { ReferenceTopBar } from "@/components/layout/ReferenceTopBar";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ProjectHeroCarousel } from "@/components/projects/ProjectHeroCarousel";
 import { WorkTypeTiles } from "@/components/projects/WorkTypeTiles";
-import { cardTone, toneOfCategory } from "@/components/projects/projectTone";
+import { cardTone, projectCardLabel, toneOfCategory } from "@/components/projects/projectTone";
 import {
   footer,
   getStarted,
@@ -138,7 +138,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
                   <li key={other.id} className="@container">
                     <Link
                       href={`/projects/${other.id}`}
-                      aria-label={`${other.alt}, ${other.location}: view project`}
+                      aria-label={`${projectCardLabel(other.title, other.location)}: view project`}
                       className="group relative block w-full text-left outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
                     >
                       <span className={`relative block aspect-[637/407] overflow-hidden rounded-[8px] border-4 ${otherTone.frame}`}>
@@ -152,8 +152,8 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
                       </span>
                       <span className="absolute -bottom-[5.3cqw] -left-[3.5cqw] isolate flex aspect-[320/64] w-[50.2cqw] items-center pb-[0.6cqw] pl-[6.2cqw]">
                         <Image src={otherTone.label} alt="" fill unoptimized className="-z-10" />
-                        <span className={`font-display text-[clamp(11px,2.83cqw,18px)] font-bold uppercase tracking-[0.06em] ${otherTone.text}`}>
-                          {other.location}
+                        <span className={`max-w-[42cqw] truncate whitespace-nowrap font-display text-[clamp(11px,3.14cqw,20px)] font-bold uppercase leading-normal tracking-[0.05em] ${otherTone.text}`}>
+                          {projectCardLabel(other.title, other.location)}
                         </span>
                       </span>
                     </Link>
