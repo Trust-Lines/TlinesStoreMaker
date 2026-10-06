@@ -196,7 +196,7 @@ export function AboutExhibitors({ title, logos }: { title: string; logos: { src:
 /** Our Vision: the Our Mission section mirrored — photo on the left, copy and the flush-right label on the right. */
 export function AboutVision({ title, paragraphs, image, imageAlt }: { title: string; paragraphs: string[]; image: string; imageAlt: string }) {
   return (
-    <section aria-labelledby="our-vision" className="relative bg-forest pb-14 pt-12 text-cream lg:aspect-[1592/835] lg:p-0">
+    <section aria-labelledby="our-vision" className="relative bg-sage-dark pb-14 pt-12 text-cream lg:aspect-[1592/835] lg:p-0">
       <SectionLabel
         id="our-vision"
         text={title}
