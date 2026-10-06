@@ -65,7 +65,7 @@ export function NewsletterForm({ placeholder }: NewsletterFormProps) {
       </form>
       <p className="mt-2 max-w-[323px] text-[11px] leading-snug text-cream/60 lg:mt-[calc(var(--u)*10)] lg:max-w-[calc(var(--u)*323)] lg:text-[calc(var(--u)*11)]">
         By subscribing you agree to our{" "}
-        <Link href="/contact#privacy-policy" className="underline underline-offset-2">
+        <Link href="/privacy-policy" className="underline underline-offset-2">
           Privacy Policy
         </Link>
         .

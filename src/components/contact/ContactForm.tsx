@@ -103,7 +103,7 @@ export function ContactForm() {
         <label className="mt-2 flex items-center gap-2.5 text-[11px] leading-snug text-forest lg:mt-[calc(var(--u)*12)] lg:gap-[calc(var(--u)*14)] lg:text-[calc(var(--u)*13)]">
           <input type="checkbox" name="privacy" required className="h-4 w-4 shrink-0 accent-forest lg:h-[calc(var(--u)*24)] lg:w-[calc(var(--u)*24)]" />
           <span>
-            I agree to the T Lines <Link href="/contact#privacy-policy" className="font-semibold underline underline-offset-2">Privacy Policy</Link>
+            I agree to the T Lines <Link href="/privacy-policy" className="font-semibold underline underline-offset-2">Privacy Policy</Link>
           </span>
         </label>
       </div>

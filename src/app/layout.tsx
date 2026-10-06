@@ -66,7 +66,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body
-        className="min-h-full flex flex-col bg-cream text-ink"
+        className="min-h-[calc(100dvh/var(--zoom))] flex flex-col bg-cream text-ink"
         suppressHydrationWarning
       >
         {gtmId && (
