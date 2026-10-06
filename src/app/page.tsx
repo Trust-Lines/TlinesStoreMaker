@@ -1,3 +1,4 @@
+import { pageMetadata, siteDescription } from "@/lib/site";
 import { ReferenceTopBar } from "@/components/layout/ReferenceTopBar";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { BoothBanner } from "@/components/home/BoothBanner";
@@ -22,6 +23,12 @@ import {
   specialtyCards,
   virtualTours,
 } from "@/lib/content";
+
+export const metadata = pageMetadata({
+  title: "StoreMaker — From vanilla box to open date",
+  description: siteDescription,
+  path: "/",
+});
 
 export default function StoreMakerPage() {
   return (

@@ -6,7 +6,9 @@ import { formatPostDateShort } from "@/components/blog/formatPostDate";
 import { ReferenceTopBar } from "@/components/layout/ReferenceTopBar";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ProjectHeroCarousel } from "@/components/projects/ProjectHeroCarousel";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getPost, getPosts } from "@/lib/blog";
+import { absoluteUrl, breadcrumbJsonLd, pageMetadata, siteName, siteUrl } from "@/lib/site";
 import { blogCategories, footer } from "@/lib/content";
 
 // Article page (Figma "Blog subpage", node 300:5802): cover photo, title,
@@ -22,7 +24,16 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPost(slug);
-  return post ? { title: `${post.title} — StoreMaker`, description: post.excerpt || undefined } : {};
+  if (!post) return {};
+  return pageMetadata({
+    title: `${post.title} — StoreMaker`,
+    description: post.excerpt || `${post.title} — ${siteName}`,
+    path: `/blog/${slug}`,
+    image: post.image,
+    type: "article",
+    publishedTime: post.date,
+    authors: post.author ? [post.author] : undefined,
+  });
 }
 
 export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">) {
@@ -44,6 +55,22 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
   return (
     <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
       <main className="relative bg-cream pb-16 lg:pb-[calc(var(--u)*133)]">
+        <JsonLd
+          data={[
+            breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Blog & News", path: "/blog" }, { name: post.title, path: `/blog/${post.slug}` }]),
+            {
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              headline: post.title,
+              description: post.excerpt || undefined,
+              image: [post.image.startsWith("http") ? post.image : absoluteUrl(post.image)],
+              datePublished: post.date,
+              ...(post.author ? { author: { "@type": "Person", name: post.author } } : {}),
+              publisher: { "@id": `${siteUrl}/#organization` },
+              mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
+            },
+          ]}
+        />
         <ReferenceTopBar />
 
         <div className="px-6 pt-[104px] sm:px-10 lg:px-[8.73%] lg:pt-[calc(var(--u)*104)]">

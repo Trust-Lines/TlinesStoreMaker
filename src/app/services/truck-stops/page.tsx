@@ -1,3 +1,5 @@
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, pageMetadata, serviceJsonLd } from "@/lib/site";
 import type { Metadata, Viewport } from "next";
 import { ReferenceTopBar } from "@/components/layout/ReferenceTopBar";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -32,18 +34,23 @@ import {
 
 export const viewport: Viewport = { viewportFit: "cover", themeColor: "#DB7358" };
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Truck stops — StoreMaker",
-};
+  description: "Truck stop and travel plaza design, supply and build from T Lines Store Maker: food courts, retail floors, branding and installation.",
+  path: "/services/truck-stops",
+});
 
 export default function TruckStopsPage() {
   return (
     <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
       <main className="relative bg-cream pb-[3.08%]">
+        <JsonLd data={[serviceJsonLd("Truck stops design and build", "Truck stop and travel plaza design, supply and build from T Lines Store Maker: food courts, retail floors, branding and installation.", "/services/truck-stops"), breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Truck stops", path: "/services/truck-stops" }])]} />
         <ReferenceTopBar tone="coral" />
         <HomeHero
           {...homeHero}
           clients={{ ...homeHero.clients, logos: clientLogosCreamTruck }}
+          backgroundImage="/images/figma/hero-truck-stops.webp"
+          imageAlt="Truck stop interior with a pizza counter, curved seating, trucker hub and c-store aisles"
           stripBgClass="bg-coral"
           badge={{
             label: "Truck Stops",

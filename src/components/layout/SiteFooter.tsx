@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { socialLinks } from "@/lib/site";
 import { NewsletterForm } from "./NewsletterForm";
 
 export interface FooterLinkColumn {
@@ -29,11 +30,7 @@ export interface SiteFooterProps {
   copyright: string;
 }
 
-const socials = [
-  { label: "Instagram", href: "https://www.instagram.com/tlines.storemaker" },
-  { label: "YouTube", href: "https://www.youtube.com/@Tlinesusa" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/tlines-store-maker/" },
-];
+const socials = socialLinks;
 
 const labelClass = "font-display text-[14px] uppercase text-cream/65 lg:text-[calc(var(--u)*16)]";
 const linkClass =
@@ -87,6 +84,7 @@ export function SiteFooter({
               <Link
                 key={pill.id}
                 href={pill.href}
+                {...(/^https?:\/\//.test(pill.href) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className={`flex h-[64px] w-full max-w-[323px] items-center justify-center rounded-[8px] border border-cream px-4 outline-offset-2 transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral lg:h-[calc(var(--u)*81)] lg:w-[calc(var(--u)*323)] lg:max-w-none ${pill.bgClass}`}
               >
                 <Image src={pill.logo.src} alt={pill.logo.alt} width={pill.logo.width} height={pill.logo.height} unoptimized className="h-auto max-h-[41px] w-auto max-w-[80%] lg:max-h-[calc(var(--u)*41)]" />

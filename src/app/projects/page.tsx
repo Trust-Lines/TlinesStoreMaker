@@ -1,3 +1,5 @@
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { BlogHero } from "@/components/blog/BlogHero";
 import { GetStartedSection } from "@/components/home/GetStartedSection";
@@ -8,7 +10,11 @@ import { footer, getStarted, projectCategories, projectsPage } from "@/lib/conte
 import { getGalleryProjects } from "@/lib/projects";
 import { getSetting } from "@/lib/settings";
 
-export const metadata: Metadata = { title: "Projects — StoreMaker" };
+export const metadata: Metadata = pageMetadata({
+  title: "Projects — StoreMaker",
+  description: "Completed c-store, truck stop and grocery projects by T Lines Store Maker: store layouts, fixtures, branding and installation.",
+  path: "/projects",
+});
 
 // Projects are managed from the ERP; refresh the list at most once a minute
 // (the ERP can also hit /api/revalidate for an instant update).
@@ -22,6 +28,7 @@ export default async function ProjectsPage() {
   return (
     <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
       <main className="relative bg-cream pb-[3.08%]">
+        <JsonLd data={breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Projects", path: "/projects" }])} />
         <ReferenceTopBar />
         <BlogHero
           eyebrow={header?.eyebrow || projectsPage.eyebrow}

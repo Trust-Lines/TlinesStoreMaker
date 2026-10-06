@@ -3,12 +3,12 @@
 export const navItems = [
   { id: "home", label: "Home", href: "/#home" },
   { id: "projects", label: "Projects", href: "/projects" },
-  { id: "news", label: "News", href: "/news" },
+  { id: "news", label: "News", href: "/blog" },
   { id: "about", label: "About us", href: "/about" },
 ];
 
-export const contactAction = { label: "Get in touch", href: "/#contact" };
-export const startProjectAction = { label: "Start Your Project", href: "/#contact" };
+export const contactAction = { label: "Get in touch", href: "/contact#project-form" };
+export const startProjectAction = { label: "Start Your Project", href: "/contact#project-form" };
 
 export const logo = { src: "/images/figma/header-logo-mark.svg", alt: "Tlines", href: "/#home" };
 
@@ -95,18 +95,17 @@ export const clientLogosCreamTruck = clientLogosCream.filter(
 
 export const homeHero = {
   heading: "Planning your store",
-  backgroundImage: "/images/figma/hero-photo.png",
+  backgroundImage: "/images/figma/hero-photo.webp",
   imageAlt: "T Lines mascot planning a store layout at a drafting table",
   action: startProjectAction,
   clients: {
-    src: "/images/figma/clients/clients-strip-long.svg",
-    width: 4097,
+    src: "/images/figma/clients/clients-strip-v2-cream.svg",
+    width: 4126,
     height: 102,
     names: ["TA (TravelCenters of America)", "Prince Market", "Pilot", "Teddy’s Market", "Brew", "Chestnut Market"],
     logos: clientLogosCream,
   },
 };
-
 
 
 // Homepage store-type cards (Figma "Vector" 381.593 x 743.425): short bullet
@@ -703,13 +702,13 @@ export const footer = {
     },
     {
       id: "premium-fitouts",
-      href: "/contact",
+      href: "https://psf.tlines.us",
       bgClass: "bg-[#482e4f]",
       logo: { src: "/images/figma/footer-brand-fitouts.png", alt: "T Lines Premium Store fitouts", width: 157, height: 49 },
     },
     {
       id: "design-build",
-      href: "/contact",
+      href: "https://db.tlines.us",
       bgClass: "bg-[#334a64]",
       logo: { src: "/images/figma/footer-brand-designbuild.svg", alt: "T Lines Design & Build", width: 146, height: 41 },
     },
@@ -741,7 +740,7 @@ export const footer = {
       links: [
         { id: "news", label: "News", href: "/news" },
         { id: "blog", label: "Blog", href: "/blog" },
-        { id: "events", label: "Events", href: "/events" },
+        { id: "events", label: "Events", href: "/#nacs" },
       ],
     },
     {

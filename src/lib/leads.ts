@@ -56,7 +56,12 @@ export async function submitLead(payload: LeadPayload, honeypot: string): Promis
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    if (response.status === 201) return { ok: true };
+    if (response.status === 201) {
+      // Lets Google Tag Manager / Analytics count the conversion (a trigger on this event name).
+      const dataLayer = ((window as unknown as { dataLayer?: unknown[] }).dataLayer ??= []);
+      dataLayer.push({ event: "lead_submitted", lead_kind: payload.kind, source_page: window.location.pathname });
+      return { ok: true };
+    }
     if (response.status === 429) return { ok: false, message: "Too many attempts. Please try again in a little while." };
     if (response.status === 400) {
       const data = (await response.json().catch(() => null)) as { error?: string } | null;

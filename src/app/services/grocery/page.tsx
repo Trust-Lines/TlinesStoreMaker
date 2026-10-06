@@ -1,3 +1,5 @@
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, pageMetadata, serviceJsonLd } from "@/lib/site";
 import type { Metadata, Viewport } from "next";
 import { ReferenceTopBar } from "@/components/layout/ReferenceTopBar";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -30,17 +32,22 @@ import {
 
 export const viewport: Viewport = { viewportFit: "cover", themeColor: "#557256" };
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Grocery — StoreMaker",
-};
+  description: "Grocery store design, supply and build from T Lines Store Maker: layouts, fixtures, branding and project management across the US.",
+  path: "/services/grocery",
+});
 
 export default function GroceryPage() {
   return (
     <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
       <main className="relative bg-cream pb-[3.08%]">
+        <JsonLd data={[serviceJsonLd("Grocery design and build", "Grocery store design, supply and build from T Lines Store Maker: layouts, fixtures, branding and project management across the US.", "/services/grocery"), breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Grocery", path: "/services/grocery" }])]} />
         <ReferenceTopBar tone="sage" />
         <HomeHero
           {...homeHero}
+          backgroundImage="/images/figma/hero-grocery.webp"
+          imageAlt="Prince Market grocery store with a wood self-checkout counter, linear lighting and stocked aisles"
           stripBgClass="bg-sage-dark"
           badge={{
             label: "Grocery",

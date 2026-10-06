@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Logo animation preview</title>
+<style>
+  body { margin: 0; padding: 32px 24px 64px; font: 15px/1.5 Montserrat, system-ui, sans-serif; background: #fff4e1; color: #2e4437; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  p.note { margin: 0 0 28px; max-width: 70ch; opacity: .75; }
+  h2 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; margin: 32px 0 10px; opacity: .7; }
+  .row { display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch; }
+  .card { background: #f7c56b; border-radius: 14px; padding: 28px 36px; display: grid; place-items: center; }
+  .card.cream { background: #fff4e1; outline: 1px solid #2e44371f; }
+  /* The real top bar: gold bar, logo 210px wide on tablets, 281px on desktop. */
+  .bar { background: #f7c56b; border-radius: 4px 4px 28px 4px; padding: 14px 38px; width: max-content; }
+  img.svg-s { width: 150px; height: auto; display: block; }
+  img.svg-m { width: 210px; height: auto; display: block; }
+  img.svg-l { width: 281px; height: auto; display: block; }
+  img.svg-xl { width: 358px; height: auto; display: block; }
+  img.gif { width: 358px; height: auto; display: block; }
+  small { display: block; margin-top: 8px; opacity: .6; text-align: center; }
+</style>
+</head>
+<body>
+  <h1>T Lines logo, animated</h1>
+  <p class="note">The box mark stays put; the wording swaps between “T Lines / STORE MAKER” and “STORE / MAKER”, 2.5 s each, with a short fade and slide. SVG is the one meant for the site (sharp at any size, transparent, tiny); the GIF is the same animation on a solid gold background.</p>
+
+  <h2>Animated SVG on the gold top bar (as it would sit on the site)</h2>
+  <div class="row">
+    <div class="bar"><img class="svg-l" src="logo-animated.svg" alt="T Lines Store Maker" /><small>desktop 281 px</small></div>
+    <div class="bar"><img class="svg-m" src="logo-animated.svg" alt="T Lines Store Maker" /><small>tablet 210 px</small></div>
+    <div class="bar"><img class="svg-s" src="logo-animated.svg" alt="T Lines Store Maker" /><small>phone 150 px</small></div>
+  </div>
+
+  <h2>Animated SVG, full size, on gold and on cream</h2>
+  <div class="row">
+    <div class="card"><div><img class="svg-xl" src="logo-animated.svg" alt="" /></div></div>
+    <div class="card cream"><div><img class="svg-xl" src="logo-animated.svg" alt="" /></div></div>
+  </div>
+
+  <h2>GIF (gold background, 3x resolution, 310 KB)</h2>
+  <div class="row">
+    <div class="card"><img class="gif" src="logo-animated.gif" alt="" /></div>
+  </div>
+</body>
+</html>

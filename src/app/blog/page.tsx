@@ -1,3 +1,5 @@
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { BlogHero } from "@/components/blog/BlogHero";
 import { BlogIndex } from "@/components/blog/BlogIndex";
@@ -7,7 +9,11 @@ import { getPosts } from "@/lib/blog";
 import { blogCategories, blogPage, footer } from "@/lib/content";
 import { getSetting } from "@/lib/settings";
 
-export const metadata: Metadata = { title: "Blog & News — StoreMaker" };
+export const metadata: Metadata = pageMetadata({
+  title: "Blog & News — StoreMaker",
+  description: "News, tips and success stories from T Lines Store Maker on designing, building and branding c-stores, truck stops and grocery stores.",
+  path: "/blog",
+});
 
 // Posts and the page header are managed from the ERP; refresh at most once a
 // minute (the ERP can also hit /api/revalidate for an instant update).
@@ -22,6 +28,7 @@ export default async function BlogPage() {
   return (
     <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
       <main className="relative bg-cream pb-16 lg:pb-[calc(var(--u)*80)]">
+        <JsonLd data={breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Blog & News", path: "/blog" }])} />
         <ReferenceTopBar />
         <BlogHero
           eyebrow={header?.eyebrow || blogPage.eyebrow}
