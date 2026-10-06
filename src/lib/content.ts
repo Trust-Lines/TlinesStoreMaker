@@ -668,13 +668,13 @@ export const footer = {
     },
     {
       id: "premium-fitouts",
-      href: "/contact",
+      href: "https://psf.tlines.us",
       bgClass: "bg-[#482e4f]",
       logo: { src: "/images/figma/footer-brand-fitouts.png", alt: "T Lines Premium Store fitouts", width: 157, height: 49 },
     },
     {
       id: "design-build",
-      href: "/contact",
+      href: "https://db.tlines.us",
       bgClass: "bg-[#334a64]",
       logo: { src: "/images/figma/footer-brand-designbuild.svg", alt: "T Lines Design & Build", width: 146, height: 41 },
     },
