@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 
 export interface HeroPhrase {
   /** Video time (seconds) at which this phrase takes over. The first one should be 0. */
   at: number;
+  /** "\n" forces a line break (Figma "Bring it / all together."). */
   text: string;
+  /** Figma text-box width in design px (lg+), which sets where the line wraps. */
+  width?: number;
 }
 
 export interface RotatingHeroHeadingProps {
@@ -58,7 +61,8 @@ export function RotatingHeroHeading({ phrases, videoId }: RotatingHeroHeadingPro
           <span
             key={phrase.text}
             aria-hidden={index !== active}
-            className={`col-start-1 row-start-1 transition-[opacity,transform,filter] duration-500 ease-out motion-reduce:transition-none ${state}`}
+            className={`col-start-1 row-start-1 whitespace-pre-line transition-[opacity,transform,filter] duration-500 ease-out motion-reduce:transition-none lg:w-[var(--pw)] ${state}`}
+            style={phrase.width ? ({ "--pw": `calc(var(--u) * ${phrase.width})` } as CSSProperties) : undefined}
           >
             {phrase.text}
           </span>

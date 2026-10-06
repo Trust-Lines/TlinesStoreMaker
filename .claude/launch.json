@@ -6,6 +6,12 @@
       "url": "http://localhost:3000"
     },
     {
+      "name": "storemaker-dev-3001",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["next", "dev", "--webpack", "-p", "3001"],
+      "port": 3001
+    },
+    {
       "name": "storemaker-prod",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["next", "start", "-p", "3100"],

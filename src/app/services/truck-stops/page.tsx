@@ -9,6 +9,7 @@ import { ProjectsGallery } from "@/components/home/ProjectsGallery";
 import { ServiceCardsSection } from "@/components/home/ServiceCardsSection";
 import { SpecialtyCardsSection } from "@/components/home/SpecialtyCardsSection";
 import {
+  clientLogosCreamTruck,
   boothBanner,
   featuredProjects,
   footer,
@@ -42,6 +43,7 @@ export default function TruckStopsPage() {
         <ReferenceTopBar tone="coral" />
         <HomeHero
           {...homeHero}
+          clients={{ ...homeHero.clients, logos: clientLogosCreamTruck }}
           stripBgClass="bg-coral"
           badge={{
             label: "Truck Stops",

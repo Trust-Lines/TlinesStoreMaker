@@ -68,7 +68,7 @@ export function ReferenceTopBar({ tone = "gold" }: ReferenceTopBarProps) {
       {/* Phones: the bar's fill continues above it (Figma node 621:7788 is the same shape,
           drawn taller and tucked behind the top edge). It fills the strip under the iPhone
           status bar / notch so the site has no empty band there, and it sits above the bar's svg and
-          overlaps its cream top outline by 5px so no line shows between the two. Zero-height strip + 4px on
+          overlaps its top edge by 5px so no seam shows between the two. Zero-height strip + 4px on
           phones without a notch. */}
       <span
         aria-hidden
@@ -76,23 +76,16 @@ export function ReferenceTopBar({ tone = "gold" }: ReferenceTopBarProps) {
         style={{ backgroundColor: theme.fill }}
       />
 
-      {/* Figma node 406:17451 (Property 1=Default): a single flatter chamfered
-          bar (cut corner bottom-right), 1484.889 x 115.228, replacing the
-          previous zigzag-ended shape. Stretched to the header's own box;
-          non-scaling stroke keeps the 3px cream outline crisp. */}
+      {/* Figma top bar (1485 x 116, gold / coral / sage per page): the chamfered bar
+          with a flat top and no outline, so no cream edge shows along the top of the
+          page. Stretched to the header's own box. */}
       <svg
         aria-hidden="true"
-        viewBox="0 0 1493.17 121.228"
+        viewBox="0 0 1485 116"
         preserveAspectRatio="none"
         className="pointer-events-none absolute inset-0 h-full w-full"
       >
-        <path
-          d="M4.85102 1.50001L1489.74 1.50196H1491.46L1491.23 3.20411L1489.74 3.00196L1491.23 3.20509C1491.23 3.20589 1491.23 3.20747 1491.23 3.20899C1491.22 3.21203 1491.22 3.21682 1491.22 3.22266C1491.22 3.23439 1491.22 3.25182 1491.22 3.27442C1491.21 3.32007 1491.2 3.3876 1491.19 3.47559C1491.16 3.65182 1491.13 3.91062 1491.08 4.24122C1490.99 4.90236 1490.85 5.8517 1490.68 7.00684C1490.33 9.3166 1489.84 12.453 1489.27 15.7539C1488.7 19.0516 1488.04 22.53 1487.35 25.5186C1486.67 28.4481 1485.93 31.0831 1485.15 32.5732C1484.57 33.7029 1483.73 34.6861 1482.71 35.4502L1423.3 80.0127C1421.91 81.0499 1420.25 81.6405 1418.52 81.7061L1418.51 81.707H1418.51L74.2817 119.723L74.2807 119.722C72.4861 119.786 70.7169 119.282 69.227 118.279C68.2817 117.643 67.2423 116.618 66.145 115.354C65.0318 114.07 63.7948 112.465 62.4614 110.597C59.794 106.86 56.6892 102.008 53.3315 96.4512C46.6137 85.3345 38.837 71.3165 31.4604 57.5791C24.0819 43.8381 17.0949 30.3614 11.9526 20.3213C9.38124 15.3009 7.27089 11.1387 5.80317 8.23145C5.06933 6.77788 4.49576 5.6381 4.10591 4.86134C3.91098 4.47295 3.76198 4.17522 3.66157 3.97462C3.61137 3.87432 3.57282 3.79811 3.54731 3.74708C3.53464 3.72172 3.52541 3.70232 3.51899 3.68946C3.51578 3.68304 3.51281 3.67807 3.51118 3.67481C3.51044 3.67333 3.50961 3.67167 3.50923 3.67091C3.51044 3.66931 3.55635 3.64642 4.85102 3.00001L3.50923 3.66993L2.42524 1.50001H4.85102Z"
-          fill={theme.fill}
-          stroke="#FFF4E0"
-          strokeWidth="3"
-          vectorEffect="non-scaling-stroke"
-        />
+        <path d="M65.2136 114.035C66.4442 114.863 67.9062 115.279 69.3886 115.223L1413.61 77.2074C1415.04 77.1534 1416.41 76.6667 1417.55 75.8124L1476.96 31.2503C1477.8 30.6211 1478.49 29.8113 1478.97 28.8808C1481.67 23.6949 1484.89 0.00231934 1484.89 0.00231934L0 0C0 0 52.7452 105.64 65.2136 114.035Z" fill={theme.fill} />
       </svg>
 
       {/* Phones: side padding clears the bar's chamfered corner, so neither

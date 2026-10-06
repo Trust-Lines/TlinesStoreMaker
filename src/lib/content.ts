@@ -26,11 +26,72 @@ export const hero = {
  * video's whip-pan cuts so the text change is masked by the motion.
  */
 export const homeHeroPhrases = [
-  { at: 0, text: "Design around your vision" },
-  { at: 2.55, text: "Produce everything your store needs." },
-  { at: 6.35, text: "Bring it all together." },
-  { at: 13.25, text: "One team. One complete solution." },
+  { at: 0, text: "Design around your vision.", width: 469 },
+  { at: 2.55, text: "Produce everything your store needs.", width: 615 },
+  { at: 6.35, text: "Bring it\nall together.", width: 674 },
+  { at: 13.25, text: "One team. One complete solution.", width: 615 },
 ];
+
+// Hero client-logo strip (Figma "Frame 427319190"): every logo exported at a matched
+// size (31-56px tall in the 80px bar), 150px apart (the Figma 60px lead-in is dropped: the strip loops). Green
+// (#547255) for the C-store gold bar; the same art recoloured cream for the other bars.
+export const cStoreClientLogos = [
+  { src: "/images/figma/clients/strip/logo-01.svg", width: 97, height: 35 },
+  { src: "/images/figma/clients/strip/logo-02.svg", width: 51, height: 56 },
+  { src: "/images/figma/clients/strip/logo-03.svg", width: 150, height: 31 },
+  { src: "/images/figma/clients/strip/logo-04.svg", width: 60, height: 43 },
+  { src: "/images/figma/clients/strip/logo-05.svg", width: 84, height: 36 },
+  { src: "/images/figma/clients/strip/logo-06.svg", width: 165, height: 41 },
+  { src: "/images/figma/clients/strip/logo-07.svg", width: 141, height: 42 },
+  { src: "/images/figma/clients/strip/logo-08.svg", width: 61, height: 47 },
+  { src: "/images/figma/clients/strip/logo-09.svg", width: 86, height: 44 },
+  { src: "/images/figma/clients/strip/logo-10.svg", width: 47, height: 54 },
+  { src: "/images/figma/clients/strip/logo-11.svg", width: 127, height: 32 },
+  { src: "/images/figma/clients/strip/logo-12.svg", width: 119, height: 37 },
+  { src: "/images/figma/clients/strip/logo-13.svg", width: 104, height: 50 },
+  { src: "/images/figma/clients/strip/logo-14.svg", width: 108, height: 39 },
+  { src: "/images/figma/clients/strip/logo-15.svg", width: 50, height: 47 },
+  { src: "/images/figma/clients/strip/logo-16.svg", width: 88, height: 44 },
+  { src: "/images/figma/clients/strip/logo-17.svg", width: 107, height: 52 },
+  { src: "/images/figma/clients/strip/logo-18.svg", width: 92, height: 47 },
+  { src: "/images/figma/clients/strip/logo-19.svg", width: 177, height: 36 },
+  { src: "/images/figma/clients/strip/logo-20.svg", width: 72, height: 55 },
+  { src: "/images/figma/clients/strip/logo-21.svg", width: 132, height: 40 },
+  { src: "/images/figma/clients/strip/logo-22.svg", width: 72, height: 55 },
+  { src: "/images/figma/clients/strip/logo-23.svg", width: 44, height: 54 },
+];
+
+// Cream logos for the dark-green strip (homepage, grocery): all 23.
+export const clientLogosCream = [
+  { src: "/images/figma/clients/strip/logo-01-cream.svg", width: 97, height: 35 },
+  { src: "/images/figma/clients/strip/logo-02-cream.svg", width: 51, height: 56 },
+  { src: "/images/figma/clients/strip/logo-03-cream.svg", width: 150, height: 31 },
+  { src: "/images/figma/clients/strip/logo-04-cream.svg", width: 60, height: 43 },
+  { src: "/images/figma/clients/strip/logo-05-cream.svg", width: 84, height: 36 },
+  { src: "/images/figma/clients/strip/logo-06-cream.svg", width: 165, height: 41 },
+  { src: "/images/figma/clients/strip/logo-07-cream.svg", width: 141, height: 42 },
+  { src: "/images/figma/clients/strip/logo-08-cream.svg", width: 61, height: 47 },
+  { src: "/images/figma/clients/strip/logo-09-cream.svg", width: 86, height: 44 },
+  { src: "/images/figma/clients/strip/logo-10-cream.svg", width: 47, height: 54 },
+  { src: "/images/figma/clients/strip/logo-11-cream.svg", width: 127, height: 32 },
+  { src: "/images/figma/clients/strip/logo-12-cream.svg", width: 119, height: 37 },
+  { src: "/images/figma/clients/strip/logo-13-cream.svg", width: 104, height: 50 },
+  { src: "/images/figma/clients/strip/logo-14-cream.svg", width: 108, height: 39 },
+  { src: "/images/figma/clients/strip/logo-15-cream.svg", width: 50, height: 47 },
+  { src: "/images/figma/clients/strip/logo-16-cream.svg", width: 88, height: 44 },
+  { src: "/images/figma/clients/strip/logo-17-cream.svg", width: 107, height: 52 },
+  { src: "/images/figma/clients/strip/logo-18-cream.svg", width: 92, height: 47 },
+  { src: "/images/figma/clients/strip/logo-19-cream.svg", width: 177, height: 36 },
+  { src: "/images/figma/clients/strip/logo-20-cream.svg", width: 72, height: 55 },
+  { src: "/images/figma/clients/strip/logo-21-cream.svg", width: 132, height: 40 },
+  { src: "/images/figma/clients/strip/logo-22-cream.svg", width: 72, height: 55 },
+  { src: "/images/figma/clients/strip/logo-23-cream.svg", width: 44, height: 55 },
+];
+
+// Truck stops coral strip (Figma Frame 427319189) omits Eagle Nest and United Market.
+export const clientLogosCreamTruck = clientLogosCream.filter(
+  (logo) => !/logo-(14|22)-cream/.test(logo.src),
+);
 
 export const homeHero = {
   heading: "Planning your store",
@@ -42,37 +103,11 @@ export const homeHero = {
     width: 4097,
     height: 102,
     names: ["TA (TravelCenters of America)", "Prince Market", "Pilot", "Teddy’s Market", "Brew", "Chestnut Market"],
+    logos: clientLogosCream,
   },
 };
 
-// C-store hero client logos (Figma "Frame 427319136", #547255 logos on the gold
-// #F7C56B bar): individual exports at Figma size, laid out 1341 apart and centred in
-// a 1571-tall row (200 padding above/below the tallest, 1171-tall logo).
-export const cStoreClientLogos = [
-  { src: "/images/figma/clients/logos/client-01.svg", width: 1389, height: 496 },
-  { src: "/images/figma/clients/logos/client-02.svg", width: 985, height: 1136 },
-  { src: "/images/figma/clients/logos/client-03.svg", width: 1969, height: 485 },
-  { src: "/images/figma/clients/logos/client-04.svg", width: 1079, height: 1171 },
-  { src: "/images/figma/clients/logos/client-05.svg", width: 1837, height: 566 },
-  { src: "/images/figma/clients/logos/client-06.svg", width: 1742, height: 836 },
-  { src: "/images/figma/clients/logos/client-07.svg", width: 1364, height: 1032 },
-  { src: "/images/figma/clients/logos/client-08.svg", width: 1474, height: 526 },
-  { src: "/images/figma/clients/logos/client-09.svg", width: 1047, height: 990 },
-  { src: "/images/figma/clients/logos/client-10.svg", width: 1195, height: 593 },
-  { src: "/images/figma/clients/logos/client-11.svg", width: 1781, height: 433 },
-  { src: "/images/figma/clients/logos/client-12.svg", width: 1620, height: 790 },
-  { src: "/images/figma/clients/logos/client-13.svg", width: 1562, height: 792 },
-  { src: "/images/figma/clients/logos/client-14.svg", width: 1902, height: 384 },
-  { src: "/images/figma/clients/logos/client-15.svg", width: 905, height: 642 },
-  { src: "/images/figma/clients/logos/client-16.svg", width: 1097, height: 552 },
-  { src: "/images/figma/clients/logos/client-17.svg", width: 1214, height: 355 },
-  { src: "/images/figma/clients/logos/client-18.svg", width: 1046, height: 804 },
-  { src: "/images/figma/clients/logos/client-19.svg", width: 1153, height: 491 },
-  { src: "/images/figma/clients/logos/client-20.svg", width: 2847, height: 590 },
-  { src: "/images/figma/clients/logos/client-21.svg", width: 2084, height: 620 },
-  { src: "/images/figma/clients/logos/client-22.svg", width: 1360, height: 1041 },
-  { src: "/images/figma/clients/logos/client-23.svg", width: 717, height: 898 },
-];
+
 
 // Homepage store-type cards (Figma "Vector" 381.593 x 743.425): short bullet
 // lists, Montserrat 22/36 medium.
