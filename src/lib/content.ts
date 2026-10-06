@@ -95,7 +95,8 @@ export const clientLogosCreamTruck = clientLogosCream.filter(
 
 export const homeHero = {
   heading: "Planning your store",
-  backgroundImage: "/images/figma/hero-photo.webp",
+  // First frame of public/videos/hero.mp4: shown until the video plays (or if it cannot).
+  backgroundImage: "/images/hero-poster.webp",
   imageAlt: "T Lines mascot planning a store layout at a drafting table",
   action: startProjectAction,
   clients: {
