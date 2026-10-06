@@ -45,15 +45,15 @@ export function stateAbbreviation(location: string): string | null {
   return null;
 }
 
-/** Figma card ribbon label: project name plus state, e.g. "Bonfare, (CA)". */
+/** Figma card ribbon label: project name plus state, e.g. "Bonfare, CA". */
 export function projectCardLabel(title: string, location: string): string {
   const state = stateAbbreviation(location) ?? stateAbbreviation(title);
-  // ERP titles often carry the state too ("Teddy, Georgia"): drop state / country parts so only "(GA)" remains.
+  // ERP titles often carry the state too ("Teddy, Georgia"): drop state / country parts so only "GA" remains.
   const name =
     title
       .split(",")
       .map((part) => part.trim())
       .filter((part) => part && !stateAbbreviations[part.toLowerCase()] && !stateCodes.has(part.replace(/[()]/g, "").toUpperCase()) &&!/^(usa|us|united states( of america)?)$/i.test(part))
       .join(", ") || title;
-  return state ? `${name}, (${state})` : name;
+  return state ? `${name}, ${state}` : name;
 }
