@@ -45,8 +45,9 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
   const { slug } = await params;
   const [project, galleryProjects, allWorkTypes] = await Promise.all([getProject(slug), getGalleryProjects(), getWorkTypes()]);
   if (!project) notFound();
-  // The kinds of work this project covered, in the ERP's display order.
-  const workTypes = allWorkTypes.filter((type) => project.workTypes.includes(type.id));
+  // Every kind of work is shown; the ones this project covered are highlighted.
+  const workTypes = allWorkTypes;
+  const hasSelectedWorkTypes = allWorkTypes.some((type) => project.workTypes.includes(type.id));
 
   const tone = toneOfCategory(project.category, projectCategories);
   const topBarTone = tone === "gold" ? undefined : tone;
@@ -54,7 +55,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
 
   const heroPhotos = project.photos;
 
-  const alsoCheckOut = galleryProjects.filter((item) => item.id !== project.id).slice(0, 2);
+  const alsoCheckOut = galleryProjects.filter((item) => item.id !== project.id).slice(0, 3);
 
   return (
     <div className="mx-auto flex w-full max-w-[1592px] flex-1 flex-col overflow-x-clip bg-cream">
@@ -92,7 +93,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
               </div>
 
               {/* Body on the left; on lg+ the work-type tiles (Figma node 650:10316) sit to its right. */}
-              <div className={workTypes.length ? "flex flex-col lg:flex-row lg:items-start lg:gap-[calc(var(--u)*45)]" : ""}>
+              <div className={hasSelectedWorkTypes ? "flex flex-col lg:flex-row lg:items-start lg:gap-[calc(var(--u)*45)]" : ""}>
                 <div className="min-w-0 flex-1">
               {/* Body sections from the ERP: a section with a photo is text + photo
                   (side alternates), one without is a full-width text block. */}
@@ -118,9 +119,10 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
                 );
               })}
                 </div>
-                {workTypes.length > 0 && (
-                  <aside className="order-first mt-10 lg:order-last lg:mt-[calc(var(--u)*90)] lg:w-[calc(var(--u)*465)] lg:shrink-0">
-                    <WorkTypeTiles types={workTypes} />
+                {hasSelectedWorkTypes && (
+                  // Sticky: stays in view under the fixed top bar while the body scrolls on the left.
+                  <aside className="order-first mt-10 lg:sticky lg:top-[calc(var(--u)*150)] lg:order-last lg:mt-[calc(var(--u)*90)] lg:w-[calc(var(--u)*326)] lg:shrink-0">
+                    <WorkTypeTiles types={workTypes} selected={project.workTypes} />
                   </aside>
                 )}
               </div>
@@ -131,7 +133,7 @@ export default async function ProjectDetailPage({ params }: PageProps<"/projects
                   their own category colour. */}
           <div className="mt-16 pb-16 lg:mt-[calc(var(--u)*110)] lg:pb-[calc(var(--u)*70)]">
             <h2 className="font-display text-2xl font-bold tracking-[-0.01em] text-forest lg:text-[calc(var(--u)*40)]">Also check out:</h2>
-            <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:mt-[calc(var(--u)*44)] lg:gap-[calc(var(--u)*40)]">
+            <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:mt-[calc(var(--u)*44)] lg:grid-cols-3 lg:gap-[calc(var(--u)*30)]">
               {alsoCheckOut.map((other) => {
                 const otherTone = cardTone[toneOfCategory(other.category, projectCategories)];
                 return (

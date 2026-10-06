@@ -2,33 +2,37 @@ import Image from "next/image";
 import type { WorkType } from "@/lib/content";
 
 /**
- * The kinds of work a project covered (Figma node 650:10316): sage chamfered tiles,
- * three across (149 x 149 in the 465px design, 9px / 11px gaps), each a cream icon
- * above an uppercase caption. Only the types chosen for the project are passed in,
- * so a project with two shows two tiles. Sized in container-query units so the
- * panel scales as one piece.
+ * "Solutions Delivered:" panel (Figma nodes 800:14941 / 650:10316): every kind of work
+ * is always shown as a sage chamfered tile, three across (100 x 100 in the 326px
+ * design, 13px / 14px gaps), a cream icon above an uppercase caption. The types this
+ * project covered are solid; the rest are faded to 30%. Sized in container-query
+ * units so the panel scales as one piece.
  */
-export function WorkTypeTiles({ types }: { types: WorkType[] }) {
+export function WorkTypeTiles({ types, selected }: { types: WorkType[]; selected: string[] }) {
   return (
     <section aria-labelledby="work-types-heading">
-      <h2 id="work-types-heading" className="sr-only">
-        Work included in this project
+      <h2 id="work-types-heading" className="font-display text-[28px] font-bold leading-none tracking-[-0.01em] text-forest lg:text-[calc(var(--u)*28)]">
+        Solutions Delivered:
       </h2>
-      <div className="mx-auto w-full max-w-[465px] [container-type:inline-size] lg:max-w-none">
-        <ul className="grid grid-cols-3 gap-x-[1.94cqw] gap-y-[2.37cqw]">
-          {types.map((type) => (
-            <li key={type.id} className="relative isolate aspect-square text-cream [container-type:inline-size]">
-              <span
-                aria-hidden
-                className="absolute inset-0 -z-10 -scale-x-100 bg-sage-dark [mask-repeat:no-repeat] [mask-size:100%_100%]"
-                style={{ maskImage: "url(/images/projects/work-types/tile.svg)", WebkitMaskImage: "url(/images/projects/work-types/tile.svg)" }}
-              />
-              {type.icon && <Image src={type.icon} alt="" width={77} height={77} unoptimized className="absolute left-1/2 top-[15.5%] h-auto w-[51.4%] -translate-x-1/2" />}
-              <span className="absolute left-[14.1%] top-[75.8%] w-[71.8%] text-center font-display text-[max(10px,10.07cqw)] font-semibold uppercase leading-[0.93] tracking-[-0.03em]">
-                {type.label}
-              </span>
-            </li>
-          ))}
+      <div className="mt-6 w-full max-w-[326px] [container-type:inline-size] lg:mt-[calc(var(--u)*30)] lg:max-w-none">
+        <ul className="grid grid-cols-3 gap-x-[3.99cqw] gap-y-[4.29cqw]">
+          {types.map((type) => {
+            const included = selected.includes(type.id);
+            return (
+              <li key={type.id} className={`relative isolate aspect-square text-cream [container-type:inline-size] ${included ? "" : "opacity-30"}`}>
+                <span
+                  aria-hidden
+                  className="absolute inset-0 -z-10 -scale-x-100 bg-sage-dark [mask-repeat:no-repeat] [mask-size:100%_100%]"
+                  style={{ maskImage: "url(/images/projects/work-types/tile.svg)", WebkitMaskImage: "url(/images/projects/work-types/tile.svg)" }}
+                />
+                {type.icon && <Image src={type.icon} alt="" width={44} height={44} unoptimized className="absolute left-1/2 top-[16.5%] h-auto w-[44%] -translate-x-1/2" />}
+                <span className="absolute left-[14%] top-[66.5%] w-[72%] text-center font-display text-[12cqw] font-semibold uppercase leading-[14cqw] tracking-[-0.03em]">
+                  {type.label}
+                  {!included && <span className="sr-only"> (not part of this project)</span>}
+                </span>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>
