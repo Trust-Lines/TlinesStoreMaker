@@ -27,16 +27,18 @@ const stateAbbreviations: Record<string, string> = {
   wisconsin: "WI", wyoming: "WY", "district of columbia": "DC",
 };
 
+const stateCodes = new Set(Object.values(stateAbbreviations));
+
 /** State code from an ERP location ("Milford, CT, USA", "California", "Atlanta, Georgia (GA)"); null when none is found. */
 export function stateAbbreviation(location: string): string | null {
   const inParens = location.match(/\(([A-Za-z]{2})\)/);
-  if (inParens) return inParens[1].toUpperCase();
+  if (inParens && stateCodes.has(inParens[1].toUpperCase())) return inParens[1].toUpperCase();
   const parts = location
     .split(",")
     .map((part) => part.trim())
     .filter((part) => part && !/^(usa|us|united states( of america)?)$/i.test(part));
   for (let i = parts.length - 1; i >= 0; i -= 1) {
-    if (/^[A-Z]{2}$/.test(parts[i])) return parts[i];
+    if (stateCodes.has(parts[i].toUpperCase())) return parts[i].toUpperCase();
     const fromName = stateAbbreviations[parts[i].toLowerCase()];
     if (fromName) return fromName;
   }
@@ -45,6 +47,13 @@ export function stateAbbreviation(location: string): string | null {
 
 /** Figma card ribbon label: project name plus state, e.g. "Bonfare, (CA)". */
 export function projectCardLabel(title: string, location: string): string {
-  const state = stateAbbreviation(location);
-  return state ? `${title}, (${state})` : title;
+  const state = stateAbbreviation(location) ?? stateAbbreviation(title);
+  // ERP titles often carry the state too ("Teddy, Georgia"): drop state / country parts so only "(GA)" remains.
+  const name =
+    title
+      .split(",")
+      .map((part) => part.trim())
+      .filter((part) => part && !stateAbbreviations[part.toLowerCase()] && !stateCodes.has(part.replace(/[()]/g, "").toUpperCase()) &&!/^(usa|us|united states( of america)?)$/i.test(part))
+      .join(", ") || title;
+  return state ? `${name}, (${state})` : name;
 }
