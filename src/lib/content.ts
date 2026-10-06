@@ -118,7 +118,7 @@ export const serviceCards = [
     href: "/services/c-store",
     image: "/images/figma/home-service/cstore-photo.webp",
     points: [
-      "Layouts that work hard",
+      "Layouts that work",
       "Every square foot earns",
       "Stores people stop for",
       "Better flow, more profit",
@@ -937,10 +937,9 @@ export const aboutPage = {
   },
   mission: {
     title: "Our Mission",
-    // Placeholder copy from the Figma frame until the real mission text is written.
     paragraphs: [
-      "",
-      "",
+      "To simplify the journey of building and remodeling retail stores by bringing Design, Supply, and Build together in one complete solution.",
+      "We turn each client’s vision into a functional, efficient, and distinctive retail space—from concept to completion.",
     ],
     image: "/images/about/mission-store.svg",
     imageAlt: "C-store aisles with snack shelving and drinks coolers",
@@ -952,8 +951,9 @@ export const aboutPage = {
   },
   vision: {
     title: "Our Vision",
-    // Copy still to be written; mirrors the Our Mission layout.
-    paragraphs: ["", ""],
+    paragraphs: [
+      "To become a trusted Store Maker for retail businesses across the U.S., delivering complete store solutions through one team, one process, and one reliable partner.",
+    ],
     image: "/images/about/vision-store.svg",
     imageAlt: "C-store aisles with snack shelving and drinks coolers",
   },
