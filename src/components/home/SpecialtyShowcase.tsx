@@ -284,7 +284,7 @@ function PointsSlideshow({ points, cardWidth, size = 24, className }: { points: 
  * sits there; visitors who prefer reduced motion get the first one still. Every photo is
  * rendered up front so the fade never waits for a download.
  */
-function PhotoCrossfade({ photos, sizes }: { photos: { src: string; alt: string }[]; sizes: string }) {
+function PhotoCrossfade({ photos, sizes }: { photos: { src: string; alt: string; href?: string }[]; sizes: string }) {
   const [index, setIndex] = useState(0);
   const reduceMotion = useReducedMotion() ?? false;
   const count = photos.length;
@@ -309,6 +309,16 @@ function PhotoCrossfade({ photos, sizes }: { photos: { src: string; alt: string 
           className={`object-fill transition-opacity duration-700 motion-reduce:transition-none ${i === index ? "opacity-100" : "opacity-0"}`}
         />
       ))}
+      {/* A photo with an href (brand book PDF) is a link to it, opened in a new tab; only the photo in front is clickable. */}
+      {photos[index].href && (
+        <a
+          href={photos[index].href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open the brand book (PDF): ${photos[index].alt}`}
+          className="absolute inset-0 z-10 cursor-pointer rounded-[inherit] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
+        />
+      )}
     </>
   );
 }
@@ -328,7 +338,7 @@ interface DesktopCardProps {
   /** Points font size in design px (24 by default). */
   pointsSize?: number;
   /** One or more photos (design px box); several rotate every 3 s. */
-  photo: { photos: { src: string; alt: string }[]; x: number; w: number };
+  photo: { photos: { src: string; alt: string; href?: string }[]; x: number; w: number };
 }
 
 /**
@@ -538,9 +548,9 @@ export function SpecialtyShowcase({ cards, palette = "home" }: { cards: Specialt
           pointsSize={28}
           photo={{
             photos: [
-              { src: `${desktopRoot}/branding-${photoSet}-prince.webp`, alt: "Prince Market store interior and branding collage" },
+              { src: `${desktopRoot}/branding-${photoSet}-prince.webp`, alt: "Prince Market store interior and branding collage", href: "/pdfs/prince-market-branding.pdf" },
               { src: `${desktopRoot}/branding-${photoSet}-cafe.webp`, alt: "T Lines Café kiosk and branding collage" },
-              { src: `${desktopRoot}/branding-${photoSet}-speedy.webp`, alt: "Speedy c-store interior and branding collage" },
+              { src: `${desktopRoot}/branding-${photoSet}-speedy.webp`, alt: "Speedy c-store interior and branding collage", href: "/pdfs/speedy-branding.pdf" },
             ],
             x: 19,
             w: 847,
