@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { headquarters } from "@/lib/content";
 
 /** Public address of the site (canonical URLs, sitemap, structured data). Override with NEXT_PUBLIC_SITE_URL. */
-export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://sm.tlines.us").replace(/\/$/, "");
+export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.tlines.us").replace(/\/$/, "");
 export const siteName = "T Lines Store Maker";
 export const siteDescription =
   "StoreMaker designs, builds, and installs c-stores, grocery stores, truck stops, and travel plazas from vanilla box to open date.";

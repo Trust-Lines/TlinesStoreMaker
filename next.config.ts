@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
     // "News" in the nav and footer shares the Blog & News page; a permanent redirect passes
     // search-engine value to /blog instead of leaving a duplicate page.
     return [
+      // One public address: tlines.us (no www) always lands on https://www.tlines.us, same path and query.
+      { source: "/:path*", has: [{ type: "host", value: "tlines.us" }], destination: "https://www.tlines.us/:path*", permanent: true },
       { source: "/news", destination: "/blog", permanent: true },
       // The footer used to link to a page that does not exist; the only event on the site is the NACS banner.
       { source: "/events", destination: "/#nacs", permanent: false },
