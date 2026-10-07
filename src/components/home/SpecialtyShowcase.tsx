@@ -478,6 +478,9 @@ export function SpecialtyShowcase({ cards, palette = "home" }: { cards: Specialt
   const branding = cards.find((card) => card.id === "branding") ?? cards[0];
   const management = cards.find((card) => card.id === "management") ?? cards[1];
   const colors = palettes[palette];
+  // The branding collages carry the page's own frame colour: green (home, also used on Truck Stops),
+  // coral (C-store) or sage (Grocery).
+  const photoSet = palette === "cstore" ? "cstore" : palette === "grocery" ? "grocery" : "home";
 
   return (
     <section aria-label="Branding and project management services" className="bg-cream px-5 py-12 sm:px-10 lg:px-0 lg:pb-[calc(var(--u)*80)] lg:pt-[calc(var(--u)*95)]">
@@ -535,9 +538,9 @@ export function SpecialtyShowcase({ cards, palette = "home" }: { cards: Specialt
           pointsSize={28}
           photo={{
             photos: [
-              { src: `${desktopRoot}/branding-photo-prince.webp`, alt: "Prince Market storefront and its brand board" },
-              { src: `${desktopRoot}/branding-photo-speedy.webp`, alt: "Speedy c-store sign and its brand board" },
-              { src: `${desktopRoot}/branding-photo-cafe.webp`, alt: "T Lines Café kiosk and its brand board" },
+              { src: `${desktopRoot}/branding-${photoSet}-prince.webp`, alt: "Prince Market store interior and branding collage" },
+              { src: `${desktopRoot}/branding-${photoSet}-cafe.webp`, alt: "T Lines Café kiosk and branding collage" },
+              { src: `${desktopRoot}/branding-${photoSet}-speedy.webp`, alt: "Speedy c-store interior and branding collage" },
             ],
             x: 19,
             w: 847,
