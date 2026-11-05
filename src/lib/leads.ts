@@ -56,6 +56,10 @@ export async function submitLead(payload: LeadPayload, honeypot: string): Promis
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
+      // Lets the request finish even if the visitor closes or leaves the page right after clicking.
+      keepalive: true,
+      // Never leave the visitor waiting on a hung request.
+      signal: AbortSignal.timeout(20_000),
     });
     if (response.status === 201) {
       // Lets Google Tag Manager / Analytics count the conversion (a trigger on this event name).

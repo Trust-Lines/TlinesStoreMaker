@@ -119,12 +119,26 @@ export function ContactForm() {
       <div className="mt-auto pt-6 lg:pt-[calc(var(--u)*24)]">
         <button
           type="submit"
+          disabled={status === "sending"}
+          aria-busy={status === "sending"}
           className="relative isolate flex aspect-[562/87] w-full items-center justify-center font-display text-[14px] font-bold text-cream transition-opacity hover:opacity-90 disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-forest lg:text-[calc(var(--u)*18)]"
         >
           <Image src="/images/contact/project-submit-button.svg" alt="" fill unoptimized className="pointer-events-none -z-10" />
-          Send Project Details
+          {status === "sending" ? (
+            <span className="flex items-center gap-2">
+              <span aria-hidden className="h-4 w-4 animate-spin rounded-full border-2 border-cream/40 border-t-cream" />
+              Sending…
+            </span>
+          ) : status === "sent" ? (
+            "Sent ✓"
+          ) : (
+            "Send Project Details"
+          )}
         </button>
-        <p role="status" className={`mt-1 text-center text-[11px] empty:hidden ${status === "error" ? "text-coral-dark" : "text-forest"}`}>
+        <p
+          role="status"
+          className={`mt-2 text-center text-[13px] font-semibold empty:hidden lg:text-[calc(var(--u)*15)] ${status === "error" ? "text-coral-dark" : "text-forest"}`}
+        >
           {status === "sent" || status === "error" ? message : ""}
         </p>
       </div>
