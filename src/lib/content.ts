@@ -753,7 +753,7 @@ export const footer = {
       ],
     },
   ],
-  locations: [{ label: "Atalanta, Georgia (GA)", href: "/contact" }],
+  locations: [{ label: "Atlanta, Georgia (GA)", href: "/contact" }],
   callUsHeading: "Call us",
   phoneNumbers: ["800-660-3772"],
   copyright: "All rights are reserved for TLines 2026",
