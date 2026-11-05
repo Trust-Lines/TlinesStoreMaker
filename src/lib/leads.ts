@@ -18,6 +18,7 @@ export type LeadPayload =
       storeLocation: string;
       storeCondition: string;
       storeType: string;
+      notes?: string;
     }
   | { kind: "newsletter"; email: string };
 

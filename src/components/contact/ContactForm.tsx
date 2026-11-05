@@ -17,7 +17,9 @@ const fields = [
 const labelClass =
   "font-display text-[13px] font-semibold text-forest after:ml-0.5 after:text-coral after:content-['*'] lg:text-[calc(var(--u)*17)]";
 const inputClass =
-  "mt-1.5 h-8 w-full border-0 border-b border-[#d6d8d4] bg-transparent px-0 text-[13px] text-forest placeholder:text-[#c8ceca] focus:border-forest focus:outline-none focus-visible:ring-0 lg:mt-[calc(var(--u)*5)] lg:h-[calc(var(--u)*46)] lg:text-[calc(var(--u)*15)]";
+  "mt-1.5 h-8 w-full border-0 border-b border-[#d6d8d4] bg-transparent px-0 text-[13px] text-forest placeholder:text-[#c8ceca] focus:border-forest focus:outline-none focus-visible:ring-0 lg:mt-[calc(var(--u)*5)] lg:h-[calc(var(--u)*40)] lg:text-[calc(var(--u)*15)]";
+const notesClass =
+  "mt-1.5 block h-16 w-full resize-none rounded-md border border-[#d6d8d4] bg-transparent px-2.5 py-1.5 text-[13px] leading-snug text-forest placeholder:text-[#c8ceca] focus:border-forest focus:outline-none focus-visible:ring-0 lg:mt-[calc(var(--u)*5)] lg:h-[calc(var(--u)*56)] lg:px-[calc(var(--u)*12)] lg:py-[calc(var(--u)*6)] lg:text-[calc(var(--u)*15)]";
 
 /** New-project form on the supplied 680x1031 shaped card. Posts to the ERP (see src/lib/leads.ts). */
 export function ContactForm() {
@@ -44,6 +46,7 @@ export function ContactForm() {
         storeLocation: value("location"),
         storeCondition: value("condition"),
         storeType: value("storeType"),
+        ...(value("notes") ? { notes: value("notes") } : {}),
       },
       value("website"),
     );
@@ -67,7 +70,7 @@ export function ContactForm() {
     >
       <Image src="/images/contact/project-form-card.svg" alt="" fill unoptimized className="pointer-events-none -z-10" />
 
-      <div className="flex flex-col gap-4 lg:gap-[calc(var(--u)*37)]">
+      <div className="flex flex-col gap-4 lg:gap-[calc(var(--u)*26)]">
         {fields.map((field) => (
           <label key={field.name} className="block">
             <span className={labelClass}>{field.label}</span>
@@ -98,6 +101,11 @@ export function ContactForm() {
             <option value="Grocery">Grocery</option>
             <option value="Other">Other</option>
           </select>
+        </label>
+
+        <label className="block">
+          <span className="font-display text-[13px] font-semibold text-forest lg:text-[calc(var(--u)*17)]">Notes</span>
+          <textarea name="notes" rows={2} maxLength={1000} placeholder="Anything else we should know about your project.." className={notesClass} />
         </label>
 
         <label className="mt-2 flex items-center gap-2.5 text-[11px] leading-snug text-forest lg:mt-[calc(var(--u)*12)] lg:gap-[calc(var(--u)*14)] lg:text-[calc(var(--u)*13)]">
