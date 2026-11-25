@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { HeadquarterId } from "@/lib/content";
+import { telHref } from "@/lib/site";
 
 export interface HeadquartersSectionProps {
   heading: string[];
@@ -27,7 +28,7 @@ export function HeadquartersSection({ heading, offices }: HeadquartersSectionPro
   const details = [
     { key: "address", label: "Address:", lines: office.address },
     { key: "hours", label: "Hours:", lines: office.hours },
-    { key: "phone", label: "Phone Number", lines: [office.phone], href: `tel:${office.phone.replace(/[^\d+]/g, "")}` },
+    { key: "phone", label: "Phone Number", lines: [office.phone], href: telHref(office.phone) },
     { key: "email", label: "Email Address", lines: [office.email], href: `mailto:${office.email}` },
   ] as const;
 

@@ -755,7 +755,7 @@ export const footer = {
   ],
   locations: [{ label: "Atlanta, Georgia (GA)", href: "/contact" }],
   callUsHeading: "Call us",
-  phoneNumbers: ["800-660-3772"],
+  phoneNumbers: ["201-800-4317"],
   copyright: "All rights are reserved for TLines 2026",
   // Bottom-right legal links: edit labels / hrefs here.
   legalLinks: [
@@ -798,7 +798,7 @@ export const headquarters: {
       label: "South East HQ",
       address: ["1422 Woodmont Lane #4", "Atlanta, GA"],
       hours: ["Monday–Friday", "9am–5pm"],
-      phone: "+1 (201) 800-4317",
+      phone: "201-800-4317",
       email: "al@tlines.us",
     },
     {
@@ -807,7 +807,7 @@ export const headquarters: {
       label: "South West HQ",
       address: ["Phoenix, AZ"],
       hours: ["Monday–Friday", "9am–5pm"],
-      phone: "800-660-3772",
+      phone: "201-800-4317",
       email: "info@tlines.us",
     },
     {
@@ -816,7 +816,7 @@ export const headquarters: {
       label: "North East HQ",
       address: ["Milford, CT"],
       hours: ["Monday–Friday", "9am–5pm"],
-      phone: "800-660-3772",
+      phone: "201-800-4317",
       email: "info@tlines.us",
     },
   ];

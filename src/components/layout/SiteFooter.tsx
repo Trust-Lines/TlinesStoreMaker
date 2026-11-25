@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { socialLinks } from "@/lib/site";
+import { socialLinks, telHref } from "@/lib/site";
 import { NewsletterForm } from "./NewsletterForm";
 
 export interface FooterLinkColumn {
@@ -165,7 +165,7 @@ export function SiteFooter({
             <ul className="mt-2 flex flex-col lg:mt-[calc(var(--u)*22)] lg:gap-[calc(var(--u)*12)]">
               {phoneNumbers.map((number, index) => (
                 <li key={`${number}-${index}`}>
-                  <a href={`tel:${number.replace(/[^\d+]/g, "")}`} className={`${linkClass} whitespace-nowrap tracking-wide`}>
+                  <a href={telHref(number)} className={`${linkClass} whitespace-nowrap tracking-wide`}>
                     {number}
                   </a>
                 </li>

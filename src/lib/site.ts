@@ -85,11 +85,11 @@ export function organizationJsonLd() {
         image: absoluteUrl("/opengraph-image.jpg"),
         description: siteDescription,
         email: "info@tlines.us",
-        telephone: "+1-800-660-3772",
+        telephone: "+1-201-800-4317",
         areaServed: { "@type": "Country", name: "United States" },
         sameAs: socialLinks.map((link) => link.href),
         location: places,
-        contactPoint: [{ "@type": "ContactPoint", contactType: "sales", telephone: "+1-800-660-3772", email: "info@tlines.us", areaServed: "US", availableLanguage: "English" }],
+        contactPoint: [{ "@type": "ContactPoint", contactType: "sales", telephone: "+1-201-800-4317", email: "info@tlines.us", areaServed: "US", availableLanguage: "English" }],
       },
       {
         "@type": "WebSite",
@@ -122,4 +122,10 @@ export function serviceJsonLd(name: string, description: string, path: string) {
     provider: { "@id": `${siteUrl}/#organization` },
     areaServed: { "@type": "Country", name: "United States" },
   };
+}
+
+/** `tel:` link for a US number written any way ("201-800-4317", "+1 (201) 800-4317"). */
+export function telHref(phone: string): string {
+  const digits = phone.replace(/[^\d+]/g, "");
+  return `tel:${digits.startsWith("+") ? digits : `+1${digits.replace(/^1(?=\d{10}$)/, "")}`}`;
 }
